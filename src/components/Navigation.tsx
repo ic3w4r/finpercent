@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink, useLocation, Link } from 'react-router-dom';
 import { 
   Home as HomeIcon,
+  Search as ExploreIcon,
+  BarChart3 as StatsIcon,
   User as UserIcon,
   Settings as CogIcon,
   Building2 as BuildingLibraryIcon,
@@ -13,6 +15,7 @@ import {
   Wallet as WalletIcon,
   Target as TargetIcon
 } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 const Navigation = () => {
   const location = useLocation();
@@ -21,8 +24,15 @@ const Navigation = () => {
     return location.pathname === path;
   };
 
-  const navigationItems = [
+  // Main navigation items that match the App.tsx routes
+  const mainNavigationItems = [
     { name: 'Dashboard', href: '/', icon: HomeIcon },
+    { name: 'Explore', href: '/explore', icon: ExploreIcon },
+    { name: 'Stats', href: '/stats', icon: StatsIcon },
+  ];
+
+  // Additional navigation items for comprehensive functionality
+  const additionalNavigationItems = [
     { name: 'Profile', href: '/profile', icon: UserIcon },
     { name: 'Super Features', href: '/super-features', icon: SparklesIcon },
     { name: 'Stock Market', href: '/stock-market', icon: ChartBarIcon },
@@ -35,40 +45,81 @@ const Navigation = () => {
     { name: 'Sitemap', href: '/sitemap', icon: MapIcon },
   ];
 
-  // Main navigation items for mobile bottom bar (first 6 items)
-  const mainNavItems = navigationItems.slice(0, 6);
+  // Combine all navigation items
+  const allNavigationItems = [...mainNavigationItems, ...additionalNavigationItems];
+
+  // Main navigation items for mobile bottom bar (main 3 + 3 additional)
+  const mobileNavItems = [
+    ...mainNavigationItems,
+    additionalNavigationItems[0], // Profile
+    additionalNavigationItems[1], // Super Features  
+    additionalNavigationItems[7], // Settings
+  ];
 
   return (
     <>
       {/* Desktop Side Navigation */}
       <nav className="hidden md:fixed md:inset-y-0 md:left-0 md:flex md:w-64 md:flex-col">
         <div className="flex flex-col flex-grow bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
-          <div className="h-16 flex items-center justify-center border-b border-gray-200 dark:border-gray-700">
+          <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-700">
             <Link to="/" className="flex items-center logo-container">
               <img src="/logo.svg" alt="Finpercent Logo" className="h-10 w-auto dark:filter dark:brightness-150" />
             </Link>
+            <ThemeToggle />
           </div>
           <div className="flex-1 flex flex-col overflow-y-auto">
             <div className="py-4 flex-1 space-y-1">
-              {navigationItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.name}
-                    to={item.href}
-                    className={({ isActive }) =>
-                      `flex items-center px-4 py-2 text-sm font-medium ${
-                        isActive
-                          ? 'text-primary-600 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                          : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
-                      }`
-                    }
-                  >
-                    <Icon className="h-5 w-5 mr-3" />
-                    <span>{item.name}</span>
-                  </NavLink>
-                );
-              })}
+              {/* Main Navigation Section */}
+              <div className="px-4">
+                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                  Main
+                </h3>
+                {mainNavigationItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.name}
+                      to={item.href}
+                      className={({ isActive }) =>
+                        `flex items-center px-3 py-2 text-sm font-medium rounded-lg ${
+                          isActive
+                            ? 'text-primary-600 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                            : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
+                        }`
+                      }
+                    >
+                      <Icon className="h-5 w-5 mr-3" />
+                      <span>{item.name}</span>
+                    </NavLink>
+                  );
+                })}
+              </div>
+
+              {/* Additional Features Section */}
+              <div className="px-4 pt-4">
+                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                  Features
+                </h3>
+                {additionalNavigationItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.name}
+                      to={item.href}
+                      className={({ isActive }) =>
+                        `flex items-center px-3 py-2 text-sm font-medium rounded-lg ${
+                          isActive
+                            ? 'text-primary-600 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                            : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
+                        }`
+                      }
+                    >
+                      <Icon className="h-5 w-5 mr-3" />
+                      <span>{item.name}</span>
+                    </NavLink>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
@@ -77,7 +128,7 @@ const Navigation = () => {
       {/* Mobile Bottom Navigation */}
       <nav className="fixed md:hidden bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50">
         <div className="grid grid-cols-6 h-16">
-          {mainNavItems.map((item) => {
+          {mobileNavItems.map((item) => {
             const Icon = item.icon;
             return (
               <NavLink
@@ -98,6 +149,11 @@ const Navigation = () => {
           })}
         </div>
       </nav>
+
+      {/* Mobile Theme Toggle - Floating Action Button */}
+      <div className="fixed md:hidden bottom-20 right-4 z-40">
+        <ThemeToggle />
+      </div>
     </>
   );
 };
