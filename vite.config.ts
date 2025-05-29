@@ -16,4 +16,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  server: {
+    allowedHosts: ['simple-app-1.preview.emergentagent.com'],
+  },
 });
