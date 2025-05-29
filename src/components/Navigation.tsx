@@ -13,7 +13,12 @@ import {
   Map as MapIcon,
   BookOpen as BookOpenIcon,
   Wallet as WalletIcon,
-  Target as TargetIcon
+  Target as TargetIcon,
+  TrendingUp as TrendingUpIcon,
+  PiggyBank as PiggyBankIcon,
+  CreditCard as CreditCardIcon,
+  RefreshCw as RefreshCwIcon,
+  Users as UsersIcon
 } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
@@ -31,30 +36,64 @@ const Navigation = () => {
     { name: 'Stats', href: '/stats', icon: StatsIcon },
   ];
 
-  // Additional navigation items for comprehensive functionality
-  const additionalNavigationItems = [
-    { name: 'Profile', href: '/profile', icon: UserIcon },
-    { name: 'Super Features', href: '/super-features', icon: SparklesIcon },
-    { name: 'Stock Market', href: '/stock-market', icon: ChartBarIcon },
-    { name: 'Finring', href: '/finring', icon: CircleStackIcon },
+  // Financial Methods section
+  const methodNavigationItems = [
     { name: 'NWS Method', href: '/methods/nws', icon: WalletIcon },
     { name: 'Kakeibo Method', href: '/methods/kakeibo', icon: BookOpenIcon },
     { name: 'STOP Method', href: '/methods/stop', icon: TargetIcon },
+  ];
+
+  // Advanced Features section
+  const featureNavigationItems = [
+    { name: 'Super Features', href: '/super-features', icon: SparklesIcon },
+    { name: 'Stock Market', href: '/stock-market', icon: ChartBarIcon },
+    { name: 'Investment Pooling', href: '/investment-pooling', icon: TrendingUpIcon },
+    { name: 'Automated Banking', href: '/automated-banking', icon: RefreshCwIcon },
+    { name: 'Debt Repayment', href: '/debt-repayment', icon: CreditCardIcon },
+    { name: 'Finring', href: '/finring', icon: UsersIcon },
+  ];
+
+  // User & Settings section
+  const userNavigationItems = [
+    { name: 'Profile', href: '/profile', icon: UserIcon },
     { name: 'Settings', href: '/settings', icon: CogIcon },
     { name: 'Company Status', href: '/company-status', icon: BuildingLibraryIcon },
-    { name: 'Sitemap', href: '/sitemap', icon: MapIcon },
   ];
 
-  // Combine all navigation items
-  const allNavigationItems = [...mainNavigationItems, ...additionalNavigationItems];
-
-  // Main navigation items for mobile bottom bar (main 3 + 3 additional)
+  // Main navigation items for mobile bottom bar (main 6 most important)
   const mobileNavItems = [
     ...mainNavigationItems,
-    additionalNavigationItems[0], // Profile
-    additionalNavigationItems[1], // Super Features  
-    additionalNavigationItems[7], // Settings
+    { name: 'Super Features', href: '/super-features', icon: SparklesIcon },
+    { name: 'Stock Market', href: '/stock-market', icon: ChartBarIcon },
+    { name: 'Profile', href: '/profile', icon: UserIcon },
   ];
+
+  const renderNavSection = (title: string, items: typeof mainNavigationItems) => (
+    <div className="px-4 pt-4">
+      <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+        {title}
+      </h3>
+      {items.map((item) => {
+        const Icon = item.icon;
+        return (
+          <NavLink
+            key={item.name}
+            to={item.href}
+            className={({ isActive }) =>
+              `flex items-center px-3 py-2 text-sm font-medium rounded-lg mb-1 ${
+                isActive
+                  ? 'text-primary-600 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                  : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
+              }`
+            }
+          >
+            <Icon className="h-5 w-5 mr-3" />
+            <span>{item.name}</span>
+          </NavLink>
+        );
+      })}
+    </div>
+  );
 
   return (
     <>
@@ -70,56 +109,16 @@ const Navigation = () => {
           <div className="flex-1 flex flex-col overflow-y-auto">
             <div className="py-4 flex-1 space-y-1">
               {/* Main Navigation Section */}
-              <div className="px-4">
-                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                  Main
-                </h3>
-                {mainNavigationItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <NavLink
-                      key={item.name}
-                      to={item.href}
-                      className={({ isActive }) =>
-                        `flex items-center px-3 py-2 text-sm font-medium rounded-lg ${
-                          isActive
-                            ? 'text-primary-600 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                            : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
-                        }`
-                      }
-                    >
-                      <Icon className="h-5 w-5 mr-3" />
-                      <span>{item.name}</span>
-                    </NavLink>
-                  );
-                })}
-              </div>
+              {renderNavSection('Main', mainNavigationItems)}
 
-              {/* Additional Features Section */}
-              <div className="px-4 pt-4">
-                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                  Features
-                </h3>
-                {additionalNavigationItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <NavLink
-                      key={item.name}
-                      to={item.href}
-                      className={({ isActive }) =>
-                        `flex items-center px-3 py-2 text-sm font-medium rounded-lg ${
-                          isActive
-                            ? 'text-primary-600 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                            : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
-                        }`
-                      }
-                    >
-                      <Icon className="h-5 w-5 mr-3" />
-                      <span>{item.name}</span>
-                    </NavLink>
-                  );
-                })}
-              </div>
+              {/* Financial Methods Section */}
+              {renderNavSection('Methods', methodNavigationItems)}
+
+              {/* Advanced Features Section */}
+              {renderNavSection('Features', featureNavigationItems)}
+
+              {/* User & Settings Section */}
+              {renderNavSection('Account', userNavigationItems)}
             </div>
           </div>
         </div>
@@ -143,7 +142,7 @@ const Navigation = () => {
                 }
               >
                 <Icon className="h-5 w-5 mb-1" />
-                <span className="truncate text-[10px]">{item.name}</span>
+                <span className="truncate text-[10px]">{item.name.split(' ')[0]}</span>
               </NavLink>
             );
           })}

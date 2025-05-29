@@ -6,6 +6,20 @@ import DashboardPage from './pages/DashboardPage';
 import ExplorePage from './pages/ExplorePage';
 import StatsPage from './pages/StatsPage';
 import ErrorPage from './pages/ErrorPage';
+import SuperFeaturesPage from './pages/SuperFeaturesPage';
+import KakeiboMethodPage from './pages/KakeiboMethodPage';
+import STOPMethodGuidePage from './pages/STOPMethodGuidePage';
+import DebtRepaymentPage from './pages/DebtRepaymentPage';
+import AutomatedBankingPage from './pages/AutomatedBankingPage';
+import StockMarketPage from './pages/StockMarketPage';
+import InvestmentPoolingPage from './pages/InvestmentPoolingPage';
+import FinringPage from './pages/FinringPage';
+import SettingsPage from './pages/SettingsPage';
+import CompanyStatusPage from './pages/CompanyStatusPage';
+import KakeiboMethodGuidePage from './pages/KakeiboMethodGuidePage';
+import NWSMethodGuidePage from './pages/NWSMethodGuidePage';
+import ProfilePage from './pages/ProfilePage';
+import MethodDetails from './components/details/MethodDetails';
 
 class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean }> {
   constructor(props: { children: React.ReactNode }) {
@@ -45,9 +59,34 @@ function AppContent() {
       <main className="flex-grow min-h-screen md:ml-64">
         <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 mb-16 md:mb-0">
           <Routes>
+            {/* Main Pages */}
             <Route path="/" element={<DashboardPage />} />
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/stats" element={<StatsPage />} />
+            
+            {/* Feature Pages */}
+            <Route path="/super-features" element={<SuperFeaturesPage />} />
+            <Route path="/stock-market" element={<StockMarketPage />} />
+            <Route path="/finring" element={<FinringPage />} />
+            <Route path="/investment-pooling" element={<InvestmentPoolingPage />} />
+            <Route path="/automated-banking" element={<AutomatedBankingPage />} />
+            <Route path="/debt-repayment" element={<DebtRepaymentPage />} />
+            
+            {/* Method Pages */}
+            <Route path="/methods/nws" element={<NWSMethodGuidePage />} />
+            <Route path="/methods/kakeibo" element={<KakeiboMethodPage />} />
+            <Route path="/methods/stop" element={<STOPMethodGuidePage />} />
+            <Route path="/kakeibo" element={<KakeiboMethodGuidePage />} />
+            
+            {/* Generic method details route with parameters */}
+            <Route path="/method/:method/:category" element={<MethodDetails />} />
+            
+            {/* User Pages */}
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/company-status" element={<CompanyStatusPage />} />
+            
+            {/* Error Page */}
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>

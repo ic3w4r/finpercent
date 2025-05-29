@@ -7,7 +7,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
-    port: 3000
+    port: 3000,
+    allowedHosts: [
+      'localhost',
+      '127.0.0.1',
+      '0.0.0.0',
+      'simple-app-1.preview.emergentagent.com',
+      '.preview.emergentagent.com'
+    ]
   },
   resolve: {
     alias: {
