@@ -89,7 +89,7 @@ function AppContent() {
             <Route path="/method/nws/wants" element={<MethodDetails />} />
             <Route path="/method/nws/savings" element={<MethodDetails />} />
             
-            {/* Generic method details route */}
+            {/* Generic method details route - this should come LAST */}
             <Route path="/method/:method/:category" element={<MethodDetails />} />
             
             {/* User Pages */}
