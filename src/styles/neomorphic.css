@@ -1,60 +1,146 @@
-/* Neomorphic Effects */
+/* Neomorphic design system */
 .neo-card {
-  background: var(--card-bg, #ffffff);
+  background: #f0f0f3;
+  border-radius: 16px;
   box-shadow: 
-    8px 8px 16px var(--shadow-dark, rgba(34, 197, 94, 0.12)),
-    -8px -8px 16px var(--shadow-light, rgba(255, 255, 255, 0.95));
-  border-radius: 20px;
+    20px 20px 60px #bebebe,
+    -20px -20px 60px #ffffff;
+  transition: all 0.3s ease;
+}
+
+.neo-card:hover {
+  box-shadow: 
+    25px 25px 75px #bebebe,
+    -25px -25px 75px #ffffff;
+  transform: translateY(-2px);
 }
 
 .dark .neo-card {
-  --card-bg: #14532d;
-  --shadow-dark: rgba(0, 0, 0, 0.3);
-  --shadow-light: rgba(74, 222, 128, 0.08);
+  background: #2d2d30;
+  box-shadow: 
+    20px 20px 60px #1a1a1c,
+    -20px -20px 60px #404044;
+}
+
+.dark .neo-card:hover {
+  box-shadow: 
+    25px 25px 75px #1a1a1c,
+    -25px -25px 75px #404044;
 }
 
 .neo-button {
-  background: var(--button-bg, #ffffff);
+  background: linear-gradient(145deg, #f0f0f3, #cacaca);
+  border-radius: 12px;
   box-shadow: 
-    5px 5px 10px var(--shadow-dark, rgba(34, 197, 94, 0.12)),
-    -5px -5px 10px var(--shadow-light, rgba(255, 255, 255, 0.95));
-  border-radius: 10px;
+    8px 8px 16px #bebebe,
+    -8px -8px 16px #ffffff;
+  border: none;
+  cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.dark .neo-button {
-  --button-bg: #14532d;
-  --shadow-dark: rgba(0, 0, 0, 0.3);
-  --shadow-light: rgba(74, 222, 128, 0.08);
 }
 
 .neo-button:hover {
   box-shadow: 
-    7px 7px 14px var(--shadow-dark, rgba(34, 197, 94, 0.15)),
-    -7px -7px 14px var(--shadow-light, rgba(255, 255, 255, 1));
+    12px 12px 24px #bebebe,
+    -12px -12px 24px #ffffff;
   transform: translateY(-1px);
 }
 
 .neo-button:active {
   box-shadow: 
-    inset 5px 5px 10px var(--shadow-dark, rgba(34, 197, 94, 0.12)),
-    inset -5px -5px 10px var(--shadow-light, rgba(255, 255, 255, 0.95));
+    inset 8px 8px 16px #bebebe,
+    inset -8px -8px 16px #ffffff;
   transform: translateY(0);
 }
 
-.neo-input {
-  background: var(--input-bg, #ffffff);
+.dark .neo-button {
+  background: linear-gradient(145deg, #2d2d30, #1a1a1c);
   box-shadow: 
-    inset 5px 5px 10px var(--shadow-dark, rgba(34, 197, 94, 0.12)),
-    inset -5px -5px 10px var(--shadow-light, rgba(255, 255, 255, 0.95));
-  border-radius: 10px;
-  padding: 10px;
+    8px 8px 16px #1a1a1c,
+    -8px -8px 16px #404044;
+}
+
+.dark .neo-button:hover {
+  box-shadow: 
+    12px 12px 24px #1a1a1c,
+    -12px -12px 24px #404044;
+}
+
+.dark .neo-button:active {
+  box-shadow: 
+    inset 8px 8px 16px #1a1a1c,
+    inset -8px -8px 16px #404044;
+}
+
+.neo-input {
+  background: #f0f0f3;
+  border-radius: 12px;
+  box-shadow: 
+    inset 8px 8px 16px #bebebe,
+    inset -8px -8px 16px #ffffff;
   border: none;
+  padding: 12px 16px;
   outline: none;
+  transition: all 0.3s ease;
+}
+
+.neo-input:focus {
+  box-shadow: 
+    inset 12px 12px 24px #bebebe,
+    inset -12px -12px 24px #ffffff,
+    0 0 20px rgba(34, 197, 94, 0.3);
 }
 
 .dark .neo-input {
-  --input-bg: #14532d;
-  --shadow-dark: rgba(0, 0, 0, 0.3);
-  --shadow-light: rgba(74, 222, 128, 0.08);
+  background: #2d2d30;
+  box-shadow: 
+    inset 8px 8px 16px #1a1a1c,
+    inset -8px -8px 16px #404044;
+  color: #ffffff;
+}
+
+.dark .neo-input:focus {
+  box-shadow: 
+    inset 12px 12px 24px #1a1a1c,
+    inset -12px -12px 24px #404044,
+    0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+/* Animated elements */
+.neo-glow {
+  animation: neo-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes neo-glow {
+  from {
+    box-shadow: 
+      20px 20px 60px #bebebe,
+      -20px -20px 60px #ffffff,
+      0 0 20px rgba(34, 197, 94, 0.1);
+  }
+  to {
+    box-shadow: 
+      20px 20px 60px #bebebe,
+      -20px -20px 60px #ffffff,
+      0 0 40px rgba(34, 197, 94, 0.3);
+  }
+}
+
+.dark .neo-glow {
+  animation: neo-glow-dark 2s ease-in-out infinite alternate;
+}
+
+@keyframes neo-glow-dark {
+  from {
+    box-shadow: 
+      20px 20px 60px #1a1a1c,
+      -20px -20px 60px #404044,
+      0 0 20px rgba(34, 197, 94, 0.1);
+  }
+  to {
+    box-shadow: 
+      20px 20px 60px #1a1a1c,
+      -20px -20px 60px #404044,
+      0 0 40px rgba(34, 197, 94, 0.3);
+  }
 }
