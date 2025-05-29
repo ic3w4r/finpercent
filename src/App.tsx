@@ -78,6 +78,20 @@ function AppContent() {
             <Route path="/methods/stop" element={<STOPMethodGuidePage />} />
             <Route path="/kakeibo" element={<KakeiboMethodGuidePage />} />
             
+            {/* Method Sub-sections - STOP Method */}
+            <Route path="/method/stop/savings" element={<MethodDetails />} />
+            <Route path="/method/stop/taxes" element={<MethodDetails />} />
+            <Route path="/method/stop/operations" element={<MethodDetails />} />
+            <Route path="/method/stop/profit" element={<MethodDetails />} />
+            
+            {/* Method Sub-sections - NWS Method */}
+            <Route path="/method/nws/necessities" element={<MethodDetails />} />
+            <Route path="/method/nws/wants" element={<MethodDetails />} />
+            <Route path="/method/nws/savings" element={<MethodDetails />} />
+            
+            {/* Generic method details route */}
+            <Route path="/method/:method/:category" element={<MethodDetails />} />
+            
             {/* User Pages */}
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/settings" element={<SettingsPage />} />
