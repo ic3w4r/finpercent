@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import AppRoutes from './routes';
+import DashboardPage from './pages/DashboardPage';
+import ExplorePage from './pages/ExplorePage';
+import StatsPage from './pages/StatsPage';
+import ErrorPage from './pages/ErrorPage';
 
 class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean }> {
   constructor(props: { children: React.ReactNode }) {
@@ -36,11 +39,16 @@ class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError:
 
 function AppContent() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex">
       <Navigation />
-      <main className="md:pl-64 pb-16 md:pb-0">
+      <main className="flex-grow min-h-screen">
         <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-          <AppRoutes viewMode="classic" />
+          <Routes>
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/stats" element={<StatsPage />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
         </div>
       </main>
     </div>
@@ -48,7 +56,6 @@ function AppContent() {
 }
 
 export default function App() {
-  console.log('App rendering'); // Debug log
   return (
     <ErrorBoundary>
       <Router>
