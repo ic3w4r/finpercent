@@ -19,6 +19,7 @@ import CompanyStatusPage from './pages/CompanyStatusPage';
 import KakeiboMethodGuidePage from './pages/KakeiboMethodGuidePage';
 import NWSMethodGuidePage from './pages/NWSMethodGuidePage';
 import ProfilePage from './pages/ProfilePage';
+import MethodDetails from './components/details/MethodDetails';
 
 class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean }> {
   constructor(props: { children: React.ReactNode }) {
