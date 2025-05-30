@@ -6,13 +6,19 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true, // Listen on all addresses including LAN and public
+    host: '0.0.0.0',
     port: 3000,
     strictPort: false,
-    allowedHosts: 'all', // Allow all hosts for preview compatibility
+    allowedHosts: 'all',
     cors: true,
     hmr: {
       port: 3000,
+      host: '0.0.0.0'
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     }
   },
   resolve: {
