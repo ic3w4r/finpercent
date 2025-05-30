@@ -6,15 +6,14 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0',
+    host: true, // Listen on all addresses including LAN and public
     port: 3000,
-    allowedHosts: [
-      'localhost',
-      '127.0.0.1',
-      '0.0.0.0',
-      'simple-app-1.preview.emergentagent.com',
-      '.preview.emergentagent.com'
-    ]
+    strictPort: false,
+    allowedHosts: 'all', // Allow all hosts for preview compatibility
+    cors: true,
+    hmr: {
+      port: 3000,
+    }
   },
   resolve: {
     alias: {
