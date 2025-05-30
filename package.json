@@ -1,13 +1,19 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "finpercent",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "A comprehensive React-based financial management application with advanced features, multiple budgeting methods, and interactive data visualizations.",
+  "author": "FinPercent Team",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve": "serve dist -l 3000",
+    "start": "vite --host 0.0.0.0 --port 3000",
+    "build:prod": "yarn build && yarn serve"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
