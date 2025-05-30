@@ -21,12 +21,13 @@ interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [isDark, setIsDark] = useState(() => {
-    // Check localStorage first, then system preference
+    // Check localStorage first, default to light mode for better preview compatibility
     const saved = localStorage.getItem('theme');
     if (saved) {
       return saved === 'dark';
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Default to light mode instead of system preference
+    return false;
   });
 
   useEffect(() => {
