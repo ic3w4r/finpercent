@@ -28,15 +28,15 @@ A comprehensive React-based financial management application with advanced featu
 ### 💡 **Financial Methods**
 
 #### **STOP Method** (Detailed Sub-sections)
-- **Savings** (25% allocation) - `/method/stop/savings`
-- **Taxes** (30% allocation) - `/method/stop/taxes`  
-- **Operations** (35% allocation) - `/method/stop/operations`
-- **Profit** (10% allocation) - `/method/stop/profit`
+- **Savings**  - `/method/stop/savings`
+- **Taxes**  - `/method/stop/taxes`  
+- **Operations**  - `/method/stop/operations`
+- **Profit**  - `/method/stop/profit`
 
 #### **NWS Method** (Detailed Sub-sections)
-- **Necessities** (50% allocation) - `/method/nws/necessities`
-- **Wants** (30% allocation) - `/method/nws/wants`
-- **Savings** (20% allocation) - `/method/nws/savings`
+- **Necessities**  - `/method/nws/necessities`
+- **Wants**  - `/method/nws/wants`
+- **Savings**  - `/method/nws/savings`
 
 #### **Kakeibo Method**
 - Japanese budgeting methodology with detailed tracking
