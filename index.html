@@ -5,9 +5,57 @@
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FinPercent</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        font-family: 'Inter', system-ui, sans-serif;
+        min-height: 100vh;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      .loading-fallback {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      }
+      .loading-card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(34, 197, 94, 0.2);
+        text-align: center;
+        max-width: 400px;
+      }
+      .loading-logo {
+        width: 60px;
+        height: 60px;
+        background: #22c55e;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="loading-fallback">
+        <div class="loading-card">
+          <div class="loading-logo">FP</div>
+          <h2 style="color: #16a34a; margin: 0 0 10px;">FinPercent</h2>
+          <p style="color: #666; margin: 0;">Loading financial dashboard...</p>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
