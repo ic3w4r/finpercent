@@ -303,16 +303,68 @@ const SankeyDiagram: React.FC<SankeyDiagramProps> = ({
   }, [data, width, height]);
 
   return (
-    <div className="neo-card p-6">
-      <h3 className="text-lg font-semibold mb-4 text-primary-900 dark:text-primary-100">
-        Financial Flow Analysis
-      </h3>
-      <div className="w-full overflow-x-auto">
-        <svg ref={svgRef} className="w-full h-auto min-w-[800px]"></svg>
+    <div className="relative">
+      {/* Enhanced container with gradient background */}
+      <div className="neo-card p-8 bg-gradient-to-br from-white via-green-50 to-green-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600 border-2 border-green-200 dark:border-green-700">
+        {/* Header with enhanced styling */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-800 dark:from-green-400 dark:to-green-300 mb-2">
+              Financial Flow Analysis
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
+              Interactive visualization showing revenue flows and expense breakdown
+            </p>
+          </div>
+          {/* Status indicator */}
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-xs font-semibold text-green-600 dark:text-green-400">LIVE DATA</span>
+          </div>
+        </div>
+        
+        {/* Chart container with enhanced styling */}
+        <div className="relative">
+          <div className="w-full overflow-x-auto rounded-xl bg-gradient-to-br from-white/80 to-green-50/80 dark:from-gray-900/80 dark:to-gray-800/80 backdrop-blur-sm border border-green-200/50 dark:border-green-700/50 p-4">
+            <svg ref={svgRef} className="w-full h-auto min-w-[800px] drop-shadow-lg"></svg>
+          </div>
+          
+          {/* Decorative elements */}
+          <div className="absolute -top-2 -left-2 w-4 h-4 bg-green-400 rounded-full opacity-60 animate-ping"></div>
+          <div className="absolute -bottom-2 -right-2 w-3 h-3 bg-green-500 rounded-full opacity-40 animate-ping animation-delay-1000"></div>
+        </div>
+        
+        {/* Enhanced footer with metrics */}
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="text-center p-3 rounded-lg bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-700">
+            <div className="text-lg font-bold text-green-700 dark:text-green-300">$2.0M</div>
+            <div className="text-xs text-green-600 dark:text-green-400 font-medium">Total Revenue</div>
+          </div>
+          <div className="text-center p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700">
+            <div className="text-lg font-bold text-blue-700 dark:text-blue-300">$900k</div>
+            <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">Total Costs</div>
+          </div>
+          <div className="text-center p-3 rounded-lg bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700">
+            <div className="text-lg font-bold text-purple-700 dark:text-purple-300">$280k</div>
+            <div className="text-xs text-purple-600 dark:text-purple-400 font-medium">Net Profit</div>
+          </div>
+        </div>
+        
+        {/* Interactive legend */}
+        <div className="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600">
+          <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Interaction Guide</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-600 dark:text-gray-400">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span>Hover over flows to see detailed amounts</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span>Hover over nodes for enhanced visual effects</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-        Interactive visualization showing revenue flows and expense breakdown
-      </p>
     </div>
   );
 };
