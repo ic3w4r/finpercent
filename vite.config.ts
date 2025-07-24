@@ -9,7 +9,14 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 3000,
     strictPort: false,
-    allowedHosts: 'all',
+    allowedHosts: [
+      'localhost',
+      '127.0.0.1',
+      '0.0.0.0',
+      'simple-app-1.preview.emergentagent.com',
+      '18ec1705-5bd2-4cd0-8fed-560e7125a002.preview.emergentagent.com',
+      /\.preview\.emergentagent\.com$/
+    ],
     cors: true,
     hmr: {
       port: 3000,
@@ -31,8 +38,5 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
-  },
-  server: {
-    allowedHosts: ['simple-app-1.preview.emergentagent.com'],
   },
 });

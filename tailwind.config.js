@@ -34,7 +34,7 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['DM Sans', 'sans-serif'],
+        sans: ['Manrope', 'sans-serif'],
       },
       boxShadow: {
         'neo': '8px 8px 16px rgba(34, 197, 94, 0.12), -8px -8px 16px rgba(255, 255, 255, 0.95)',
