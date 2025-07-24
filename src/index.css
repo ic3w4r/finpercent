@@ -123,7 +123,7 @@
 }
 
 body {
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   @apply bg-gradient-to-br from-accent-50 via-accent-50 to-primary-50 min-h-screen
          text-primary-900 dark:bg-primary-900 dark:text-accent-50;
 }
