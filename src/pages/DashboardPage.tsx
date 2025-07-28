@@ -314,7 +314,7 @@ export default function DashboardPage() {
           scale: 1,
           clipPath: 'circle(100% at 50% 50%)',
           transition: {
-            delay: 0.5,
+            delay: 4.5, // Wait for logo animation to complete
             duration: 1.5,
             ease: [0.16, 1, 0.3, 1]
           }
