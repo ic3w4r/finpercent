@@ -10,7 +10,7 @@ interface BadgeAnimationProps {
 const badgeImages = {
   Gold: '/badges/gold-badge.svg', // Your gold badge data
   Silver: '/badges/silver-badge.svg', // Your silver badge data  
-  Bronze: '/badges/gold-badge.svg' // Your bronze badge data
+  Bronze: '/badges/bronze-badge.svg' // Your bronze badge data
 };
 
 const badgeAnimationSettings = {
