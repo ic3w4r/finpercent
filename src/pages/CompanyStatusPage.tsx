@@ -28,7 +28,7 @@ export default function CompanyStatusPage() {
         </button>
 
         <div className="text-center mb-8">
-          <BadgeAnimation show={showBadge} ranking="Silver" />
+          <BadgeAnimation show={showBadge} ranking="Gold" companyName="Acme Corporation" />
         </div>
 
         {/* Balance Sheet Upload Section - Moved here */}
