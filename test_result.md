@@ -38,7 +38,8 @@ metadata:
   test_sequence: 2
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Company Status Badge Animation System"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
