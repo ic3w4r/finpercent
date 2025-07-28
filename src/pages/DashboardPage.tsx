@@ -158,46 +158,136 @@ export default function DashboardPage() {
   
   return (
     <div className="space-y-8">
-      {/* Header Section with Logo */}
+      {/* Header Section with Badge to Logo Animation */}
       <div className="flex flex-col items-center justify-center">
         <motion.div 
-          className="logo-container"
-          initial={{ scale: 0.5, opacity: 0, y: -50 }}
+          className="logo-container relative"
+          initial={{ scale: 0.3, opacity: 0, y: -50 }}
           animate={{ 
             scale: 1, 
             opacity: 1, 
             y: 0,
           }}
           transition={{
-            duration: 0.8,
+            duration: 1.2,
             ease: [0.34, 1.56, 0.64, 1],
             scale: {
               type: "spring",
-              damping: 8,
-              stiffness: 100
+              damping: 12,
+              stiffness: 120
             }
           }}
         >
+          {/* Badge Animation that morphs into Logo */}
+          <motion.div
+            initial={{ opacity: 1, scale: 1 }}
+            animate={{ 
+              opacity: [1, 1, 1, 0],
+              scale: [1, 1.1, 1.2, 0],
+              rotate: [0, 180, 360, 540]
+            }}
+            transition={{
+              duration: 3,
+              times: [0, 0.4, 0.7, 1],
+              ease: "easeInOut"
+            }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            {/* Gold Badge rotating */}
+            <motion.img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfAAAAHyCAYAAAAMx0p8AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACBvSURBVHic7N37fxzV/T/w1+yNLWO5m2Iy9g0v5OKFCxebgJJgCJAQ4BtuISEkTYP7tY0bQsitSYHQJrRNaNuk6df+2qTfl5Y0TfoNIQFCA4HdvW5A7eBv2nUWxgbOz1/vc5Jbbd3Onjmf2dmZ0/f8fD9ez2OYfgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8Hq9evPxgAAAAAACsJBAAAAAAJSLBAMBAAII4vHwAAAACMAAAAgHgAREAQKkzgAAAAYBAuTOAAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABgEAAABAqTOAAAABy"
+              alt="Gold Badge"
+              className="w-96 h-96 object-contain filter drop-shadow-2xl"
+              animate={{
+                rotate: [0, 360, 720, 1080],
+                scale: [1, 1.1, 1.2, 0.8]
+              }}
+              transition={{
+                duration: 3,
+                ease: "easeInOut"
+              }}
+            />
+          </motion.div>
+
+          {/* FinPercent Logo that appears after badge */}
           <motion.img 
             src="/logo.svg" 
             alt="Finpercent Logo" 
-            className="h-[500px] w-auto"
+            className="h-[400px] w-auto"
+            initial={{ opacity: 0, scale: 0, rotate: -180 }}
             animate={{ 
-              rotateY: [0, 360],
+              opacity: [0, 0, 0, 1],
+              scale: [0, 0, 0, 1],
+              rotate: [-180, -180, -180, 0],
+              rotateY: [0, 0, 0, 360]
             }}
             transition={{
-              duration: 1.5,
+              duration: 3,
+              times: [0, 0.5, 0.7, 1],
               ease: "easeInOut",
               delay: 0.5
             }}
           />
+
+          {/* Particle Effects during Morph */}
+          <div className="absolute inset-0 pointer-events-none">
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{
+                  opacity: 0,
+                  scale: 0,
+                  x: 0,
+                  y: 0
+                }}
+                animate={{
+                  opacity: [0, 1, 1, 0],
+                  scale: [0, 1, 1.5, 0],
+                  x: [0, (Math.random() - 0.5) * 200],
+                  y: [0, (Math.random() - 0.5) * 200],
+                  rotate: [0, 360]
+                }}
+                transition={{
+                  duration: 2,
+                  delay: 2 + (i * 0.1),
+                  ease: "easeOut"
+                }}
+                className="absolute w-3 h-3 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full"
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.8))'
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Glow Effect during Transformation */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [0, 0.6, 0.8, 0.4, 0],
+              scale: [1, 1.2, 1.5, 1.8, 2]
+            }}
+            transition={{
+              duration: 3,
+              delay: 1.5,
+              ease: "easeOut"
+            }}
+            style={{
+              background: 'radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(255,215,0,0.1) 50%, transparent 70%)',
+              borderRadius: '50%'
+            }}
+          />
         </motion.div>
+
         <div className="text-center -mt-8">
           <motion.h1 
             className="text-3xl font-bold text-primary-900 dark:text-primary-100"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            transition={{ delay: 3.5, duration: 0.5 }}
           >
             Financial Dashboard
           </motion.h1>
@@ -205,7 +295,7 @@ export default function DashboardPage() {
             className="text-gray-600 dark:text-gray-400"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
+            transition={{ delay: 4, duration: 0.5 }}
           >
             Comprehensive overview of your financial metrics and insights
           </motion.p>
