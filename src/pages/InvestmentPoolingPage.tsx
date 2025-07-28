@@ -270,7 +270,7 @@ export default function InvestmentPoolingPage() {
                       <span className="text-yellow-600">78 Companies</span>
                     </div>
                     <div className="flex justify-between items-center p-2 bg-red-50 rounded">
-                      <span className="font-medium text-red-800">Distress Zone (Z < 1.81)</span>
+                      <span className="font-medium text-red-800">Distress Zone (Z &lt; 1.81)</span>
                       <span className="text-red-600">11 Companies</span>
                     </div>
                     <div className="text-center pt-2">
