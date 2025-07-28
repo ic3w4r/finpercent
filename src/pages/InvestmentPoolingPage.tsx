@@ -262,7 +262,7 @@ export default function InvestmentPoolingPage() {
                   </h4>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center p-2 bg-green-50 rounded">
-                      <span className="font-medium text-green-800">Safe Zone (Z > 2.99)</span>
+                      <span className="font-medium text-green-800">Safe Zone (Z &gt; 2.99)</span>
                       <span className="text-green-600">67 Companies</span>
                     </div>
                     <div className="flex justify-between items-center p-2 bg-yellow-50 rounded">
