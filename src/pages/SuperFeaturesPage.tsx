@@ -64,25 +64,31 @@ export default function SuperFeaturesPage() {
       id: 'investment-pooling',
       title: 'Investment Pooling',
       icon: <Coins className="w-6 h-6" />,
-      description: 'Pool resources with others for larger investment opportunities',
+      description: 'Pool resources with others for larger investment opportunities with advanced risk assessment',
+      status: 'Available',
+      color: 'text-green-600 dark:text-green-400',
+      action: 'Start Pooling',
       subFeatures: [
         {
           title: 'Pool Creation',
           description: 'Start a new investment pool with customized parameters',
           icon: <BadgeDollarSign className="w-5 h-5" />,
-          action: 'Create Pool'
+          action: 'Create Pool',
+          status: 'Active'
         },
         {
           title: 'Risk Management',
           description: 'Advanced risk assessment and mitigation tools',
           icon: <Scale className="w-5 h-5" />,
-          action: 'Analyze Risk'
+          action: 'Analyze Risk',
+          status: 'Available'
         },
         {
           title: 'Performance Tracking',
           description: 'Monitor and analyze pool performance metrics',
           icon: <LineChart className="w-5 h-5" />,
-          action: 'View Analytics'
+          action: 'View Analytics',
+          status: 'Beta'
         }
       ]
     },
@@ -90,25 +96,31 @@ export default function SuperFeaturesPage() {
       id: 'automated-banking',
       title: 'Automated Banking',
       icon: <Building2 className="w-6 h-6" />,
-      description: 'Automate your banking operations and transactions',
+      description: 'Automate your banking operations and transactions with intelligent money management',
+      status: 'Available',
+      color: 'text-green-600 dark:text-green-400',
+      action: 'Connect Banks',
       subFeatures: [
         {
           title: 'Bank Integration',
           description: 'Connect and manage multiple bank accounts',
           icon: <Landmark className="w-5 h-5" />,
-          action: 'Connect Bank'
+          action: 'Connect Bank',
+          status: 'Available'
         },
         {
           title: 'Smart Transfers',
           description: 'Set up automated transfers and bill payments',
           icon: <BanknoteIcon className="w-5 h-5" />,
-          action: 'Setup Transfers'
+          action: 'Setup Transfers',
+          status: 'Available'
         },
         {
           title: 'Transaction Rules',
           description: 'Create custom rules for automated transactions',
           icon: <Calculator className="w-5 h-5" />,
-          action: 'Create Rules'
+          action: 'Create Rules',
+          status: 'Beta'
         }
       ]
     },
@@ -116,25 +128,31 @@ export default function SuperFeaturesPage() {
       id: 'debt-repayment',
       title: 'Debt Repayment',
       icon: <Calculator className="w-6 h-6" />,
-      description: 'Optimize your debt repayment strategy',
+      description: 'Optimize your debt repayment strategy with intelligent algorithms and planning tools',
+      status: 'Available', 
+      color: 'text-green-600 dark:text-green-400',
+      action: 'Optimize Debt',
       subFeatures: [
         {
           title: 'Debt Analysis',
           description: 'Comprehensive analysis of your debt situation',
           icon: <PieChart className="w-5 h-5" />,
-          action: 'Analyze Debt'
+          action: 'Analyze Debt',
+          status: 'Available'
         },
         {
           title: 'Payment Planning',
           description: 'Create optimized debt repayment schedules',
           icon: <Calendar className="w-5 h-5" />,
-          action: 'Plan Payments'
+          action: 'Plan Payments',
+          status: 'Available'
         },
         {
           title: 'Progress Tracking',
           description: 'Monitor your debt repayment progress',
           icon: <TrendingUp className="w-5 h-5" />,
-          action: 'Track Progress'
+          action: 'Track Progress',
+          status: 'Beta'
         }
       ]
     }
