@@ -800,6 +800,189 @@ export default function StockMarketPage() {
             </div>
           </div>
         </div>
+
+        {/* Methods Guide Section */}
+        <div className="mt-8 space-y-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Financial Methods Guide
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Understand how our proven financial methodologies integrate with stock market analysis 
+              to optimize your investment strategy and financial planning.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* NWS Method Guide */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-l-4 border-blue-500"
+            >
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-4">
+                  <Wallet className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    NWS Method
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Needs, Wants, Savings
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Allocate your portfolio across essential expenses (50%), discretionary spending (30%), 
+                and investments (20%) for balanced market exposure and risk management.
+              </p>
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Market Integration:</span>
+                  <span className="text-xs font-medium text-blue-600">Portfolio Allocation</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Risk Level:</span>
+                  <span className="text-xs font-medium text-green-600">Moderate</span>
+                </div>
+              </div>
+              <Link 
+                to="/methods/nws"
+                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm"
+              >
+                Learn NWS Method
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Link>
+            </motion.div>
+
+            {/* Kakeibo Method Guide */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-l-4 border-green-500"
+            >
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg mr-4">
+                  <BookOpen className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Kakeibo Method
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Japanese Budgeting
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Traditional Japanese approach to mindful spending and saving, helping identify 
+                surplus funds for strategic market investments through conscious expense tracking.
+              </p>
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Market Integration:</span>
+                  <span className="text-xs font-medium text-green-600">Surplus Identification</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Focus:</span>
+                  <span className="text-xs font-medium text-green-600">Mindful Investment</span>
+                </div>
+              </div>
+              <Link 
+                to="/methods/kakeibo"
+                className="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm"
+              >
+                Learn Kakeibo Method
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Link>
+            </motion.div>
+
+            {/* STOP Method Guide */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-l-4 border-purple-500"
+            >
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg mr-4">
+                  <Target className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    S.T.O.P Method
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Savings, Taxes, Operations, Profit
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Business-focused allocation strategy optimizing cash flow for market opportunities. 
+                Balance operational needs with strategic investments for sustainable growth.
+              </p>
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Market Integration:</span>
+                  <span className="text-xs font-medium text-purple-600">Business Growth</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Best For:</span>
+                  <span className="text-xs font-medium text-purple-600">Entrepreneurs</span>
+                </div>
+              </div>
+              <Link 
+                to="/methods/stop"
+                className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium text-sm"
+              >
+                Learn S.T.O.P Method
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Method Integration with Stock Market */}
+          <div className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-xl p-6">
+            <div className="flex items-center mb-4">
+              <BarChart3 className="w-6 h-6 text-primary-600 mr-3" />
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                How Methods Enhance Market Analysis
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white font-bold">1</span>
+                </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Risk Assessment</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Methods help determine your risk capacity based on financial structure and obligations.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white font-bold">2</span>
+                </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Capital Allocation</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Systematic approach to determining how much capital to deploy in different market sectors.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white font-bold">3</span>
+                </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Performance Tracking</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Monitor investment performance against your structured financial plan and goals.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
