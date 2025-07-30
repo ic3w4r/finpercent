@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Award, TrendingUp, AlertCircle, ChevronLeft, Upload } from 'lucide-react';
+import { Award, TrendingUp, AlertCircle, ChevronLeft, Upload, Building2, Target, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import '../styles/neomorphic.css';
 import BadgeAnimation from '../components/status/BadgeAnimation';
 import BalanceSheetAnalysis from '../components/status/BalanceSheetAnalysis';
 import KPIBreakdown from '../components/status/KPIBreakdown';
