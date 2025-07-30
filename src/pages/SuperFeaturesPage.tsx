@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/glass.css';
+import '../styles/neomorphic.css';
 import {
   ChevronRight,
   ChevronDown,
