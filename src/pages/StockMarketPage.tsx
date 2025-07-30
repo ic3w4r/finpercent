@@ -946,41 +946,58 @@ export default function StockMarketPage() {
           </div>
 
           {/* Method Integration with Stock Market */}
-          <div className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-xl p-6">
-            <div className="flex items-center mb-4">
-              <BarChart3 className="w-6 h-6 text-primary-600 mr-3" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <div className="neo-card p-6">
+            <div className="flex items-center mb-6">
+              <div className="neo-button p-3 text-primary-600 dark:text-primary-400 mr-4">
+                <BarChart3 className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-semibold text-primary-900 dark:text-primary-100">
                 How Methods Enhance Market Analysis
               </h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-bold">1</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-center"
+              >
+                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">1</span>
                 </div>
-                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Risk Assessment</h4>
+                <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Risk Assessment</h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Methods help determine your risk capacity based on financial structure and obligations.
                 </p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-bold">2</span>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-center"
+              >
+                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">2</span>
                 </div>
-                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Capital Allocation</h4>
+                <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Capital Allocation</h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Systematic approach to determining how much capital to deploy in different market sectors.
                 </p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-bold">3</span>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-center"
+              >
+                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">3</span>
                 </div>
-                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Performance Tracking</h4>
+                <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Performance Tracking</h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Monitor investment performance against your structured financial plan and goals.
                 </p>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
