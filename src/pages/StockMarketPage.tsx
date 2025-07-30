@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import '../styles/neomorphic.css';
 import { 
   TrendingUp, TrendingDown, DollarSign, 
   Activity, PieChart, BarChart2, 
