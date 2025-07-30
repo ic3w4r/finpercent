@@ -5,7 +5,8 @@ import {
   Activity, PieChart, BarChart2, 
   Target, Briefcase, ShoppingBag,
   Wallet, ArrowDownCircle, ArrowUpCircle,
-  PiggyBank, Receipt, Building2, Book
+  PiggyBank, Receipt, Building2, Book,
+  BookOpen, ChevronRight, BarChart3
 } from 'lucide-react';
 import StockMarketLayout from '../layouts/StockMarketLayout';
 import MarketChart from '../components/stock-market/MarketChart';
@@ -13,7 +14,7 @@ import { STOPMethod } from '../components/STOPMethod';
 import NWSMethod from '../components/stats/NWSMethod';
 import DebtManagement from '../components/DebtManagement';
 import KakeiboMethod from '../components/KakeiboMethod';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 type MethodType = 'nws' | 'kakeibo';
 
