@@ -377,8 +377,8 @@ export default function SuperFeaturesPage() {
     return (
       <div className="space-y-6">
         {/* Debt Input Form */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Add New Debt</h3>
+        <div className="neo-card p-6">
+          <h3 className="text-xl font-semibold mb-4 text-primary-900 dark:text-primary-100">Add New Debt</h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -390,7 +390,7 @@ export default function SuperFeaturesPage() {
                   type="text"
                   value={debtAmount}
                   onChange={(e) => setDebtAmount(parseInt(e.target.value))}
-                  className="pl-8 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                  className="neo-input pl-8 w-full"
                   placeholder="Enter amount"
                 />
               </div>
@@ -403,35 +403,37 @@ export default function SuperFeaturesPage() {
                 type="text"
                 value={interestRate}
                 onChange={(e) => setInterestRate(parseInt(e.target.value))}
-                className="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                className="neo-input w-full"
                 placeholder="Enter rate"
               />
             </div>
-            <button className="w-full py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+            <button className="w-full neo-button px-4 py-3 text-primary-600 dark:text-primary-400 font-medium">
               Add Debt
             </button>
           </div>
         </div>
 
         {/* Debt Overview */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Debt Overview</h3>
+        <div className="neo-card p-6">
+          <h3 className="text-xl font-semibold mb-4 text-primary-900 dark:text-primary-100">Debt Overview</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
-              <h4 className="text-sm text-gray-600 dark:text-gray-400">Total Debt</h4>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">$45,000</p>
-              <span className="text-sm text-red-600">+2.3% from last month</span>
-            </div>
-            <div className="p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
-              <h4 className="text-sm text-gray-600 dark:text-gray-400">Monthly Payment</h4>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">$1,250</p>
-              <span className="text-sm text-green-600">On track</span>
-            </div>
-            <div className="p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
-              <h4 className="text-sm text-gray-600 dark:text-gray-400">Debt Free Date</h4>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">Jun 2025</p>
-              <span className="text-sm text-green-600">-3 months</span>
-            </div>
+            {[
+              { title: 'Total Debt', value: '$45,000', change: '+2.3% from last month', color: 'text-red-600' },
+              { title: 'Monthly Payment', value: '$1,250', change: 'On track', color: 'text-green-600' },
+              { title: 'Debt Free Date', value: 'Jun 2025', change: '-3 months', color: 'text-green-600' }
+            ].map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="neo-card p-4"
+              >
+                <h4 className="text-sm text-gray-600 dark:text-gray-400">{item.title}</h4>
+                <p className="text-2xl font-bold text-primary-900 dark:text-primary-100">{item.value}</p>
+                <span className={`text-sm ${item.color}`}>{item.change}</span>
+              </motion.div>
+            ))}
           </div>
 
           {/* Active Debts */}
@@ -440,47 +442,53 @@ export default function SuperFeaturesPage() {
               { name: 'Credit Card', amount: 15000, rate: 18.99, progress: 35 },
               { name: 'Car Loan', amount: 20000, rate: 5.99, progress: 45 },
               { name: 'Personal Loan', amount: 10000, rate: 8.99, progress: 60 }
-            ].map((debt) => (
-              <div key={debt.name} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            ].map((debt, index) => (
+              <motion.div 
+                key={debt.name}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="neo-card p-4"
+              >
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white">{debt.name}</h4>
+                    <h4 className="font-medium text-primary-900 dark:text-primary-100">{debt.name}</h4>
                     <p className="text-sm text-gray-500">{debt.rate}% APR</p>
                   </div>
-                  <p className="font-semibold text-gray-900 dark:text-white">
+                  <p className="font-semibold text-primary-900 dark:text-primary-100">
                     ${debt.amount.toLocaleString()}
                   </p>
                 </div>
                 <div className="mt-2">
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-gray-600 dark:text-gray-400">Progress</span>
-                    <span className="text-gray-900 dark:text-white">{debt.progress}%</span>
+                    <span className="text-primary-900 dark:text-primary-100">{debt.progress}%</span>
                   </div>
                   <ProgressBar percentage={debt.progress} />
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* Repayment Strategy */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Recommended Strategy</h3>
+        <div className="neo-card p-6">
+          <h3 className="text-xl font-semibold mb-4 text-primary-900 dark:text-primary-100">Recommended Strategy</h3>
           <div className="space-y-4">
-            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <h4 className="font-medium text-green-800 dark:text-green-200">Avalanche Method</h4>
+            <div className="neo-card p-4 border-l-4 border-green-500">
+              <h4 className="font-medium text-green-700 dark:text-green-300">Avalanche Method</h4>
               <p className="text-sm text-green-600 dark:text-green-400 mt-1">
                 Focus on high-interest debt first while maintaining minimum payments on others
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <h4 className="font-medium text-gray-900 dark:text-white mb-2">Monthly Savings</h4>
+              <div className="neo-card p-4">
+                <h4 className="font-medium text-primary-900 dark:text-primary-100 mb-2">Monthly Savings</h4>
                 <p className="text-2xl font-bold text-green-600">$350</p>
                 <p className="text-sm text-gray-500 mt-1">In interest charges</p>
               </div>
-              <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <h4 className="font-medium text-gray-900 dark:text-white mb-2">Time Saved</h4>
+              <div className="neo-card p-4">
+                <h4 className="font-medium text-primary-900 dark:text-primary-100 mb-2">Time Saved</h4>
                 <p className="text-2xl font-bold text-green-600">8 months</p>
                 <p className="text-sm text-gray-500 mt-1">Compared to minimum payments</p>
               </div>
