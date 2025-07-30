@@ -492,30 +492,47 @@ export default function SuperFeaturesPage() {
         </div>
 
         <div className="space-y-8">
-          {features.map((feature) => (
+          {features.map((feature, index) => (
             <div key={feature.id} className="space-y-4">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`glass-card p-6 cursor-pointer transition-all duration-300 ${
+                transition={{ delay: index * 0.1 }}
+                className={`neo-card p-6 cursor-pointer transition-all duration-300 hover:shadow-xl ${
                   selectedFeature === feature.id ? 'ring-2 ring-primary-500' : ''
                 }`}
                 onClick={() => setSelectedFeature(
                   selectedFeature === feature.id ? null : feature.id
                 )}
               >
-                <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-primary-100 dark:bg-primary-900 rounded-xl">
-                    {feature.icon}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start space-x-4">
+                    <div className="neo-button w-12 h-12 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                      {feature.icon}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-semibold text-primary-900 dark:text-primary-100">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mt-1">
+                        {feature.description}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {feature.description}
-                    </p>
+                  <div className="flex items-center space-x-3">
+                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${feature.color} bg-opacity-10 border border-current`}>
+                      {feature.status}
+                    </span>
+                    <ChevronRight className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
+                      selectedFeature === feature.id ? 'rotate-90' : ''
+                    }`} />
                   </div>
+                </div>
+                
+                <div className="mt-4">
+                  <button className="neo-button px-4 py-2 text-primary-600 dark:text-primary-400 font-medium hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors duration-200">
+                    {feature.action}
+                  </button>
                 </div>
               </motion.div>
 
@@ -527,41 +544,47 @@ export default function SuperFeaturesPage() {
                     exit={{ opacity: 0, height: 0 }}
                     className="pl-4 border-l-2 border-primary-500"
                   >
-                  {/* Sub-features Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    {feature.subFeatures.map((subFeature, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="glass-card p-4 hover:shadow-lg transition-all duration-300"
-                      >
-                        <div className="flex flex-col items-center text-center space-y-3">
-                          <div className="p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
-                            {subFeature.icon}
+                    {/* Sub-features Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                      {feature.subFeatures.map((subFeature, subIndex) => (
+                        <motion.div
+                          key={subIndex}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: subIndex * 0.1 }}
+                          className="neo-card p-4 space-y-3 hover:shadow-lg transition-all duration-300"
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="neo-button p-2 text-primary-600 dark:text-primary-400">
+                              {subFeature.icon}
+                            </div>
+                            <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                              subFeature.status === 'Active' ? 'text-green-600 dark:text-green-400' :
+                              subFeature.status === 'Beta' ? 'text-yellow-600 dark:text-yellow-400' :
+                              'text-blue-600 dark:text-blue-400'
+                            } bg-opacity-10 border border-current`}>
+                              {subFeature.status}
+                            </span>
                           </div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">
+                          <h4 className="font-semibold text-primary-900 dark:text-primary-100">
                             {subFeature.title}
                           </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                             {subFeature.description}
                           </p>
-                          <button className="flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium">
-                            <span>{subFeature.action}</span>
-                            <ArrowRight className="w-4 h-4" />
+                          <button className="w-full neo-button px-3 py-2 text-primary-600 dark:text-primary-400 font-medium text-sm">
+                            {subFeature.action}
                           </button>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                        </motion.div>
+                      ))}
+                    </div>
 
-                  {/* Feature-specific Content */}
-                  <div className="glass-card p-6">
-                    {feature.id === 'investment-pooling' && renderInvestmentPoolingContent()}
-                    {feature.id === 'automated-banking' && renderAutomatedBankingContent()}
-                    {feature.id === 'debt-repayment' && renderDebtRepaymentContent()}
-                  </div>
+                    {/* Feature-specific Content */}
+                    <div className="neo-card p-6">
+                      {feature.id === 'investment-pooling' && renderInvestmentPoolingContent()}
+                      {feature.id === 'automated-banking' && renderAutomatedBankingContent()}
+                      {feature.id === 'debt-repayment' && renderDebtRepaymentContent()}
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
