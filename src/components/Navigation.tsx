@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useLocation, Link } from 'react-router-dom';
 import { 
   Home as HomeIcon,
@@ -18,16 +18,30 @@ import {
   PiggyBank as PiggyBankIcon,
   CreditCard as CreditCardIcon,
   RefreshCw as RefreshCwIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
+  ChevronDown,
+  ChevronRight,
+  Coins
 } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
 const Navigation = () => {
   const location = useLocation();
+  const [expandedSections, setExpandedSections] = useState<string[]>([]);
 
   const isActive = (path: string) => {
     return location.pathname === path;
   };
+
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections(prev => 
+      prev.includes(sectionId) 
+        ? prev.filter(id => id !== sectionId)
+        : [...prev, sectionId]
+    );
+  };
+
+  const isExpanded = (sectionId: string) => expandedSections.includes(sectionId);
 
   // Main navigation items that match the App.tsx routes
   const mainNavigationItems = [
@@ -36,20 +50,28 @@ const Navigation = () => {
     { name: 'Stats', href: '/stats', icon: StatsIcon },
   ];
 
-  // Financial Methods section
-  const methodNavigationItems = [
-    { name: 'NWS Method', href: '/methods/nws', icon: WalletIcon },
-    { name: 'Kakeibo Method', href: '/methods/kakeibo', icon: BookOpenIcon },
-    { name: 'STOP Method', href: '/methods/stop', icon: TargetIcon },
-  ];
-
-  // Advanced Features section
+  // Advanced Features section with nested items
   const featureNavigationItems = [
-    { name: 'Super Features', href: '/super-features', icon: SparklesIcon },
-    { name: 'Stock Market', href: '/stock-market', icon: ChartBarIcon },
-    { name: 'Investment Pooling', href: '/investment-pooling', icon: TrendingUpIcon },
-    { name: 'Automated Banking', href: '/automated-banking', icon: RefreshCwIcon },
-    { name: 'Debt Repayment', href: '/debt-repayment', icon: CreditCardIcon },
+    { 
+      name: 'Super Features', 
+      href: '/super-features', 
+      icon: SparklesIcon,
+      subItems: [
+        { name: 'Investment Pooling', href: '/investment-pooling', icon: TrendingUpIcon },
+        { name: 'Automated Banking', href: '/automated-banking', icon: RefreshCwIcon },
+        { name: 'Debt Repayment', href: '/debt-repayment', icon: CreditCardIcon },
+      ]
+    },
+    { 
+      name: 'Stock Market', 
+      href: '/stock-market', 
+      icon: ChartBarIcon,
+      subItems: [
+        { name: 'NWS Method', href: '/methods/nws', icon: WalletIcon },
+        { name: 'Kakeibo Method', href: '/methods/kakeibo', icon: BookOpenIcon },
+        { name: 'STOP Method', href: '/methods/stop', icon: TargetIcon },
+      ]
+    },
     { name: 'Finring', href: '/finring', icon: UsersIcon },
   ];
 
@@ -68,30 +90,59 @@ const Navigation = () => {
     { name: 'Profile', href: '/profile', icon: UserIcon },
   ];
 
-  const renderNavSection = (title: string, items: typeof mainNavigationItems) => (
+  const renderNavItem = (item: any, isSubItem = false) => {
+    const Icon = item.icon;
+    const hasSubItems = item.subItems && item.subItems.length > 0;
+    const itemIsExpanded = isExpanded(item.name);
+    const isSubItemActive = hasSubItems && item.subItems.some((subItem: any) => isActive(subItem.href));
+    const itemIsActive = isActive(item.href) || isSubItemActive;
+
+    return (
+      <div key={item.name}>
+        <div className="flex items-center">
+          <NavLink
+            to={item.href}
+            className={() =>
+              `flex items-center px-3 py-2 text-sm font-medium rounded-lg mb-1 flex-1 ${
+                itemIsActive
+                  ? 'text-primary-600 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                  : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
+              } ${isSubItem ? 'ml-4 text-xs' : ''}`
+            }
+          >
+            <Icon className={`${isSubItem ? 'h-4 w-4 mr-2' : 'h-5 w-5 mr-3'}`} />
+            <span>{item.name}</span>
+          </NavLink>
+          {hasSubItems && (
+            <button
+              onClick={() => toggleSection(item.name)}
+              className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            >
+              {itemIsExpanded ? (
+                <ChevronDown className="h-4 w-4" />
+              ) : (
+                <ChevronRight className="h-4 w-4" />
+              )}
+            </button>
+          )}
+        </div>
+        {hasSubItems && itemIsExpanded && (
+          <div className="ml-2 space-y-1">
+            {item.subItems.map((subItem: any) => renderNavItem(subItem, true))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderNavSection = (title: string, items: any[]) => (
     <div className="px-4 pt-4">
       <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
         {title}
       </h3>
-      {items.map((item) => {
-        const Icon = item.icon;
-        return (
-          <NavLink
-            key={item.name}
-            to={item.href}
-            className={({ isActive }) =>
-              `flex items-center px-3 py-2 text-sm font-medium rounded-lg mb-1 ${
-                isActive
-                  ? 'text-primary-600 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                  : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
-              }`
-            }
-          >
-            <Icon className="h-5 w-5 mr-3" />
-            <span>{item.name}</span>
-          </NavLink>
-        );
-      })}
+      <div className="space-y-1">
+        {items.map((item) => renderNavItem(item))}
+      </div>
     </div>
   );
 
@@ -111,10 +162,7 @@ const Navigation = () => {
               {/* Main Navigation Section */}
               {renderNavSection('Main', mainNavigationItems)}
 
-              {/* Financial Methods Section */}
-              {renderNavSection('Methods', methodNavigationItems)}
-
-              {/* Advanced Features Section */}
+              {/* Advanced Features Section with Nested Items */}
               {renderNavSection('Features', featureNavigationItems)}
 
               {/* User & Settings Section */}
