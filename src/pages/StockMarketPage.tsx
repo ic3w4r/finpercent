@@ -820,14 +820,14 @@ export default function StockMarketPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-l-4 border-blue-500"
+              className="neo-card p-6 border-l-4 border-blue-500"
             >
               <div className="flex items-center mb-4">
-                <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-4">
-                  <Wallet className="w-6 h-6 text-blue-600" />
+                <div className="neo-button p-3 text-blue-600 mr-4">
+                  <Wallet className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-primary-900 dark:text-primary-100">
                     NWS Method
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -842,19 +842,19 @@ export default function StockMarketPage() {
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-500">Market Integration:</span>
-                  <span className="text-xs font-medium text-blue-600">Portfolio Allocation</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-blue-600 bg-blue-50 dark:bg-blue-900/30">Portfolio Allocation</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-500">Risk Level:</span>
-                  <span className="text-xs font-medium text-green-600">Moderate</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-green-600 bg-green-50 dark:bg-green-900/30">Moderate</span>
                 </div>
               </div>
               <Link 
                 to="/methods/nws"
-                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm"
+                className="neo-button w-full flex items-center justify-center px-4 py-2 text-blue-600 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors duration-200"
               >
                 Learn NWS Method
-                <ChevronRight className="w-4 h-4 ml-1" />
+                <ChevronRight className="w-4 h-4 ml-2" />
               </Link>
             </motion.div>
 
@@ -863,14 +863,14 @@ export default function StockMarketPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-l-4 border-green-500"
+              className="neo-card p-6 border-l-4 border-green-500"
             >
               <div className="flex items-center mb-4">
-                <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg mr-4">
-                  <BookOpen className="w-6 h-6 text-green-600" />
+                <div className="neo-button p-3 text-green-600 mr-4">
+                  <BookOpen className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-primary-900 dark:text-primary-100">
                     Kakeibo Method
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -885,19 +885,19 @@ export default function StockMarketPage() {
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-500">Market Integration:</span>
-                  <span className="text-xs font-medium text-green-600">Surplus Identification</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-green-600 bg-green-50 dark:bg-green-900/30">Surplus Identification</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-500">Focus:</span>
-                  <span className="text-xs font-medium text-green-600">Mindful Investment</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-green-600 bg-green-50 dark:bg-green-900/30">Mindful Investment</span>
                 </div>
               </div>
               <Link 
                 to="/methods/kakeibo"
-                className="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm"
+                className="neo-button w-full flex items-center justify-center px-4 py-2 text-green-600 font-medium hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-200"
               >
                 Learn Kakeibo Method
-                <ChevronRight className="w-4 h-4 ml-1" />
+                <ChevronRight className="w-4 h-4 ml-2" />
               </Link>
             </motion.div>
 
@@ -906,14 +906,14 @@ export default function StockMarketPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-l-4 border-purple-500"
+              className="neo-card p-6 border-l-4 border-purple-500"
             >
               <div className="flex items-center mb-4">
-                <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg mr-4">
-                  <Target className="w-6 h-6 text-purple-600" />
+                <div className="neo-button p-3 text-purple-600 mr-4">
+                  <Target className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-primary-900 dark:text-primary-100">
                     S.T.O.P Method
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -928,19 +928,19 @@ export default function StockMarketPage() {
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-500">Market Integration:</span>
-                  <span className="text-xs font-medium text-purple-600">Business Growth</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-purple-600 bg-purple-50 dark:bg-purple-900/30">Business Growth</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-500">Best For:</span>
-                  <span className="text-xs font-medium text-purple-600">Entrepreneurs</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-purple-600 bg-purple-50 dark:bg-purple-900/30">Entrepreneurs</span>
                 </div>
               </div>
               <Link 
                 to="/methods/stop"
-                className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium text-sm"
+                className="neo-button w-full flex items-center justify-center px-4 py-2 text-purple-600 font-medium hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors duration-200"
               >
                 Learn S.T.O.P Method
-                <ChevronRight className="w-4 h-4 ml-1" />
+                <ChevronRight className="w-4 h-4 ml-2" />
               </Link>
             </motion.div>
           </div>
