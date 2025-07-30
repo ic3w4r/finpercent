@@ -190,23 +190,29 @@ export default function SuperFeaturesPage() {
       <div className="space-y-6">
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {poolMetrics.map((metric) => (
-            <div key={metric.title} className="bg-white dark:bg-gray-800 rounded-xl p-4">
+          {poolMetrics.map((metric, index) => (
+            <motion.div 
+              key={metric.title} 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="neo-card p-4"
+            >
               <div className="flex items-center justify-between mb-2">
-                <div className="p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
+                <div className="neo-button p-2 text-primary-600 dark:text-primary-400">
                   {metric.icon}
                 </div>
-                <span className="text-green-600 text-sm">{metric.change}</span>
+                <span className="text-green-600 text-sm font-medium">{metric.change}</span>
               </div>
               <h3 className="text-gray-600 dark:text-gray-400 text-sm">{metric.title}</h3>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{metric.value}</p>
-            </div>
+              <p className="text-2xl font-bold text-primary-900 dark:text-primary-100">{metric.value}</p>
+            </motion.div>
           ))}
         </div>
 
         {/* Pool Creation Form */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Create New Investment Pool</h3>
+        <div className="neo-card p-6">
+          <h3 className="text-xl font-semibold mb-4 text-primary-900 dark:text-primary-100">Create New Investment Pool</h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -218,36 +224,44 @@ export default function SuperFeaturesPage() {
                   type="text"
                   value={poolAmount}
                   onChange={(e) => setPoolAmount(parseInt(e.target.value))}
-                  className="pl-8 w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                  className="neo-input pl-8 w-full"
                   placeholder="Enter amount"
                 />
               </div>
             </div>
-            <button className="w-full py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+            <button className="w-full neo-button px-4 py-3 text-primary-600 dark:text-primary-400 font-medium">
               Create Pool
             </button>
           </div>
         </div>
 
         {/* Active Pools */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Active Pools</h3>
+        <div className="neo-card p-6">
+          <h3 className="text-xl font-semibold mb-4 text-primary-900 dark:text-primary-100">Active Pools</h3>
           <div className="space-y-4">
             {[
               { name: 'Tech Growth Fund', value: '$75,000', members: 5, return: '+15.2%' },
               { name: 'Real Estate Pool', value: '$250,000', members: 12, return: '+8.7%' },
               { name: 'Startup Fund', value: '$50,000', members: 4, return: '+22.1%' }
-            ].map((pool) => (
-              <div key={pool.name} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">{pool.name}</h4>
-                  <p className="text-sm text-gray-500">{pool.members} members</p>
+            ].map((pool, index) => (
+              <motion.div 
+                key={pool.name}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="neo-card p-4"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium text-primary-900 dark:text-primary-100">{pool.name}</h4>
+                    <p className="text-sm text-gray-500">{pool.members} members</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-primary-900 dark:text-primary-100">{pool.value}</p>
+                    <p className="text-sm text-green-600">{pool.return}</p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-semibold text-gray-900 dark:text-white">{pool.value}</p>
-                  <p className="text-sm text-green-600">{pool.return}</p>
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
