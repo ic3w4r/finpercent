@@ -273,101 +273,99 @@ export default function SuperFeaturesPage() {
     return (
       <div className="space-y-6">
         {/* Bank Connection */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Connect Your Bank</h3>
+        <div className="neo-card p-6">
+          <h3 className="text-xl font-semibold mb-4 text-primary-900 dark:text-primary-100">Connect Your Bank</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               { name: 'Chase', icon: <Building2 /> },
               { name: 'Wells Fargo', icon: <Building2 /> },
               { name: 'Bank of America', icon: <Building2 /> },
               { name: 'Citibank', icon: <Building2 /> }
-            ].map((bank) => (
-              <button
+            ].map((bank, index) => (
+              <motion.button
                 key={bank.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.1 }}
                 onClick={() => setSelectedBank(bank.name)}
-                className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-colors ${
+                className={`neo-button flex items-center space-x-3 p-4 transition-all duration-200 ${
                   selectedBank === bank.name
-                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-primary-500'
+                    ? 'ring-2 ring-primary-500'
+                    : ''
                 }`}
               >
-                <div className="p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
+                <div className="neo-button p-2 text-primary-600 dark:text-primary-400">
                   {bank.icon}
                 </div>
-                <span className="font-medium">{bank.name}</span>
-              </button>
+                <span className="font-medium text-primary-900 dark:text-primary-100">{bank.name}</span>
+              </motion.button>
             ))}
           </div>
         </div>
 
         {/* NWS Setup */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">N.W.S Configuration</h3>
+        <div className="neo-card p-6">
+          <h3 className="text-xl font-semibold mb-4 text-primary-900 dark:text-primary-100">N.W.S Configuration</h3>
           <div className="space-y-6">
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className="font-medium">Needs ({nwsPercentages.needs}%)</span>
-                <span className="text-primary-600">${(5000 * nwsPercentages.needs / 100).toFixed(2)}</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={nwsPercentages.needs}
-                onChange={(e) => setNwsPercentages(prev => ({ ...prev, needs: parseInt(e.target.value) }))}
-                className="w-full"
-              />
-            </div>
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className="font-medium">Wants ({nwsPercentages.wants}%)</span>
-                <span className="text-primary-600">${(5000 * nwsPercentages.wants / 100).toFixed(2)}</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={nwsPercentages.wants}
-                onChange={(e) => setNwsPercentages(prev => ({ ...prev, wants: parseInt(e.target.value) }))}
-                className="w-full"
-              />
-            </div>
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className="font-medium">Savings ({nwsPercentages.savings}%)</span>
-                <span className="text-primary-600">${(5000 * nwsPercentages.savings / 100).toFixed(2)}</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={nwsPercentages.savings}
-                onChange={(e) => setNwsPercentages(prev => ({ ...prev, savings: parseInt(e.target.value) }))}
-                className="w-full"
-              />
-            </div>
+            {[
+              { key: 'needs', label: 'Needs', color: 'text-blue-600' },
+              { key: 'wants', label: 'Wants', color: 'text-purple-600' },
+              { key: 'savings', label: 'Savings', color: 'text-green-600' }
+            ].map((item, index) => (
+              <motion.div
+                key={item.key}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="flex justify-between mb-2">
+                  <span className="font-medium text-primary-900 dark:text-primary-100">
+                    {item.label} ({nwsPercentages[item.key as keyof typeof nwsPercentages]}%)
+                  </span>
+                  <span className={`${item.color} font-semibold`}>
+                    ${(5000 * nwsPercentages[item.key as keyof typeof nwsPercentages] / 100).toFixed(2)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={nwsPercentages[item.key as keyof typeof nwsPercentages]}
+                  onChange={(e) => setNwsPercentages(prev => ({ ...prev, [item.key]: parseInt(e.target.value) }))}
+                  className="w-full accent-primary-600"
+                />
+              </motion.div>
+            ))}
           </div>
         </div>
 
         {/* Automation Rules */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Active Automation Rules</h3>
+        <div className="neo-card p-6">
+          <h3 className="text-xl font-semibold mb-4 text-primary-900 dark:text-primary-100">Active Automation Rules</h3>
           <div className="space-y-4">
             {[
               { name: 'Monthly Savings Transfer', amount: '$500', frequency: 'Monthly', status: 'Active' },
               { name: 'Bill Payment', amount: '$150', frequency: 'Weekly', status: 'Active' },
               { name: 'Investment Contribution', amount: '$1,000', frequency: 'Monthly', status: 'Active' }
-            ].map((rule) => (
-              <div key={rule.name} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">{rule.name}</h4>
-                  <p className="text-sm text-gray-500">{rule.frequency}</p>
+            ].map((rule, index) => (
+              <motion.div 
+                key={rule.name}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="neo-card p-4"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium text-primary-900 dark:text-primary-100">{rule.name}</h4>
+                    <p className="text-sm text-gray-500">{rule.frequency}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-primary-900 dark:text-primary-100">{rule.amount}</p>
+                    <p className="text-sm text-green-600">{rule.status}</p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-semibold text-gray-900 dark:text-white">{rule.amount}</p>
-                  <p className="text-sm text-green-600">{rule.status}</p>
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
