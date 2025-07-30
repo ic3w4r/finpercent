@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import '../styles/neomorphic.css';
 import { 
   TrendingUp, TrendingDown, DollarSign, 
   Activity, PieChart, BarChart2, 
   Target, Briefcase, ShoppingBag,
   Wallet, ArrowDownCircle, ArrowUpCircle,
-  PiggyBank, Receipt, Building2, Book
+  PiggyBank, Receipt, Building2, Book,
+  BookOpen, ChevronRight, BarChart3
 } from 'lucide-react';
 import StockMarketLayout from '../layouts/StockMarketLayout';
 import MarketChart from '../components/stock-market/MarketChart';
@@ -13,7 +15,7 @@ import { STOPMethod } from '../components/STOPMethod';
 import NWSMethod from '../components/stats/NWSMethod';
 import DebtManagement from '../components/DebtManagement';
 import KakeiboMethod from '../components/KakeiboMethod';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 type MethodType = 'nws' | 'kakeibo';
 
@@ -796,6 +798,206 @@ export default function StockMarketPage() {
                   Track debt reduction progress
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Methods Guide Section */}
+        <div className="mt-8 space-y-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Financial Methods Guide
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Understand how our proven financial methodologies integrate with stock market analysis 
+              to optimize your investment strategy and financial planning.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* NWS Method Guide */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="neo-card p-6 border-l-4 border-blue-500"
+            >
+              <div className="flex items-center mb-4">
+                <div className="neo-button p-3 text-blue-600 mr-4">
+                  <Wallet className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary-900 dark:text-primary-100">
+                    NWS Method
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Needs, Wants, Savings
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Allocate your portfolio across essential expenses (50%), discretionary spending (30%), 
+                and investments (20%) for balanced market exposure and risk management.
+              </p>
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Market Integration:</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-blue-600 bg-blue-50 dark:bg-blue-900/30">Portfolio Allocation</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Risk Level:</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-green-600 bg-green-50 dark:bg-green-900/30">Moderate</span>
+                </div>
+              </div>
+              <Link 
+                to="/methods/nws"
+                className="neo-button w-full flex items-center justify-center px-4 py-2 text-blue-600 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors duration-200"
+              >
+                Learn NWS Method
+                <ChevronRight className="w-4 h-4 ml-2" />
+              </Link>
+            </motion.div>
+
+            {/* Kakeibo Method Guide */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="neo-card p-6 border-l-4 border-green-500"
+            >
+              <div className="flex items-center mb-4">
+                <div className="neo-button p-3 text-green-600 mr-4">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary-900 dark:text-primary-100">
+                    Kakeibo Method
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Japanese Budgeting
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Traditional Japanese approach to mindful spending and saving, helping identify 
+                surplus funds for strategic market investments through conscious expense tracking.
+              </p>
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Market Integration:</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-green-600 bg-green-50 dark:bg-green-900/30">Surplus Identification</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Focus:</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-green-600 bg-green-50 dark:bg-green-900/30">Mindful Investment</span>
+                </div>
+              </div>
+              <Link 
+                to="/methods/kakeibo"
+                className="neo-button w-full flex items-center justify-center px-4 py-2 text-green-600 font-medium hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-200"
+              >
+                Learn Kakeibo Method
+                <ChevronRight className="w-4 h-4 ml-2" />
+              </Link>
+            </motion.div>
+
+            {/* STOP Method Guide */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="neo-card p-6 border-l-4 border-purple-500"
+            >
+              <div className="flex items-center mb-4">
+                <div className="neo-button p-3 text-purple-600 mr-4">
+                  <Target className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-primary-900 dark:text-primary-100">
+                    S.T.O.P Method
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Savings, Taxes, Operations, Profit
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Business-focused allocation strategy optimizing cash flow for market opportunities. 
+                Balance operational needs with strategic investments for sustainable growth.
+              </p>
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Market Integration:</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-purple-600 bg-purple-50 dark:bg-purple-900/30">Business Growth</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Best For:</span>
+                  <span className="text-xs font-medium px-2 py-1 rounded-full text-purple-600 bg-purple-50 dark:bg-purple-900/30">Entrepreneurs</span>
+                </div>
+              </div>
+              <Link 
+                to="/methods/stop"
+                className="neo-button w-full flex items-center justify-center px-4 py-2 text-purple-600 font-medium hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors duration-200"
+              >
+                Learn S.T.O.P Method
+                <ChevronRight className="w-4 h-4 ml-2" />
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Method Integration with Stock Market */}
+          <div className="neo-card p-6">
+            <div className="flex items-center mb-6">
+              <div className="neo-button p-3 text-primary-600 dark:text-primary-400 mr-4">
+                <BarChart3 className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-semibold text-primary-900 dark:text-primary-100">
+                How Methods Enhance Market Analysis
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-center"
+              >
+                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">1</span>
+                </div>
+                <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Risk Assessment</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Methods help determine your risk capacity based on financial structure and obligations.
+                </p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-center"
+              >
+                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">2</span>
+                </div>
+                <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Capital Allocation</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Systematic approach to determining how much capital to deploy in different market sectors.
+                </p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-center"
+              >
+                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">3</span>
+                </div>
+                <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Performance Tracking</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Monitor investment performance against your structured financial plan and goals.
+                </p>
+              </motion.div>
             </div>
           </div>
         </div>
