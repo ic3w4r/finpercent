@@ -210,60 +210,35 @@ export default function CompanyStatusPage() {
         >
           <RankingCriteria />
         </motion.div>
-      </div>
-    </div>
-  );
-              >
-                Upload Balance Sheet for Better Insights
-              </button>
-            </div>
-          ) : (
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Balance Sheet Upload
-                </h2>
-                <button
-                  onClick={() => setShowUploader(false)}
-                  className="text-gray-500 hover:text-gray-700 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-              <FileUploader />
-            </div>
-          )}
-        </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <BalanceSheetAnalysis />
-          <KPIBreakdown />
-        </div>
-
-        <RankingCriteria />
-
-        <div className="glass-card rounded-xl p-6">
+        {/* Path to Gold Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="neo-card p-6"
+        >
           <div className="flex items-center space-x-3 mb-4">
             <AlertCircle className="w-6 h-6 text-primary-600" />
-            <h2 className="text-xl font-bold">Path to Gold Ranking</h2>
+            <h2 className="text-xl font-bold text-primary-900 dark:text-primary-100">Path to Gold Ranking</h2>
           </div>
           <div className="space-y-4">
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
               Your company is performing well and is close to achieving Gold ranking.
               Here are the key areas to focus on:
             </p>
             <ul className="space-y-3">
               <li className="flex items-center space-x-2">
                 <TrendingUp className="w-5 h-5 text-primary-600" />
-                <span>Increase profit margin by 2.5%</span>
+                <span className="text-primary-900 dark:text-primary-100">Increase profit margin by 2.5%</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Award className="w-5 h-5 text-primary-600" />
-                <span>Maintain consistent growth for 2 more quarters</span>
+                <span className="text-primary-900 dark:text-primary-100">Maintain consistent growth for 2 more quarters</span>
               </li>
             </ul>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
