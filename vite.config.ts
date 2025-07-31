@@ -15,7 +15,10 @@ export default defineConfig({
       '0.0.0.0',
       'simple-app-1.preview.emergentagent.com',
       '18ec1705-5bd2-4cd0-8fed-560e7125a002.preview.emergentagent.com',
-      /\.preview\.emergentagent\.com$/
+      '978f33ce-f69b-467c-818a-94460a84ddcd.preview.emergentagent.com',
+      /\.preview\.emergentagent\.com$/,
+      /\.emergentagent\.com$/,
+      'all'
     ],
     cors: true,
     hmr: {
