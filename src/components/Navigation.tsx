@@ -155,7 +155,7 @@ const Navigation = () => {
             <Link to="/" className="flex items-center logo-container">
               <img src="/logo.svg" alt="Finpercent Logo" className="h-10 w-auto dark:filter dark:brightness-150" />
             </Link>
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
           </div>
           <div className="flex-1 flex flex-col overflow-y-auto">
             <div className="py-4 flex-1 space-y-1">
