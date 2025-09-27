@@ -9,7 +9,7 @@ import {
   TrendingUp,
   Sparkles
 } from 'lucide-react';
-import '../styles/neomorphic.css';
+import '../../styles/neomorphic.css';
 
 interface OnboardingNudgeProps {
   isOnboardingComplete: boolean;
