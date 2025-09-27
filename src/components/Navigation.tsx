@@ -23,7 +23,7 @@ import {
   ChevronRight,
   Coins
 } from 'lucide-react';
-import ThemeToggle from './ThemeToggle';
+// import ThemeToggle from './ThemeToggle';
 
 const Navigation = () => {
   const location = useLocation();
