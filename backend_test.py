@@ -206,7 +206,7 @@ def main():
         print(f"Found {len(features_data)} features")
         for feature in features_data:
             print(f"Feature: {feature.get('name')}")
-            feature_id = feature.get('name').lower()
+            feature_id = feature.get('id')  # Use the actual ID instead of name
             tester.test_get_feature(feature_id)
     
     # Test financial data
