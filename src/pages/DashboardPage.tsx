@@ -211,7 +211,35 @@ export default function DashboardPage() {
               </p>
             </div>
             
-            <SankeyDiagram />
+            <SankeyDiagram 
+              data={{
+                nodes: [
+                  { name: "Products", value: 1200000 },
+                  { name: "Services", value: 800000 },
+                  { name: "Total Revenue", value: 2000000 },
+                  { name: "Product Cost", value: 440000 },
+                  { name: "Service Cost", value: 320000 },
+                  { name: "Operating", value: 450000 },
+                  { name: "R&D", value: 200000 },
+                  { name: "SG&A", value: 350000 },
+                  { name: "Tax", value: 40000 },
+                  { name: "Net Profit", value: 280000 }
+                ],
+                links: [
+                  { source: 0, target: 2, value: 1200000 },
+                  { source: 1, target: 2, value: 800000 },
+                  { source: 2, target: 3, value: 440000 },
+                  { source: 2, target: 4, value: 320000 },
+                  { source: 2, target: 5, value: 450000 },
+                  { source: 2, target: 6, value: 200000 },
+                  { source: 2, target: 7, value: 350000 },
+                  { source: 2, target: 8, value: 40000 },
+                  { source: 2, target: 9, value: 280000 }
+                ]
+              }}
+              width={800}
+              height={400}
+            />
           </motion.div>
 
           {/* Additional Dashboard Metrics */}
