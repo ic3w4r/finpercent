@@ -11,7 +11,6 @@ import {
   X,
   ChevronDown
 } from 'lucide-react';
-import '../../styles/neomorphic.css';
 
 interface OnboardingFlowProps {
   isOpen: boolean;
