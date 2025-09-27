@@ -65,10 +65,11 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
         }}
         className="mb-6 relative overflow-hidden font-['Manrope']"
       >
-        <div className="relative neo-card bg-gradient-to-br from-white via-primary-50 to-beige-50 p-6 hover:shadow-xl transition-all duration-300">
+        {/* Clean card without borders */}
+        <div className="relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-0">
           {/* Animated background shimmer */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-40"
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-100/30 to-transparent opacity-40 rounded-2xl"
             initial={{ x: '-100%' }}
             animate={{ x: '100%' }}
             transition={{
@@ -81,15 +82,15 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
           <div className="relative flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="relative">
-                {/* Main progress indicator */}
+                {/* Clean main progress indicator without borders */}
                 <div className={`
-                  neo-button w-16 h-16 flex items-center justify-center
-                  bg-gradient-to-r ${getProgressColor()} text-white shadow-lg
+                  w-16 h-16 rounded-full flex items-center justify-center shadow-lg
+                  bg-gradient-to-r ${getProgressColor()} text-white
                 `}>
                   <motion.div
                     animate={{ 
-                      scale: [1, 1.1, 1],
-                      rotate: onboardingProgress === 0 ? [0, 5, -5, 0] : 0
+                      scale: [1, 1.05, 1],
+                      rotate: onboardingProgress === 0 ? [0, 3, -3, 0] : 0
                     }}
                     transition={{
                       scale: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
@@ -127,7 +128,7 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
                   </>
                 )}
 
-                {/* Progress ring */}
+                {/* Clean progress ring without borders */}
                 <svg
                   className="absolute -inset-2 w-20 h-20 transform -rotate-90"
                   viewBox="0 0 80 80"
@@ -138,8 +139,8 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
                     r="32"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="3"
-                    className="text-gray-300/50"
+                    strokeWidth="2"
+                    className="text-gray-200"
                   />
                   <motion.circle
                     cx="40"
@@ -147,7 +148,7 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
                     r="32"
                     fill="none"
                     stroke="url(#progress-gradient)"
-                    strokeWidth="3"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeDasharray={`${2 * Math.PI * 32}`}
                     initial={{ strokeDashoffset: 2 * Math.PI * 32 }}
@@ -171,7 +172,7 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
                     Complete Your Setup
                   </h3>
                   <div className="flex items-center space-x-2">
-                    <div className="neo-button px-3 py-1 bg-gradient-to-r from-green-100 to-primary-100 flex items-center space-x-1">
+                    <div className="px-3 py-1 bg-gradient-to-r from-green-100 to-primary-100 rounded-full flex items-center space-x-1 shadow-sm">
                       <TrendingUp className="w-4 h-4 text-green-600" />
                       <span className="text-sm font-bold text-green-700">
                         {onboardingProgress}% Complete
@@ -193,9 +194,9 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
                 
                 {onboardingProgress > 0 && (
                   <div className="flex items-center space-x-4">
-                    <div className="flex-1 neo-card p-1 max-w-xs">
+                    <div className="flex-1 bg-gray-100 rounded-full p-1 max-w-xs shadow-inner">
                       <motion.div
-                        className={`h-2 rounded-full bg-gradient-to-r ${getProgressColor()} relative overflow-hidden`}
+                        className={`h-2 rounded-full bg-gradient-to-r ${getProgressColor()} relative overflow-hidden shadow-sm`}
                         initial={{ width: 0 }}
                         animate={{ width: `${onboardingProgress}%` }}
                         transition={{ duration: 1.2, ease: 'easeInOut' }}
@@ -227,9 +228,9 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
                 whileTap={{ scale: 0.95 }}
                 onClick={onStartOnboarding}
                 className={`
-                  neo-button px-8 py-4 font-bold flex items-center space-x-3 text-white
+                  px-8 py-4 rounded-xl font-bold flex items-center space-x-3 text-white shadow-lg
                   bg-gradient-to-r ${getProgressColor()} hover:shadow-xl transition-all duration-300
-                  focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+                  focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 border-0
                 `}
               >
                 <span className="text-lg">
@@ -245,7 +246,7 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
               
               <button
                 onClick={() => setIsDismissed(true)}
-                className="neo-button p-3 text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all"
+                className="p-3 rounded-full text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all shadow-sm border-0 bg-gray-50"
               >
                 <X className="w-5 h-5" />
               </button>

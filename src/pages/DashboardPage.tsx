@@ -11,10 +11,10 @@ export default function DashboardPage() {
   const { isOnboardingComplete, onboardingProgress, setOnboardingComplete } = useOnboarding();
 
   useEffect(() => {
-    // Badge animation sequence
+    // Badge animation sequence - shorter duration
     const timer = setTimeout(() => {
       setShowBadgeAnimation(false);
-    }, 4000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -26,7 +26,6 @@ export default function DashboardPage() {
   const handleOnboardingComplete = () => {
     setOnboardingComplete(true);
     setShowOnboardingFlow(false);
-    // You could add celebration animation here
   };
 
   const handleCloseOnboarding = () => {
@@ -36,20 +35,20 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-beige-50 to-primary-100 p-6 pb-20">
       <div className="max-w-7xl mx-auto">
-        {/* Onboarding Nudge */}
+        {/* Onboarding Nudge - Always visible when not complete */}
         <OnboardingNudge
           isOnboardingComplete={isOnboardingComplete}
           onboardingProgress={onboardingProgress}
           onStartOnboarding={handleStartOnboarding}
         />
 
-        {/* Badge Animation */}
+        {/* Badge Animation - Only show briefly */}
         {showBadgeAnimation && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="text-center mb-8"
+            className="text-center mb-8 fixed inset-0 flex items-center justify-center bg-gradient-to-br from-primary-50 via-beige-50 to-primary-100 z-40"
           >
             <div className="relative inline-flex items-center justify-center">
               {/* Initial Gold Badge */}
@@ -57,7 +56,7 @@ export default function DashboardPage() {
                 initial={{ opacity: 1, scale: 1, rotate: 0 }}
                 animate={{ 
                   opacity: [1, 1, 0],
-                  scale: [1, 1.2, 0.8],
+                  scale: [1, 1.1, 0.8],
                   rotate: [0, 180, 360]
                 }}
                 transition={{ 
@@ -83,8 +82,8 @@ export default function DashboardPage() {
                 }}
                 transition={{ 
                   duration: 2,
-                  times: [0, 0.7, 0.8, 1],
-                  delay: 1.5
+                  times: [0, 0.6, 0.8, 1],
+                  delay: 1
                 }}
                 className="flex flex-col items-center"
               >
@@ -101,7 +100,7 @@ export default function DashboardPage() {
               </motion.div>
 
               {/* Particle Effects */}
-              {[...Array(8)].map((_, i) => (
+              {[...Array(6)].map((_, i) => (
                 <motion.div
                   key={i}
                   initial={{ 
@@ -113,11 +112,11 @@ export default function DashboardPage() {
                   animate={{
                     opacity: [0, 1, 0],
                     scale: [0, 1, 0],
-                    x: [0, (Math.random() - 0.5) * 400],
-                    y: [0, (Math.random() - 0.5) * 400]
+                    x: [0, (Math.random() - 0.5) * 300],
+                    y: [0, (Math.random() - 0.5) * 300]
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 2,
                     delay: 1 + i * 0.1,
                     ease: "easeOut"
                   }}
@@ -128,59 +127,86 @@ export default function DashboardPage() {
           </motion.div>
         )}
 
-        {/* Main Dashboard Content */}
+        {/* Main Dashboard Content - Always show after brief delay */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ 
-            opacity: showBadgeAnimation ? 0 : 1,
-            y: showBadgeAnimation ? 20 : 0
-          }}
-          transition={{ delay: showBadgeAnimation ? 0 : 4, duration: 0.8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: showBadgeAnimation ? 3.2 : 0, duration: 0.6 }}
         >
           {/* Dashboard Header */}
           <div className="text-center mb-8">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: showBadgeAnimation ? 0 : 4.2 }}
+              transition={{ delay: showBadgeAnimation ? 3.4 : 0.2 }}
               className="flex flex-col items-center space-y-2"
             >
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
-                <div className="text-green-600 text-lg font-bold">
+              <div className="neo-button w-12 h-12 flex items-center justify-center">
+                <div className="text-primary-600 text-lg font-bold">
                   <div className="flex items-center">
-                    <div className="w-2 h-2 bg-green-600 rounded-full mr-1"></div>
+                    <div className="w-2 h-2 bg-primary-600 rounded-full mr-1"></div>
                     <div className="text-xl">%</div>
-                    <div className="w-2 h-2 bg-green-600 rounded-full ml-1"></div>
+                    <div className="w-2 h-2 bg-primary-600 rounded-full ml-1"></div>
                   </div>
                 </div>
               </div>
-              <h1 className="text-3xl font-bold text-primary-900 dark:text-primary-100">
+              <h1 className="text-3xl font-bold text-primary-900 dark:text-primary-100 font-['Manrope']">
                 Financial Dashboard
               </h1>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-primary-700 dark:text-gray-400 font-['Manrope']">
                 Comprehensive overview of your financial metrics and insights
               </p>
             </motion.div>
+          </div>
+
+          {/* Quick Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            {[
+              { title: 'Total Revenue', value: '₹25,00,000', change: '+12%', color: 'text-green-600' },
+              { title: 'Monthly Profit', value: '₹3,50,000', change: '+8%', color: 'text-blue-600' },
+              { title: 'Active Investments', value: '₹12,75,000', change: '+15%', color: 'text-purple-600' },
+              { title: 'Growth Rate', value: '18.5%', change: '+5%', color: 'text-orange-600' }
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: (showBadgeAnimation ? 3.6 : 0.4) + index * 0.1 }}
+                className="neo-card p-6 text-center"
+              >
+                <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2 font-['Manrope']">
+                  {stat.title}
+                </h3>
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white font-['Manrope']">
+                    {stat.value}
+                  </span>
+                  <span className={`text-sm font-medium ${stat.color} font-['Manrope']`}>
+                    {stat.change}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
           {/* Sankey Diagram */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: showBadgeAnimation ? 0 : 4.5, duration: 0.8 }}
-            className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6"
+            transition={{ delay: showBadgeAnimation ? 4 : 0.8, duration: 0.8 }}
+            className="neo-card p-6 mb-8"
           >
             <div className="mb-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-green-600 dark:text-green-400">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-primary-700 dark:text-primary-400 font-['Manrope']">
                   Financial Flow Analysis
                 </h2>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">LIVE DATA</span>
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-gray-600 dark:text-gray-400 font-['Manrope']">LIVE DATA</span>
                 </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-primary-600 dark:text-gray-400 font-['Manrope']">
                 Interactive visualization showing revenue flows and expense breakdown
               </p>
             </div>
@@ -188,7 +214,59 @@ export default function DashboardPage() {
             <SankeyDiagram />
           </motion.div>
 
-          {/* Additional Dashboard Components can be added here */}
+          {/* Additional Dashboard Metrics */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: showBadgeAnimation ? 4.2 : 1 }}
+              className="neo-card p-6"
+            >
+              <h3 className="text-lg font-bold text-primary-800 dark:text-primary-300 mb-4 font-['Manrope']">
+                Recent Activity
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { action: 'Investment Portfolio Updated', time: '2 hours ago', amount: '+₹50,000' },
+                  { action: 'Monthly Report Generated', time: '1 day ago', amount: null },
+                  { action: 'New Revenue Stream Added', time: '3 days ago', amount: '+₹1,25,000' }
+                ].map((activity, index) => (
+                  <div key={index} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700 last:border-0">
+                    <div>
+                      <p className="font-medium text-gray-900 dark:text-white font-['Manrope']">{activity.action}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 font-['Manrope']">{activity.time}</p>
+                    </div>
+                    {activity.amount && (
+                      <span className="text-green-600 font-medium font-['Manrope']">{activity.amount}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: showBadgeAnimation ? 4.4 : 1.2 }}
+              className="neo-card p-6"
+            >
+              <h3 className="text-lg font-bold text-primary-800 dark:text-primary-300 mb-4 font-['Manrope']">
+                Quick Actions
+              </h3>
+              <div className="grid grid-cols-1 gap-3">
+                {[
+                  { title: 'Generate Report', desc: 'Create monthly financial summary' },
+                  { title: 'Update Portfolio', desc: 'Modify investment allocations' },
+                  { title: 'Set Goals', desc: 'Define financial objectives' }
+                ].map((action, index) => (
+                  <button key={index} className="neo-button p-4 text-left hover:shadow-md transition-all">
+                    <h4 className="font-medium text-gray-900 dark:text-white font-['Manrope']">{action.title}</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 font-['Manrope']">{action.desc}</p>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
 
         {/* Onboarding Flow Modal */}
