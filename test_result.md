@@ -123,7 +123,7 @@ frontend:
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 2
+  test_sequence: 3
 
 test_plan:
   current_focus: []
