@@ -11,6 +11,7 @@ import {
   X,
   ChevronDown
 } from 'lucide-react';
+import '../styles/neomorphic.css';
 
 interface OnboardingFlowProps {
   isOpen: boolean;
@@ -105,23 +106,37 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onClose, onComp
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden"
+            className="neo-card bg-gradient-to-br from-primary-50 via-beige-50 to-primary-100 w-full max-w-4xl max-h-[90vh] overflow-hidden"
           >
             {/* Header with Progress */}
-            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <div className="p-6 border-b border-primary-200 dark:border-gray-700 bg-gradient-to-r from-primary-100 to-beige-100">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Complete Your Onboarding
-                </h2>
+                <div className="flex items-center space-x-4">
+                  <div className="neo-button w-12 h-12 flex items-center justify-center">
+                    <div className="w-6 h-6 text-primary-600 font-bold flex items-center">
+                      <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mr-1"></div>
+                      <div className="text-lg">%</div>
+                      <div className="w-1.5 h-1.5 bg-primary-600 rounded-full ml-1"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-primary-900 dark:text-white font-['Manrope']">
+                      Complete Your Onboarding
+                    </h2>
+                    <p className="text-primary-700 dark:text-gray-300 font-['Manrope']">
+                      Set up your FinPercent experience
+                    </p>
+                  </div>
+                </div>
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                  className="neo-button p-3 text-gray-600 hover:text-red-500 transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -129,17 +144,29 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onClose, onComp
               
               {/* Progress Bar */}
               <div className="relative">
-                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  <span>Step {currentStage + 1} of {stages.length}</span>
-                  <span>{Math.round(progressPercent)}% Complete</span>
+                <div className="flex justify-between text-sm text-primary-700 dark:text-gray-400 mb-3 font-['Manrope']">
+                  <span className="font-medium">Step {currentStage + 1} of {stages.length}</span>
+                  <span className="font-medium">{Math.round(progressPercent)}% Complete</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div className="neo-card p-1">
                   <motion.div
-                    className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full"
+                    className="bg-gradient-to-r from-primary-500 to-green-500 h-3 rounded-full relative overflow-hidden"
                     initial={{ width: 0 }}
                     animate={{ width: `${progressPercent}%` }}
-                    transition={{ duration: 0.5, ease: 'easeInOut' }}
-                  />
+                    transition={{ duration: 0.8, ease: 'easeInOut' }}
+                  >
+                    {/* Animated shine effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                      initial={{ x: '-100%' }}
+                      animate={{ x: '100%' }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'linear'
+                      }}
+                    />
+                  </motion.div>
                 </div>
               </div>
             </div>
@@ -147,7 +174,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onClose, onComp
             {/* Stages Container */}
             <div 
               ref={containerRef}
-              className="overflow-y-auto max-h-[calc(90vh-200px)] p-6 space-y-6"
+              className="overflow-y-auto max-h-[calc(90vh-200px)] p-6 space-y-6 bg-gradient-to-br from-primary-50 via-beige-50 to-primary-100"
             >
               {stages.map((stage, index) => (
                 <OnboardingCard
@@ -186,20 +213,19 @@ const OnboardingCard: React.FC<{
         opacity: 1, 
         y: 0,
         scale: isCompleted ? 0.95 : 1,
-        height: isCompleted ? 80 : 'auto'
+        height: isCompleted ? 100 : 'auto'
       }}
       transition={{ 
-        duration: 0.6,
+        duration: 0.8,
         type: 'spring',
-        stiffness: 100
+        stiffness: 120,
+        damping: 20
       }}
       className={`
-        relative border-2 rounded-2xl p-6 transition-all duration-500
-        ${isActive ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/20' : 
-          isCompleted ? 'border-green-500 bg-green-50/50 dark:bg-green-900/20' :
-          'border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50'
-        }
-        ${!isActive && !isCompleted ? 'opacity-60' : 'opacity-100'}
+        relative neo-card transition-all duration-500 font-['Manrope']
+        ${isActive ? 'ring-2 ring-primary-500 shadow-lg shadow-primary-200' : ''}
+        ${isCompleted ? 'bg-gradient-to-r from-green-50 to-primary-50' : 'bg-gradient-to-br from-white to-primary-50'}
+        ${!isActive && !isCompleted ? 'opacity-70' : 'opacity-100'}
       `}
     >
       {isCompleted ? (
@@ -207,19 +233,19 @@ const OnboardingCard: React.FC<{
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex items-center justify-between"
+          className="flex items-center justify-between p-4"
         >
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: 'spring' }}
-              className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center"
+              className="neo-button w-12 h-12 bg-gradient-to-r from-green-500 to-primary-500 text-white flex items-center justify-center"
             >
-              <CheckCircle className="w-6 h-6 text-white" />
+              <CheckCircle className="w-6 h-6" />
             </motion.div>
             <div>
-              <h3 className="font-semibold text-green-700 dark:text-green-400">
+              <h3 className="font-bold text-green-700 dark:text-green-400 text-lg">
                 {stage.title}
               </h3>
               <p className="text-sm text-green-600 dark:text-green-500">
@@ -229,22 +255,24 @@ const OnboardingCard: React.FC<{
           </div>
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full"
+            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            className="neo-button w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full"
           />
         </motion.div>
       ) : (
         // Active/Pending State - Full Card
-        <div className="space-y-6">
+        <div className="space-y-6 p-6">
           <div className="flex items-center space-x-4">
             <div className={`
-              w-16 h-16 rounded-full flex items-center justify-center transition-colors
-              ${isActive ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}
+              neo-button w-16 h-16 flex items-center justify-center transition-all duration-300
+              ${isActive ? 'bg-gradient-to-r from-primary-500 to-green-500 text-white shadow-lg' : 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-600'}
             `}>
-              <Icon className={`w-8 h-8 ${isActive ? 'text-white' : 'text-gray-600 dark:text-gray-400'}`} />
+              <Icon className="w-8 h-8" />
             </div>
             <div>
-              <h3 className={`text-xl font-semibold ${isActive ? 'text-blue-700 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}`}>
+              <h3 className={`text-xl font-bold transition-colors ${
+                isActive ? 'text-primary-700 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400'
+              }`}>
                 {stage.title}
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -257,7 +285,7 @@ const OnboardingCard: React.FC<{
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
             >
               <Component onComplete={onComplete} />
             </motion.div>
@@ -268,7 +296,7 @@ const OnboardingCard: React.FC<{
   );
 };
 
-// Stage Components
+// Stage Components with consistent theming
 const BalanceSheetUpload: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -294,19 +322,24 @@ const BalanceSheetUpload: React.FC<{ onComplete: () => void }> = ({ onComplete }
           setTimeout(onComplete, 500);
           return 100;
         }
-        return prev + 10;
+        return prev + 8;
       });
-    }, 200);
+    }, 150);
   };
 
   return (
-    <div className="space-y-4">
-      <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
+    <div className="space-y-4 font-['Manrope']">
+      <div className="neo-card p-8 text-center border-2 border-dashed border-primary-300">
         {!file ? (
           <div>
-            <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <div className="neo-button w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary-100 to-primary-200 flex items-center justify-center">
+              <Upload className="w-8 h-8 text-primary-600" />
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 mb-4 font-medium">
               Drag and drop your balance sheet or click to browse
+            </p>
+            <p className="text-sm text-gray-500 mb-6">
+              Supported formats: PDF, Excel, CSV
             </p>
             <input
               type="file"
@@ -317,33 +350,47 @@ const BalanceSheetUpload: React.FC<{ onComplete: () => void }> = ({ onComplete }
             />
             <label
               htmlFor="balance-sheet-upload"
-              className="bg-blue-500 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors"
+              className="neo-button px-6 py-3 bg-gradient-to-r from-primary-500 to-green-500 text-white cursor-pointer font-medium inline-flex items-center space-x-2 hover:shadow-lg transition-all"
             >
-              Choose File
+              <Upload className="w-4 h-4" />
+              <span>Choose File</span>
             </label>
           </div>
         ) : (
           <div>
-            <FileText className="w-12 h-12 text-green-500 mx-auto mb-4" />
-            <p className="text-green-600 dark:text-green-400 mb-4">
+            <div className="neo-button w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-green-100 to-green-200 flex items-center justify-center">
+              <FileText className="w-8 h-8 text-green-600" />
+            </div>
+            <p className="text-green-700 dark:text-green-400 mb-4 font-medium">
               {file.name}
             </p>
             {uploading ? (
               <div>
-                <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                <div className="neo-card p-1 mb-4">
                   <motion.div
-                    className="bg-green-500 h-2 rounded-full"
+                    className="bg-gradient-to-r from-green-500 to-primary-500 h-3 rounded-full relative overflow-hidden"
                     initial={{ width: 0 }}
                     animate={{ width: `${uploadProgress}%` }}
                     transition={{ duration: 0.2 }}
-                  />
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                      initial={{ x: '-100%' }}
+                      animate={{ x: '100%' }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: 'linear'
+                      }}
+                    />
+                  </motion.div>
                 </div>
-                <p className="text-sm text-gray-600">Uploading... {uploadProgress}%</p>
+                <p className="text-sm text-gray-600 font-medium">Uploading... {uploadProgress}%</p>
               </div>
             ) : (
               <button
                 onClick={startUpload}
-                className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors"
+                className="neo-button px-6 py-3 bg-gradient-to-r from-green-500 to-primary-500 text-white font-medium hover:shadow-lg transition-all"
               >
                 Upload Balance Sheet
               </button>
@@ -371,7 +418,7 @@ const DataExtraction: React.FC<{ onComplete: () => void }> = ({ onComplete }) =>
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(prev => {
-        const newProgress = prev + 2;
+        const newProgress = prev + 1.5;
         const taskIndex = Math.floor((newProgress / 100) * tasks.length);
         if (taskIndex < tasks.length) {
           setCurrentTask(tasks[taskIndex]);
@@ -384,28 +431,41 @@ const DataExtraction: React.FC<{ onComplete: () => void }> = ({ onComplete }) =>
         }
         return newProgress;
       });
-    }, 100);
+    }, 80);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="text-center py-8">
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-        className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-6"
-      />
-      <h3 className="text-lg font-semibold mb-2">{currentTask}</h3>
-      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+    <div className="text-center py-8 font-['Manrope']">
+      <div className="neo-button w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-primary-100 to-green-100 flex items-center justify-center">
         <motion.div
-          className="bg-blue-500 h-2 rounded-full"
-          initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.2 }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+          className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full"
         />
       </div>
-      <p className="text-sm text-gray-600">{progress}% Complete</p>
+      <h3 className="text-lg font-bold text-primary-800 mb-4">{currentTask}</h3>
+      <div className="neo-card p-1 mb-4 max-w-md mx-auto">
+        <motion.div
+          className="bg-gradient-to-r from-primary-500 to-green-500 h-3 rounded-full relative overflow-hidden"
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+            initial={{ x: '-100%' }}
+            animate={{ x: '100%' }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: 'linear'
+            }}
+          />
+        </motion.div>
+      </div>
+      <p className="text-sm text-primary-600 font-medium">{Math.round(progress)}% Complete</p>
     </div>
   );
 };
@@ -424,17 +484,17 @@ const BusinessDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-6 font-['Manrope']">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-semibold text-primary-800 dark:text-primary-300 mb-2">
             Business Form
           </label>
           <select
             required
             value={formData.businessForm}
             onChange={(e) => setFormData(prev => ({ ...prev, businessForm: e.target.value }))}
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
+            className="w-full neo-card p-3 border-0 text-gray-800 focus:ring-2 focus:ring-primary-500 transition-all"
           >
             <option value="">Select Business Form</option>
             <option value="proprietorship">Sole Proprietorship</option>
@@ -446,7 +506,7 @@ const BusinessDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-semibold text-primary-800 dark:text-primary-300 mb-2">
             Udyam Aadhar Number
           </label>
           <input
@@ -455,12 +515,12 @@ const BusinessDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
             value={formData.udyamAadhar}
             onChange={(e) => setFormData(prev => ({ ...prev, udyamAadhar: e.target.value }))}
             placeholder="UDYAM-XX-XX-XXXXXXX"
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
+            className="w-full neo-card p-3 border-0 text-gray-800 focus:ring-2 focus:ring-primary-500 transition-all"
           />
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-semibold text-primary-800 dark:text-primary-300 mb-2">
             Industry
           </label>
           <input
@@ -469,19 +529,19 @@ const BusinessDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
             value={formData.industry}
             onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
             placeholder="e.g., Manufacturing, IT Services"
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
+            className="w-full neo-card p-3 border-0 text-gray-800 focus:ring-2 focus:ring-primary-500 transition-all"
           />
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-semibold text-primary-800 dark:text-primary-300 mb-2">
             Employee Count
           </label>
           <select
             required
             value={formData.employeeCount}
             onChange={(e) => setFormData(prev => ({ ...prev, employeeCount: e.target.value }))}
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
+            className="w-full neo-card p-3 border-0 text-gray-800 focus:ring-2 focus:ring-primary-500 transition-all"
           >
             <option value="">Select Range</option>
             <option value="1-10">1-10 employees</option>
@@ -495,7 +555,7 @@ const BusinessDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
       
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors"
+        className="w-full neo-button py-4 bg-gradient-to-r from-primary-500 to-green-500 text-white font-bold text-lg hover:shadow-lg transition-all"
       >
         Continue
       </button>
@@ -517,17 +577,17 @@ const EssentialDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-6 font-['Manrope']">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-semibold text-primary-800 dark:text-primary-300 mb-2">
             Primary Financial Goal
           </label>
           <select
             required
             value={formData.primaryGoal}
             onChange={(e) => setFormData(prev => ({ ...prev, primaryGoal: e.target.value }))}
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
+            className="w-full neo-card p-3 border-0 text-gray-800 focus:ring-2 focus:ring-primary-500 transition-all"
           >
             <option value="">Select Goal</option>
             <option value="growth">Business Growth</option>
@@ -538,14 +598,14 @@ const EssentialDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-semibold text-primary-800 dark:text-primary-300 mb-2">
             Risk Tolerance
           </label>
           <select
             required
             value={formData.riskTolerance}
             onChange={(e) => setFormData(prev => ({ ...prev, riskTolerance: e.target.value }))}
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
+            className="w-full neo-card p-3 border-0 text-gray-800 focus:ring-2 focus:ring-primary-500 transition-all"
           >
             <option value="">Select Risk Level</option>
             <option value="conservative">Conservative</option>
@@ -555,14 +615,14 @@ const EssentialDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-semibold text-primary-800 dark:text-primary-300 mb-2">
             Investment Time Horizon
           </label>
           <select
             required
             value={formData.timeHorizon}
             onChange={(e) => setFormData(prev => ({ ...prev, timeHorizon: e.target.value }))}
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
+            className="w-full neo-card p-3 border-0 text-gray-800 focus:ring-2 focus:ring-primary-500 transition-all"
           >
             <option value="">Select Time Horizon</option>
             <option value="short">Short-term (1-3 years)</option>
@@ -572,14 +632,14 @@ const EssentialDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-semibold text-primary-800 dark:text-primary-300 mb-2">
             Financial Experience
           </label>
           <select
             required
             value={formData.experience}
             onChange={(e) => setFormData(prev => ({ ...prev, experience: e.target.value }))}
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
+            className="w-full neo-card p-3 border-0 text-gray-800 focus:ring-2 focus:ring-primary-500 transition-all"
           >
             <option value="">Select Experience Level</option>
             <option value="beginner">Beginner</option>
@@ -591,7 +651,7 @@ const EssentialDetails: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
       
       <button
         type="submit"
-        className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors"
+        className="w-full neo-button py-4 bg-gradient-to-r from-green-500 to-primary-600 text-white font-bold text-lg hover:shadow-xl transition-all"
       >
         Complete Onboarding
       </button>

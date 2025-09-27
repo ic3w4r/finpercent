@@ -6,8 +6,10 @@ import {
   X, 
   CheckCircle, 
   Clock,
-  TrendingUp
+  TrendingUp,
+  Sparkles
 } from 'lucide-react';
+import '../styles/neomorphic.css';
 
 interface OnboardingNudgeProps {
   isOnboardingComplete: boolean;
@@ -35,11 +37,19 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
   };
 
   const getProgressColor = () => {
-    if (onboardingProgress < 25) return 'from-red-500 to-orange-500';
+    if (onboardingProgress < 25) return 'from-orange-500 to-red-500';
     if (onboardingProgress < 50) return 'from-yellow-500 to-orange-500';
-    if (onboardingProgress < 75) return 'from-blue-500 to-cyan-500';
-    return 'from-green-500 to-blue-500';
+    if (onboardingProgress < 75) return 'from-primary-500 to-blue-500';
+    return 'from-green-500 to-primary-600';
   };
+
+  const getBadgeIcon = () => {
+    if (onboardingProgress === 0) return AlertCircle;
+    if (onboardingProgress < 100) return Clock;
+    return CheckCircle;
+  };
+
+  const BadgeIcon = getBadgeIcon();
 
   return (
     <AnimatePresence>
@@ -48,20 +58,17 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -20, scale: 0.95 }}
         transition={{ 
-          duration: 0.5,
+          duration: 0.6,
           type: 'spring',
           stiffness: 200,
           damping: 20
         }}
-        className="mb-6 relative overflow-hidden"
+        className="mb-6 relative overflow-hidden font-['Manrope']"
       >
-        <div className={`
-          relative bg-gradient-to-r ${getProgressColor()} rounded-2xl p-1
-          shadow-lg hover:shadow-xl transition-all duration-300
-        `}>
-          {/* Animated background gradient */}
+        <div className="relative neo-card bg-gradient-to-br from-white via-primary-50 to-beige-50 p-6 hover:shadow-xl transition-all duration-300">
+          {/* Animated background shimmer */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-40"
             initial={{ x: '-100%' }}
             animate={{ x: '100%' }}
             transition={{
@@ -71,130 +78,177 @@ const OnboardingNudge: React.FC<OnboardingNudgeProps> = ({
             }}
           />
           
-          <div className="relative bg-white dark:bg-gray-900 rounded-xl p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="relative">
+          <div className="relative flex items-center justify-between">
+            <div className="flex items-center space-x-6">
+              <div className="relative">
+                {/* Main progress indicator */}
+                <div className={`
+                  neo-button w-16 h-16 flex items-center justify-center
+                  bg-gradient-to-r ${getProgressColor()} text-white shadow-lg
+                `}>
                   <motion.div
                     animate={{ 
-                      rotate: 360,
-                      scale: [1, 1.1, 1]
+                      scale: [1, 1.1, 1],
+                      rotate: onboardingProgress === 0 ? [0, 5, -5, 0] : 0
                     }}
                     transition={{
-                      rotate: { duration: 20, repeat: Infinity, ease: 'linear' },
-                      scale: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                      scale: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
+                      rotate: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
                     }}
-                    className={`
-                      w-12 h-12 rounded-full flex items-center justify-center
-                      bg-gradient-to-r ${getProgressColor()}
-                    `}
                   >
-                    {onboardingProgress === 0 ? (
-                      <AlertCircle className="w-6 h-6 text-white" />
-                    ) : onboardingProgress < 100 ? (
-                      <Clock className="w-6 h-6 text-white" />
-                    ) : (
-                      <CheckCircle className="w-6 h-6 text-white" />
-                    )}
+                    <BadgeIcon className="w-7 h-7" />
                   </motion.div>
-                  
-                  {/* Progress ring */}
-                  <svg
-                    className="absolute -inset-2 w-16 h-16 transform -rotate-90"
-                    viewBox="0 0 64 64"
-                  >
-                    <circle
-                      cx="32"
-                      cy="32"
-                      r="28"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      className="text-gray-300 dark:text-gray-600"
-                    />
-                    <motion.circle
-                      cx="32"
-                      cy="32"
-                      r="28"
-                      fill="none"
-                      stroke="url(#progress-gradient)"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeDasharray={`${2 * Math.PI * 28}`}
-                      initial={{ strokeDashoffset: 2 * Math.PI * 28 }}
-                      animate={{ 
-                        strokeDashoffset: 2 * Math.PI * 28 * (1 - onboardingProgress / 100)
-                      }}
-                      transition={{ duration: 1, ease: 'easeInOut' }}
-                    />
-                    <defs>
-                      <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor={onboardingProgress < 50 ? '#f59e0b' : '#10b981'} />
-                        <stop offset="100%" stopColor={onboardingProgress < 50 ? '#ef4444' : '#3b82f6'} />
-                      </linearGradient>
-                    </defs>
-                  </svg>
                 </div>
                 
-                <div>
-                  <div className="flex items-center space-x-2 mb-1">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                      Complete Your Setup
-                    </h3>
-                    <div className="flex items-center space-x-1">
-                      <TrendingUp className="w-4 h-4 text-green-500" />
-                      <span className="text-sm font-medium text-green-600 dark:text-green-400">
+                {/* Floating sparkles for active state */}
+                {onboardingProgress > 0 && (
+                  <>
+                    {[...Array(3)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute w-2 h-2 bg-yellow-400 rounded-full"
+                        style={{
+                          left: `${20 + i * 15}px`,
+                          top: `${10 + i * 8}px`
+                        }}
+                        animate={{
+                          scale: [0, 1, 0],
+                          rotate: [0, 180, 360],
+                          opacity: [0, 1, 0]
+                        }}
+                        transition={{
+                          duration: 2,
+                          delay: i * 0.3,
+                          repeat: Infinity,
+                          ease: 'easeInOut'
+                        }}
+                      />
+                    ))}
+                  </>
+                )}
+
+                {/* Progress ring */}
+                <svg
+                  className="absolute -inset-2 w-20 h-20 transform -rotate-90"
+                  viewBox="0 0 80 80"
+                >
+                  <circle
+                    cx="40"
+                    cy="40"
+                    r="32"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    className="text-gray-300/50"
+                  />
+                  <motion.circle
+                    cx="40"
+                    cy="40"
+                    r="32"
+                    fill="none"
+                    stroke="url(#progress-gradient)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray={`${2 * Math.PI * 32}`}
+                    initial={{ strokeDashoffset: 2 * Math.PI * 32 }}
+                    animate={{ 
+                      strokeDashoffset: 2 * Math.PI * 32 * (1 - onboardingProgress / 100)
+                    }}
+                    transition={{ duration: 1.5, ease: 'easeInOut' }}
+                  />
+                  <defs>
+                    <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={onboardingProgress < 50 ? '#f59e0b' : '#10b981'} />
+                      <stop offset="100%" stopColor={onboardingProgress < 50 ? '#ef4444' : '#22c55e'} />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              
+              <div>
+                <div className="flex items-center space-x-3 mb-2">
+                  <h3 className="text-xl font-bold text-primary-900 dark:text-white">
+                    Complete Your Setup
+                  </h3>
+                  <div className="flex items-center space-x-2">
+                    <div className="neo-button px-3 py-1 bg-gradient-to-r from-green-100 to-primary-100 flex items-center space-x-1">
+                      <TrendingUp className="w-4 h-4 text-green-600" />
+                      <span className="text-sm font-bold text-green-700">
                         {onboardingProgress}% Complete
                       </span>
                     </div>
+                    {onboardingProgress > 50 && (
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                      >
+                        <Sparkles className="w-5 h-5 text-yellow-500" />
+                      </motion.div>
+                    )}
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {getProgressMessage()}
-                  </p>
-                  
-                  {onboardingProgress > 0 && (
-                    <div className="mt-2 flex items-center space-x-4">
-                      <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <motion.div
-                          className={`h-2 rounded-full bg-gradient-to-r ${getProgressColor()}`}
-                          initial={{ width: 0 }}
-                          animate={{ width: `${onboardingProgress}%` }}
-                          transition={{ duration: 1, ease: 'easeInOut' }}
-                        />
-                      </div>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {Math.round(onboardingProgress)}%
-                      </span>
-                    </div>
-                  )}
                 </div>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={onStartOnboarding}
-                  className={`
-                    px-6 py-3 rounded-xl font-semibold flex items-center space-x-2
-                    bg-gradient-to-r ${getProgressColor()} text-white
-                    hover:shadow-lg transition-all duration-200
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                  `}
-                >
-                  <span>
-                    {onboardingProgress === 0 ? 'Get Started' : 'Continue Setup'}
-                  </span>
-                  <ChevronRight className="w-4 h-4" />
-                </motion.button>
+                <p className="text-primary-700 dark:text-gray-400 mb-3 font-medium">
+                  {getProgressMessage()}
+                </p>
                 
-                <button
-                  onClick={() => setIsDismissed(true)}
-                  className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                {onboardingProgress > 0 && (
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-1 neo-card p-1 max-w-xs">
+                      <motion.div
+                        className={`h-2 rounded-full bg-gradient-to-r ${getProgressColor()} relative overflow-hidden`}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${onboardingProgress}%` }}
+                        transition={{ duration: 1.2, ease: 'easeInOut' }}
+                      >
+                        {/* Animated shine effect */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                          initial={{ x: '-100%' }}
+                          animate={{ x: '100%' }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: 'linear'
+                          }}
+                        />
+                      </motion.div>
+                    </div>
+                    <span className="text-sm font-bold text-primary-600 dark:text-primary-400">
+                      {Math.round(onboardingProgress)}%
+                    </span>
+                  </div>
+                )}
               </div>
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onStartOnboarding}
+                className={`
+                  neo-button px-8 py-4 font-bold flex items-center space-x-3 text-white
+                  bg-gradient-to-r ${getProgressColor()} hover:shadow-xl transition-all duration-300
+                  focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+                `}
+              >
+                <span className="text-lg">
+                  {onboardingProgress === 0 ? 'Get Started' : 'Continue Setup'}
+                </span>
+                <motion.div
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </motion.div>
+              </motion.button>
+              
+              <button
+                onClick={() => setIsDismissed(true)}
+                className="neo-button p-3 text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
