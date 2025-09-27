@@ -199,7 +199,7 @@ const Navigation = () => {
 
       {/* Mobile Theme Toggle - Floating Action Button */}
       <div className="fixed md:hidden bottom-20 right-4 z-40">
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
       </div>
     </>
   );
