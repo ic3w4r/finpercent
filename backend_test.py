@@ -197,7 +197,7 @@ def main():
         print(f"Found {len(methods_data)} methods")
         for method in methods_data:
             print(f"Method: {method.get('name')}")
-            method_id = method.get('name').lower()
+            method_id = method.get('id')  # Use the actual ID instead of name
             tester.test_get_method(method_id)
     
     # Test features
