@@ -10,6 +10,7 @@ import InvestmentPoolingPage from './pages/InvestmentPoolingPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
 import CompanyStatusPage from './pages/CompanyStatusPage';
+import SimulationToolPage from './pages/SimulationToolPage';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import './App.css';
 
@@ -27,6 +28,7 @@ function App() {
               <Route path="/super-features" element={<SuperFeaturesPage />} />
               <Route path="/stock-market" element={<StockMarketPage />} />
               <Route path="/investment-pooling" element={<InvestmentPoolingPage />} />
+              <Route path="/simulation-tool" element={<SimulationToolPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/company-status" element={<CompanyStatusPage />} />
