@@ -14,6 +14,8 @@ import CompanyStatusPage from './pages/CompanyStatusPage';
 import STOPMethodPage from './pages/methods/STOPMethodPage';
 import NWSMethodPage from './pages/methods/NWSMethodPage';
 import KakeiboMethodPage from './pages/methods/KakeiboMethodPage';
+import TaxStrategiesPage from './pages/methods/TaxStrategiesPage';
+import OperationsGuidePage from './pages/methods/OperationsGuidePage';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import './App.css';
 
