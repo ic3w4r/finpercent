@@ -7,10 +7,13 @@ import StatsPage from './pages/StatsPage';
 import SuperFeaturesPage from './pages/SuperFeaturesPage';
 import StockMarketPage from './pages/StockMarketPage';
 import InvestmentPoolingPage from './pages/InvestmentPoolingPage';
+import SimulationToolPage from './pages/SimulationToolPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
 import CompanyStatusPage from './pages/CompanyStatusPage';
-import SimulationToolPage from './pages/SimulationToolPage';
+import STOPMethodPage from './pages/methods/STOPMethodPage';
+import NWSMethodPage from './pages/methods/NWSMethodPage';
+import KakeiboMethodPage from './pages/methods/KakeiboMethodPage';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import './App.css';
 
