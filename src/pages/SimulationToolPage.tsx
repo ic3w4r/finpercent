@@ -119,22 +119,8 @@ export default function SimulationToolPage() {
 
   const [kpis, setKPIs] = useState<KPI[]>(calculateKPIs(simulationData));
 
-  // Determine company status based on financial health
+  // Update KPIs when simulation data changes
   useEffect(() => {
-    const totalRevenue = simulationData.productRevenue + simulationData.serviceRevenue;
-    const totalCosts = simulationData.productCost + simulationData.serviceCost + 
-                      simulationData.operating + simulationData.rnd + simulationData.sga + simulationData.tax;
-    const netProfit = totalRevenue - totalCosts;
-    const profitMargin = (netProfit / totalRevenue) * 100;
-    
-    if (profitMargin >= 20 && netProfit >= 500000) {
-      setCompanyStatus('gold');
-    } else if (profitMargin >= 10 && netProfit >= 200000) {
-      setCompanyStatus('silver');
-    } else {
-      setCompanyStatus('bronze');
-    }
-
     setKPIs(calculateKPIs(simulationData));
   }, [simulationData]);
 
