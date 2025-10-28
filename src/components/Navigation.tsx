@@ -15,7 +15,10 @@ import {
   ChevronRight,
   Zap,
   Menu,
-  X
+  X,
+  Target,
+  PiggyBank,
+  BookOpen
 } from 'lucide-react';
 // import ThemeToggle from './ThemeToggle';
 
