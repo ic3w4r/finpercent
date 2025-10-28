@@ -51,7 +51,9 @@ export default function Navigation({}: NavigationProps) {
 
   const stockMarketItems = [
     { name: 'Stock Market', href: '/stock-market', icon: StockMarketIcon },
-    // Add method guides here
+    { name: 'S.T.O.P Method', href: '/methods/stop', icon: Target },
+    { name: 'N.W.S Method', href: '/methods/nws', icon: PiggyBank },
+    { name: 'Kakeibo Method', href: '/methods/kakeibo', icon: BookOpen },
   ];
 
   const accountItems = [
