@@ -52,7 +52,6 @@ export default function SimulationToolPage() {
   });
 
   const [originalData, setOriginalData] = useState<SimulationData>({ ...simulationData });
-  const [companyStatus, setCompanyStatus] = useState<'gold' | 'silver' | 'bronze'>('gold');
 
   // Calculate KPIs based on simulation data
   const calculateKPIs = (data: SimulationData): KPI[] => {
