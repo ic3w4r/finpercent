@@ -1,60 +1,44 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Target,
-  TrendingUp,
-  TrendingDown,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
+  PiggyBank,
   DollarSign,
+  Settings,
+  TrendingUp,
+  Calculator,
   BarChart3,
-  ArrowUp,
-  ArrowDown,
-  Pause
+  Target,
+  Wallet,
+  Building,
+  FileText
 } from 'lucide-react';
 
 export default function STOPMethodPage() {
-  const [selectedExample, setSelectedExample] = useState<string>('example1');
-
-  const examples = {
-    example1: {
-      title: 'Conservative Growth Stock',
-      symbol: 'RELIANCE',
-      currentPrice: 2450,
-      stopLoss: 2200,
-      targetPrice: 2800,
-      analysis: {
-        support: 2200,
-        resistance: 2800,
-        riskReward: '1:2.3'
+  const [monthlyRevenue, setMonthlyRevenue] = useState(200000);
+  
+  // Calculate STOP breakdown
+  const calculateSTOP = () => {
+    // Recommended percentages for STOP method
+    const savingsPercentage = 20; // 20% for savings
+    const taxesPercentage = 15;   // 15% for taxes
+    const operationsPercentage = 45; // 45% for operations
+    const profitPercentage = 20;  // 20% for profit
+    
+    return {
+      savings: (monthlyRevenue * savingsPercentage) / 100,
+      taxes: (monthlyRevenue * taxesPercentage) / 100,
+      operations: (monthlyRevenue * operationsPercentage) / 100,
+      profit: (monthlyRevenue * profitPercentage) / 100,
+      percentages: {
+        savings: savingsPercentage,
+        taxes: taxesPercentage,
+        operations: operationsPercentage,
+        profit: profitPercentage
       }
-    },
-    example2: {
-      title: 'Volatile Tech Stock',
-      symbol: 'TCS',
-      currentPrice: 3650,
-      stopLoss: 3400,
-      targetPrice: 4200,
-      analysis: {
-        support: 3400,
-        resistance: 4200,
-        riskReward: '1:2.2'
-      }
-    },
-    example3: {
-      title: 'Dividend Aristocrat',
-      symbol: 'HDFC',
-      currentPrice: 1580,
-      stopLoss: 1450,
-      targetPrice: 1800,
-      analysis: {
-        support: 1450,
-        resistance: 1800,
-        riskReward: '1:1.7'
-      }
-    }
+    };
   };
+
+  const stopBreakdown = calculateSTOP();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-beige-50 to-primary-100 p-6 pb-20">
@@ -65,14 +49,14 @@ export default function STOPMethodPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="neo-button w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gradient-to-r from-red-100 to-orange-100">
-            <Target className="w-8 h-8 text-red-600" />
+          <div className="neo-button w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gradient-to-r from-purple-100 to-blue-100">
+            <Target className="w-8 h-8 text-purple-600" />
           </div>
           <h1 className="text-3xl font-bold text-primary-900 dark:text-primary-100 font-['Manrope'] mb-2">
             S.T.O.P Method
           </h1>
           <p className="text-primary-700 dark:text-gray-400 font-['Manrope'] text-lg">
-            <strong>S</strong>upport, <strong>T</strong>arget, <strong>O</strong>ptimization, <strong>P</strong>rofit Strategy
+            <strong>S</strong>avings, <strong>T</strong>axes, <strong>O</strong>perations, <strong>P</strong>rofit Management
           </p>
         </motion.div>
 
@@ -87,252 +71,275 @@ export default function STOPMethodPage() {
             What is the S.T.O.P Method?
           </h2>
           <p className="text-gray-700 dark:text-gray-300 mb-6 font-['Manrope']">
-            The S.T.O.P method is a comprehensive trading strategy that focuses on identifying key support and resistance levels, 
-            setting realistic targets, optimizing entry and exit points, and maximizing profit potential while minimizing risk.
+            The S.T.O.P method is a comprehensive financial management framework that helps businesses and individuals 
+            allocate their revenue effectively across four critical areas: Savings for future growth, Taxes for compliance, 
+            Operations for daily functioning, and Profit for sustainability and rewards.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-green-100 to-green-200 flex items-center justify-center">
-                <ArrowUp className="w-8 h-8 text-green-600" />
+                <PiggyBank className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="font-bold text-green-700 mb-2">Support</h3>
-              <p className="text-sm text-gray-600">Identify strong support levels for safe entry</p>
+              <h3 className="font-bold text-green-700 mb-2">Savings</h3>
+              <p className="text-sm text-gray-600">Future growth and emergency funds</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-red-100 to-red-200 flex items-center justify-center">
+                <FileText className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="font-bold text-red-700 mb-2">Taxes</h3>
+              <p className="text-sm text-gray-600">Legal compliance and tax planning</p>
             </div>
             
             <div className="text-center">
               <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-blue-100 to-blue-200 flex items-center justify-center">
-                <Target className="w-8 h-8 text-blue-600" />
+                <Settings className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="font-bold text-blue-700 mb-2">Target</h3>
-              <p className="text-sm text-gray-600">Set realistic profit targets based on resistance</p>
+              <h3 className="font-bold text-blue-700 mb-2">Operations</h3>
+              <p className="text-sm text-gray-600">Daily business operations and expenses</p>
             </div>
             
             <div className="text-center">
               <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-purple-100 to-purple-200 flex items-center justify-center">
-                <BarChart3 className="w-8 h-8 text-purple-600" />
+                <TrendingUp className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="font-bold text-purple-700 mb-2">Optimization</h3>
-              <p className="text-sm text-gray-600">Optimize timing and position sizing</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-orange-100 to-orange-200 flex items-center justify-center">
-                <DollarSign className="w-8 h-8 text-orange-600" />
-              </div>
-              <h3 className="font-bold text-orange-700 mb-2">Profit</h3>
-              <p className="text-sm text-gray-600">Execute profit-taking strategy effectively</p>
+              <h3 className="font-bold text-purple-700 mb-2">Profit</h3>
+              <p className="text-sm text-gray-600">Net profit for growth and distribution</p>
             </div>
           </div>
         </motion.div>
 
-        {/* Interactive Examples */}
+        {/* Interactive Calculator */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"
         >
-          {/* Example Selection */}
-          <div className="lg:col-span-1">
-            <div className="neo-card p-6">
-              <h3 className="text-lg font-bold text-primary-800 mb-4 font-['Manrope']">
-                Select Example
-              </h3>
-              <div className="space-y-3">
-                {Object.entries(examples).map(([key, example]) => (
-                  <button
-                    key={key}
-                    onClick={() => setSelectedExample(key)}
-                    className={`w-full neo-button p-4 text-left transition-all ${
-                      selectedExample === key
-                        ? 'bg-gradient-to-r from-primary-500 to-green-500 text-white shadow-lg'
-                        : 'hover:shadow-md'
-                    }`}
-                  >
-                    <h4 className="font-semibold mb-1">{example.title}</h4>
-                    <p className="text-sm opacity-80">{example.symbol} - ₹{example.currentPrice}</p>
-                  </button>
-                ))}
+          {/* Revenue Input */}
+          <div className="neo-card p-6">
+            <h3 className="text-lg font-bold text-primary-800 mb-4 font-['Manrope'] flex items-center">
+              <Calculator className="w-5 h-5 mr-2" />
+              S.T.O.P Calculator
+            </h3>
+            
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Monthly Revenue: ₹{(monthlyRevenue / 1000).toFixed(0)}k
+                </label>
+                <input
+                  type="range"
+                  min="50000"
+                  max="1000000"
+                  step="10000"
+                  value={monthlyRevenue}
+                  onChange={(e) => setMonthlyRevenue(parseInt(e.target.value))}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-green"
+                />
+              </div>
+              
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-gray-800 mb-3">Recommended Allocation</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-green-700">Savings (20%)</span>
+                    <span className="font-medium">₹{(stopBreakdown.savings / 1000).toFixed(0)}k</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-red-700">Taxes (15%)</span>
+                    <span className="font-medium">₹{(stopBreakdown.taxes / 1000).toFixed(0)}k</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-blue-700">Operations (45%)</span>
+                    <span className="font-medium">₹{(stopBreakdown.operations / 1000).toFixed(0)}k</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-purple-700">Profit (20%)</span>
+                    <span className="font-medium">₹{(stopBreakdown.profit / 1000).toFixed(0)}k</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Example Analysis */}
-          <div className="lg:col-span-2">
-            <div className="neo-card p-6">
-              <h3 className="text-lg font-bold text-primary-800 mb-4 font-['Manrope']">
-                S.T.O.P Analysis: {examples[selectedExample as keyof typeof examples].symbol}
-              </h3>
-              
-              <div className="space-y-6">
-                {/* Current Status */}
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-primary-600 mb-1">
-                        ₹{examples[selectedExample as keyof typeof examples].currentPrice}
-                      </div>
-                      <div className="text-sm text-gray-600">Current Price</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-red-600 mb-1">
-                        ₹{examples[selectedExample as keyof typeof examples].stopLoss}
-                      </div>
-                      <div className="text-sm text-gray-600">Stop Loss</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600 mb-1">
-                        ₹{examples[selectedExample as keyof typeof examples].targetPrice}
-                      </div>
-                      <div className="text-sm text-gray-600">Target Price</div>
-                    </div>
+          {/* S.T.O.P Breakdown */}
+          <div className="neo-card p-6">
+            <h3 className="text-lg font-bold text-primary-800 mb-4 font-['Manrope'] flex items-center">
+              <Wallet className="w-5 h-5 mr-2" />
+              Financial Allocation
+            </h3>
+            
+            <div className="space-y-4">
+              <div className="bg-green-50 p-4 rounded-lg">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex items-center space-x-2">
+                    <PiggyBank className="w-5 h-5 text-green-600" />
+                    <span className="text-sm font-medium text-green-700">Savings</span>
                   </div>
+                  <span className="text-lg font-bold text-green-700">
+                    ₹{(stopBreakdown.savings / 1000).toFixed(0)}k
+                  </span>
                 </div>
+                <div className="text-xs text-green-600">
+                  {stopBreakdown.percentages.savings}% of revenue - Emergency funds, investments
+                </div>
+              </div>
 
-                {/* S.T.O.P Breakdown */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-bold text-green-700 mb-3 flex items-center">
-                      <ArrowUp className="w-4 h-4 mr-2" />
-                      Support Level
-                    </h4>
-                    <div className="bg-green-50 p-4 rounded-lg">
-                      <div className="text-lg font-bold text-green-700 mb-2">
-                        ₹{examples[selectedExample as keyof typeof examples].analysis.support}
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        Strong support level identified through technical analysis. 
-                        This level has been tested multiple times and held firm.
-                      </p>
-                    </div>
+              <div className="bg-red-50 p-4 rounded-lg">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex items-center space-x-2">
+                    <FileText className="w-5 h-5 text-red-600" />
+                    <span className="text-sm font-medium text-red-700">Taxes</span>
                   </div>
+                  <span className="text-lg font-bold text-red-700">
+                    ₹{(stopBreakdown.taxes / 1000).toFixed(0)}k
+                  </span>
+                </div>
+                <div className="text-xs text-red-600">
+                  {stopBreakdown.percentages.taxes}% of revenue - GST, income tax, compliance
+                </div>
+              </div>
 
-                  <div>
-                    <h4 className="font-bold text-blue-700 mb-3 flex items-center">
-                      <Target className="w-4 h-4 mr-2" />
-                      Target Analysis
-                    </h4>
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <div className="text-lg font-bold text-blue-700 mb-2">
-                        ₹{examples[selectedExample as keyof typeof examples].analysis.resistance}
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        Resistance level based on historical price action and 
-                        fibonacci retracement levels.
-                      </p>
-                    </div>
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex items-center space-x-2">
+                    <Settings className="w-5 h-5 text-blue-600" />
+                    <span className="text-sm font-medium text-blue-700">Operations</span>
                   </div>
+                  <span className="text-lg font-bold text-blue-700">
+                    ₹{(stopBreakdown.operations / 1000).toFixed(0)}k
+                  </span>
+                </div>
+                <div className="text-xs text-blue-600">
+                  {stopBreakdown.percentages.operations}% of revenue - Rent, salaries, utilities, materials
+                </div>
+              </div>
 
-                  <div>
-                    <h4 className="font-bold text-purple-700 mb-3 flex items-center">
-                      <BarChart3 className="w-4 h-4 mr-2" />
-                      Optimization
-                    </h4>
-                    <div className="bg-purple-50 p-4 rounded-lg">
-                      <div className="text-lg font-bold text-purple-700 mb-2">
-                        Risk:Reward {examples[selectedExample as keyof typeof examples].analysis.riskReward}
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        Optimal risk-to-reward ratio ensures profitable trades 
-                        even with 40% success rate.
-                      </p>
-                    </div>
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex items-center space-x-2">
+                    <TrendingUp className="w-5 h-5 text-purple-600" />
+                    <span className="text-sm font-medium text-purple-700">Profit</span>
                   </div>
-
-                  <div>
-                    <h4 className="font-bold text-orange-700 mb-3 flex items-center">
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      Profit Strategy
-                    </h4>
-                    <div className="bg-orange-50 p-4 rounded-lg">
-                      <div className="text-lg font-bold text-orange-700 mb-2">
-                        Partial Booking
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        Book 50% profits at 70% of target, trail stop loss 
-                        for remaining position.
-                      </p>
-                    </div>
-                  </div>
+                  <span className="text-lg font-bold text-purple-700">
+                    ₹{(stopBreakdown.profit / 1000).toFixed(0)}k
+                  </span>
+                </div>
+                <div className="text-xs text-purple-600">
+                  {stopBreakdown.percentages.profit}% of revenue - Net profit, reinvestment, distributions
                 </div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Implementation Steps */}
+        {/* Detailed S.T.O.P Breakdown */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
+        >
+          {/* Savings Strategies */}
+          <div className="neo-card p-6">
+            <h3 className="text-lg font-bold text-green-700 mb-4 font-['Manrope'] flex items-center">
+              <PiggyBank className="w-5 h-5 mr-2" />
+              Savings Strategies
+            </h3>
+            <div className="space-y-3">
+              <div className="neo-button p-3 text-left">
+                <h4 className="font-semibold text-gray-800 mb-1">Emergency Fund</h4>
+                <p className="text-sm text-gray-600">6-12 months of operational expenses</p>
+              </div>
+              <div className="neo-button p-3 text-left">
+                <h4 className="font-semibold text-gray-800 mb-1">Growth Investment</h4>
+                <p className="text-sm text-gray-600">Technology, equipment, market expansion</p>
+              </div>
+              <div className="neo-button p-3 text-left">
+                <h4 className="font-semibold text-gray-800 mb-1">Future Opportunities</h4>
+                <p className="text-sm text-gray-600">R&D, new product development</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Tax Planning */}
+          <div className="neo-card p-6">
+            <h3 className="text-lg font-bold text-red-700 mb-4 font-['Manrope'] flex items-center">
+              <FileText className="w-5 h-5 mr-2" />
+              Tax Planning
+            </h3>
+            <div className="space-y-3">
+              <div className="neo-button p-3 text-left">
+                <h4 className="font-semibold text-gray-800 mb-1">GST Management</h4>
+                <p className="text-sm text-gray-600">Input credit optimization, compliance</p>
+              </div>
+              <div className="neo-button p-3 text-left">
+                <h4 className="font-semibold text-gray-800 mb-1">Income Tax</h4>
+                <p className="text-sm text-gray-600">Corporate tax, advance tax planning</p>
+              </div>
+              <div className="neo-button p-3 text-left">
+                <h4 className="font-semibold text-gray-800 mb-1">Deductions</h4>
+                <p className="text-sm text-gray-600">Section 80C, business expenses</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Implementation Guide */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
           className="neo-card p-6"
         >
           <h3 className="text-lg font-bold text-primary-800 mb-6 font-['Manrope']">
-            Implementation Steps
+            S.T.O.P Implementation Guide
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                  1
+                <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  S
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Identify Support</h4>
-                  <p className="text-sm text-gray-600">Use technical analysis to find strong support levels</p>
+                  <h4 className="font-semibold text-gray-800 mb-1">Set Up Savings</h4>
+                  <p className="text-sm text-gray-600">Automate 20% of revenue to savings accounts and investments</p>
                 </div>
               </div>
               
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                  2
+                <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  T
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Set Target</h4>
-                  <p className="text-sm text-gray-600">Determine realistic profit targets based on resistance</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                  3
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Optimize Entry</h4>
-                  <p className="text-sm text-gray-600">Time your entry near support with volume confirmation</p>
+                  <h4 className="font-semibold text-gray-800 mb-1">Tax Allocation</h4>
+                  <p className="text-sm text-gray-600">Reserve 15% for all tax obligations and compliance</p>
                 </div>
               </div>
             </div>
             
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                  4
+                <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  O
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Set Stop Loss</h4>
-                  <p className="text-sm text-gray-600">Place stop loss below support with 2-3% buffer</p>
+                  <h4 className="font-semibold text-gray-800 mb-1">Operations Budget</h4>
+                  <p className="text-sm text-gray-600">Allocate 45% for all operational expenses and costs</p>
                 </div>
               </div>
               
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                  5
+                <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  P
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Execute Profit Strategy</h4>
-                  <p className="text-sm text-gray-600">Book partial profits and trail stop loss</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                  6
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Review & Learn</h4>
-                  <p className="text-sm text-gray-600">Analyze results and refine your approach</p>
+                  <h4 className="font-semibold text-gray-800 mb-1">Profit Management</h4>
+                  <p className="text-sm text-gray-600">Maintain 20% as net profit for growth and distributions</p>
                 </div>
               </div>
             </div>
