@@ -302,16 +302,26 @@ export default function SimulationToolPage() {
               <div className="space-y-6">
                 {/* Profit Controls */}
                 <div>
-                  <h4 className="font-semibold text-green-700 mb-4 flex items-center">
-                    <TrendingUp className="w-4 h-4 mr-2" />
-                    Profit
-                  </h4>
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-semibold text-green-700 flex items-center">
+                      <TrendingUp className="w-4 h-4 mr-2" />
+                      Profit
+                    </h4>
+                    <span className="text-sm font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                      100% of Revenue
+                    </span>
+                  </div>
                   
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Product Revenue: ₹{(simulationData.productRevenue / 100000).toFixed(1)}L
-                      </label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Product Revenue: ₹{(simulationData.productRevenue / 100000).toFixed(1)}L
+                        </label>
+                        <span className="text-xs font-medium text-green-600">
+                          {(simulationData.productRevenue / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}%
+                        </span>
+                      </div>
                       <input
                         type="range"
                         min="500000"
@@ -324,9 +334,14 @@ export default function SimulationToolPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Service Revenue: ₹{(simulationData.serviceRevenue / 100000).toFixed(1)}L
-                      </label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Service Revenue: ₹{(simulationData.serviceRevenue / 100000).toFixed(1)}L
+                        </label>
+                        <span className="text-xs font-medium text-green-600">
+                          {(simulationData.serviceRevenue / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}%
+                        </span>
+                      </div>
                       <input
                         type="range"
                         min="300000"
@@ -342,16 +357,26 @@ export default function SimulationToolPage() {
 
                 {/* Operations Controls */}
                 <div>
-                  <h4 className="font-semibold text-red-700 mb-4 flex items-center">
-                    <TrendingDown className="w-4 h-4 mr-2" />
-                    Operations
-                  </h4>
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-semibold text-red-700 flex items-center">
+                      <TrendingDown className="w-4 h-4 mr-2" />
+                      Operations
+                    </h4>
+                    <span className="text-sm font-medium text-red-600 bg-red-100 px-2 py-1 rounded-full">
+                      {((simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.sga) / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}% of Revenue
+                    </span>
+                  </div>
                   
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Product Cost: ₹{(simulationData.productCost / 100000).toFixed(1)}L
-                      </label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Product Cost: ₹{(simulationData.productCost / 100000).toFixed(1)}L
+                        </label>
+                        <span className="text-xs font-medium text-red-600">
+                          {(simulationData.productCost / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}%
+                        </span>
+                      </div>
                       <input
                         type="range"
                         min="200000"
@@ -364,9 +389,14 @@ export default function SimulationToolPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Service Cost: ₹{(simulationData.serviceCost / 100000).toFixed(1)}L
-                      </label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Service Cost: ₹{(simulationData.serviceCost / 100000).toFixed(1)}L
+                        </label>
+                        <span className="text-xs font-medium text-red-600">
+                          {(simulationData.serviceCost / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}%
+                        </span>
+                      </div>
                       <input
                         type="range"
                         min="150000"
@@ -379,9 +409,14 @@ export default function SimulationToolPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Operating Costs: ₹{(simulationData.operating / 100000).toFixed(1)}L
-                      </label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Operating Costs: ₹{(simulationData.operating / 100000).toFixed(1)}L
+                        </label>
+                        <span className="text-xs font-medium text-red-600">
+                          {(simulationData.operating / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}%
+                        </span>
+                      </div>
                       <input
                         type="range"
                         min="200000"
@@ -394,9 +429,14 @@ export default function SimulationToolPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        SG&A: ₹{(simulationData.sga / 100000).toFixed(1)}L
-                      </label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          SG&A: ₹{(simulationData.sga / 100000).toFixed(1)}L
+                        </label>
+                        <span className="text-xs font-medium text-red-600">
+                          {(simulationData.sga / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}%
+                        </span>
+                      </div>
                       <input
                         type="range"
                         min="150000"
@@ -412,16 +452,26 @@ export default function SimulationToolPage() {
 
                 {/* Savings Controls */}
                 <div>
-                  <h4 className="font-semibold text-blue-700 mb-4 flex items-center">
-                    <Target className="w-4 h-4 mr-2" />
-                    Savings
-                  </h4>
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-semibold text-blue-700 flex items-center">
+                      <Target className="w-4 h-4 mr-2" />
+                      Savings
+                    </h4>
+                    <span className="text-sm font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full">
+                      {(simulationData.rnd / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}% of Revenue
+                    </span>
+                  </div>
                   
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        R&D Investment: ₹{(simulationData.rnd / 100000).toFixed(1)}L
-                      </label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          R&D Investment: ₹{(simulationData.rnd / 100000).toFixed(1)}L
+                        </label>
+                        <span className="text-xs font-medium text-blue-600">
+                          {(simulationData.rnd / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}%
+                        </span>
+                      </div>
                       <input
                         type="range"
                         min="50000"
@@ -437,16 +487,26 @@ export default function SimulationToolPage() {
 
                 {/* Taxes Controls */}
                 <div>
-                  <h4 className="font-semibold text-purple-700 mb-4 flex items-center">
-                    <DollarSign className="w-4 h-4 mr-2" />
-                    Taxes
-                  </h4>
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-semibold text-purple-700 flex items-center">
+                      <DollarSign className="w-4 h-4 mr-2" />
+                      Taxes
+                    </h4>
+                    <span className="text-sm font-medium text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
+                      {(simulationData.tax / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}% of Revenue
+                    </span>
+                  </div>
                   
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Tax Amount: ₹{(simulationData.tax / 100000).toFixed(1)}L
-                      </label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Tax Amount: ₹{(simulationData.tax / 100000).toFixed(1)}L
+                        </label>
+                        <span className="text-xs font-medium text-purple-600">
+                          {(simulationData.tax / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}%
+                        </span>
+                      </div>
                       <input
                         type="range"
                         min="20000"
@@ -456,6 +516,42 @@ export default function SimulationToolPage() {
                         onChange={(e) => handleSliderChange('tax', parseInt(e.target.value))}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-orange"
                       />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Net Profit Summary */}
+                <div className="border-t-2 border-gray-200 pt-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-semibold text-gray-800 flex items-center">
+                      <Activity className="w-4 h-4 mr-2" />
+                      Net Profit
+                    </h4>
+                    <span className={`text-sm font-medium px-2 py-1 rounded-full ${
+                      (simulationData.productRevenue + simulationData.serviceRevenue) - 
+                      (simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.rnd + simulationData.sga + simulationData.tax) > 0
+                      ? 'text-green-600 bg-green-100' 
+                      : 'text-red-600 bg-red-100'
+                    }`}>
+                      {(((simulationData.productRevenue + simulationData.serviceRevenue) - 
+                        (simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.rnd + simulationData.sga + simulationData.tax)) / 
+                        (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(1)}% of Revenue
+                    </span>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="text-center">
+                      <div className={`text-2xl font-bold mb-2 ${
+                        (simulationData.productRevenue + simulationData.serviceRevenue) - 
+                        (simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.rnd + simulationData.sga + simulationData.tax) > 0
+                        ? 'text-green-600' 
+                        : 'text-red-600'
+                      }`}>
+                        ₹{(((simulationData.productRevenue + simulationData.serviceRevenue) - 
+                          (simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.rnd + simulationData.sga + simulationData.tax)) / 100000).toFixed(1)}L
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        Total Revenue: ₹{((simulationData.productRevenue + simulationData.serviceRevenue) / 100000).toFixed(1)}L
+                      </div>
                     </div>
                   </div>
                 </div>
