@@ -304,13 +304,12 @@ export default function SimulationToolPage() {
         </motion.div>
 
         {/* Main Simulation Dashboard */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
           {/* Parameter Controls */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="xl:col-span-1"
           >
             <div className="neo-card p-6">
               <h3 className="text-lg font-bold text-primary-800 mb-6 font-['Manrope']">
@@ -318,11 +317,11 @@ export default function SimulationToolPage() {
               </h3>
               
               <div className="space-y-6">
-                {/* Revenue Controls */}
+                {/* Profit Controls */}
                 <div>
                   <h4 className="font-semibold text-green-700 mb-4 flex items-center">
                     <TrendingUp className="w-4 h-4 mr-2" />
-                    Revenue Streams
+                    Profit
                   </h4>
                   
                   <div className="space-y-4">
@@ -358,11 +357,11 @@ export default function SimulationToolPage() {
                   </div>
                 </div>
 
-                {/* Cost Controls */}
+                {/* Operations Controls */}
                 <div>
                   <h4 className="font-semibold text-red-700 mb-4 flex items-center">
                     <TrendingDown className="w-4 h-4 mr-2" />
-                    Cost Centers
+                    Operations
                   </h4>
                   
                   <div className="space-y-4">
@@ -413,21 +412,6 @@ export default function SimulationToolPage() {
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        R&D Investment: ₹{(simulationData.rnd / 100000).toFixed(1)}L
-                      </label>
-                      <input
-                        type="range"
-                        min="50000"
-                        max="500000"
-                        step="25000"
-                        value={simulationData.rnd}
-                        onChange={(e) => handleSliderChange('rnd', parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-blue"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
                         SG&A: ₹{(simulationData.sga / 100000).toFixed(1)}L
                       </label>
                       <input
@@ -442,35 +426,66 @@ export default function SimulationToolPage() {
                     </div>
                   </div>
                 </div>
+
+                {/* Savings Controls */}
+                <div>
+                  <h4 className="font-semibold text-blue-700 mb-4 flex items-center">
+                    <Target className="w-4 h-4 mr-2" />
+                    Savings
+                  </h4>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        R&D Investment: ₹{(simulationData.rnd / 100000).toFixed(1)}L
+                      </label>
+                      <input
+                        type="range"
+                        min="50000"
+                        max="500000"
+                        step="25000"
+                        value={simulationData.rnd}
+                        onChange={(e) => handleSliderChange('rnd', parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-blue"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Taxes Controls */}
+                <div>
+                  <h4 className="font-semibold text-purple-700 mb-4 flex items-center">
+                    <DollarSign className="w-4 h-4 mr-2" />
+                    Taxes
+                  </h4>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Tax Amount: ₹{(simulationData.tax / 100000).toFixed(1)}L
+                      </label>
+                      <input
+                        type="range"
+                        min="20000"
+                        max="200000"
+                        step="10000"
+                        value={simulationData.tax}
+                        onChange={(e) => handleSliderChange('tax', parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-orange"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Visualization Area */}
+          {/* Financial Flow Simulation */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="xl:col-span-2"
           >
-            {/* Company Status */}
-            <div className="neo-card p-6 mb-6">
-              <h3 className="text-lg font-bold text-primary-800 mb-4 font-['Manrope'] flex items-center">
-                <Award className="w-5 h-5 mr-2" />
-                Company Status Impact
-              </h3>
-              <div className="flex items-center justify-center">
-                <div className="transform scale-75">
-                  <BadgeAnimation 
-                    companyName="Your Company" 
-                    tier={companyStatus}
-                    isActive={isSimulating}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Sankey Diagram */}
             <div className="neo-card p-6">
               <h3 className="text-lg font-bold text-primary-800 mb-4 font-['Manrope'] flex items-center">
                 <BarChart3 className="w-5 h-5 mr-2" />
@@ -479,8 +494,8 @@ export default function SimulationToolPage() {
               <div className="transform scale-90 origin-top-left">
                 <SankeyDiagram 
                   data={generateSankeyData(simulationData)}
-                  width={700}
-                  height={350}
+                  width={600}
+                  height={400}
                 />
               </div>
             </div>
