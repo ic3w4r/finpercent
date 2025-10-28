@@ -11,13 +11,11 @@ import {
   Pause,
   RotateCcw,
   Settings,
-  Award,
   DollarSign,
   PieChart,
   Activity
 } from 'lucide-react';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
-import BadgeAnimation from '../components/status/BadgeAnimation';
 
 interface SimulationData {
   productRevenue: number;
