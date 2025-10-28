@@ -32,6 +32,9 @@ function App() {
               <Route path="/stock-market" element={<StockMarketPage />} />
               <Route path="/investment-pooling" element={<InvestmentPoolingPage />} />
               <Route path="/simulation-tool" element={<SimulationToolPage />} />
+              <Route path="/methods/stop" element={<STOPMethodPage />} />
+              <Route path="/methods/nws" element={<NWSMethodPage />} />
+              <Route path="/methods/kakeibo" element={<KakeiboMethodPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/company-status" element={<CompanyStatusPage />} />
