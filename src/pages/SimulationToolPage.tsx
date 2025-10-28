@@ -581,6 +581,136 @@ export default function SimulationToolPage() {
           </motion.div>
         </div>
 
+        {/* Interactive S.T.O.P Categories */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="neo-card p-6 mb-8"
+        >
+          <h3 className="text-lg font-bold text-primary-800 mb-6 font-['Manrope'] flex items-center">
+            <Target className="w-5 h-5 mr-2" />
+            S.T.O.P Financial Breakdown
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-6 font-['Manrope']">
+            Click on each category to explore detailed methods and strategies
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Savings */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = '/methods/nws'}
+              className="cursor-pointer group"
+            >
+              <div className="flex flex-col items-center">
+                <div className="relative">
+                  <div className="w-32 h-20 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <span className="text-white text-4xl font-bold">S</span>
+                  </div>
+                  <div className="absolute -top-2 -right-2 bg-white text-green-600 text-sm font-bold px-2 py-1 rounded-full shadow-md">
+                    {(simulationData.rnd / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(0)}%
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-green-700 mt-4 mb-2 group-hover:text-green-800 transition-colors">
+                  Savings
+                </h4>
+                <p className="text-2xl font-bold text-gray-800 dark:text-white mb-1">
+                  ₹{(simulationData.rnd / 1000).toFixed(0)}k
+                </p>
+                <p className="text-sm text-gray-500 text-center">
+                  Click to explore N.W.S Method
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Taxes */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = '/methods/taxes'}
+              className="cursor-pointer group"
+            >
+              <div className="flex flex-col items-center">
+                <div className="relative">
+                  <div className="w-32 h-20 bg-gradient-to-r from-red-400 to-red-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <span className="text-white text-4xl font-bold">T</span>
+                  </div>
+                  <div className="absolute -top-2 -right-2 bg-white text-red-600 text-sm font-bold px-2 py-1 rounded-full shadow-md">
+                    {(simulationData.tax / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(0)}%
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-red-700 mt-4 mb-2 group-hover:text-red-800 transition-colors">
+                  Taxes
+                </h4>
+                <p className="text-2xl font-bold text-gray-800 dark:text-white mb-1">
+                  ₹{(simulationData.tax / 1000).toFixed(0)}k
+                </p>
+                <p className="text-sm text-gray-500 text-center">
+                  Click to explore Tax Strategies
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Operations */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = '/methods/operations'}
+              className="cursor-pointer group"
+            >
+              <div className="flex flex-col items-center">
+                <div className="relative">
+                  <div className="w-32 h-20 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <span className="text-white text-4xl font-bold">O</span>
+                  </div>
+                  <div className="absolute -top-2 -right-2 bg-white text-blue-600 text-sm font-bold px-2 py-1 rounded-full shadow-md">
+                    {((simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.sga) / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(0)}%
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-blue-700 mt-4 mb-2 group-hover:text-blue-800 transition-colors">
+                  Operations
+                </h4>
+                <p className="text-2xl font-bold text-gray-800 dark:text-white mb-1">
+                  ₹{((simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.sga) / 1000).toFixed(0)}k
+                </p>
+                <p className="text-sm text-gray-500 text-center">
+                  Click to explore Operations Guide
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Profit */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = '/methods/stop'}
+              className="cursor-pointer group"
+            >
+              <div className="flex flex-col items-center">
+                <div className="relative">
+                  <div className="w-32 h-20 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <span className="text-white text-4xl font-bold">P</span>
+                  </div>
+                  <div className="absolute -top-2 -right-2 bg-white text-purple-600 text-sm font-bold px-2 py-1 rounded-full shadow-md">
+                    {(((simulationData.productRevenue + simulationData.serviceRevenue) - (simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.rnd + simulationData.sga + simulationData.tax)) / (simulationData.productRevenue + simulationData.serviceRevenue) * 100).toFixed(0)}%
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-purple-700 mt-4 mb-2 group-hover:text-purple-800 transition-colors">
+                  Profit
+                </h4>
+                <p className="text-2xl font-bold text-gray-800 dark:text-white mb-1">
+                  ₹{(((simulationData.productRevenue + simulationData.serviceRevenue) - (simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.rnd + simulationData.sga + simulationData.tax)) / 1000).toFixed(0)}k
+                </p>
+                <p className="text-sm text-gray-500 text-center">
+                  Click to explore S.T.O.P Method
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+
         {/* KPI Dashboard */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
