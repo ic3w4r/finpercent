@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 export default function STOPMethodPage() {
+  const navigate = useNavigate();
   const [monthlyRevenue, setMonthlyRevenue] = useState(200000);
   
   // Calculate STOP breakdown
