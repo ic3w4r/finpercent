@@ -16,6 +16,7 @@ import NWSMethodPage from './pages/methods/NWSMethodPage';
 import KakeiboMethodPage from './pages/methods/KakeiboMethodPage';
 import TaxStrategiesPage from './pages/methods/TaxStrategiesPage';
 import OperationsGuidePage from './pages/methods/OperationsGuidePage';
+import MethodDetails from './components/details/MethodDetails';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import './App.css';
 
