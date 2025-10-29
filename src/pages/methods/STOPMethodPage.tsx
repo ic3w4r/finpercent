@@ -289,16 +289,34 @@ export default function STOPMethodPage() {
               Savings Strategies
             </h3>
             <div className="space-y-3">
-              <div className="neo-button p-3 text-left">
-                <h4 className="font-semibold text-gray-800 mb-1">Emergency Fund</h4>
+              <div 
+                onClick={() => navigate('/methods/stop/savings')}
+                className="neo-button p-3 text-left cursor-pointer hover:shadow-md transition-all"
+              >
+                <h4 className="font-semibold text-gray-800 mb-1 flex items-center justify-between">
+                  Emergency Fund
+                  <ArrowRight className="w-4 h-4 text-green-600" />
+                </h4>
                 <p className="text-sm text-gray-600">6-12 months of operational expenses</p>
               </div>
-              <div className="neo-button p-3 text-left">
-                <h4 className="font-semibold text-gray-800 mb-1">Growth Investment</h4>
+              <div 
+                onClick={() => navigate('/methods/stop/savings')}
+                className="neo-button p-3 text-left cursor-pointer hover:shadow-md transition-all"
+              >
+                <h4 className="font-semibold text-gray-800 mb-1 flex items-center justify-between">
+                  Growth Investment
+                  <ArrowRight className="w-4 h-4 text-green-600" />
+                </h4>
                 <p className="text-sm text-gray-600">Technology, equipment, market expansion</p>
               </div>
-              <div className="neo-button p-3 text-left">
-                <h4 className="font-semibold text-gray-800 mb-1">Future Opportunities</h4>
+              <div 
+                onClick={() => navigate('/methods/stop/savings')}
+                className="neo-button p-3 text-left cursor-pointer hover:shadow-md transition-all"
+              >
+                <h4 className="font-semibold text-gray-800 mb-1 flex items-center justify-between">
+                  Future Opportunities
+                  <ArrowRight className="w-4 h-4 text-green-600" />
+                </h4>
                 <p className="text-sm text-gray-600">R&D, new product development</p>
               </div>
             </div>
@@ -311,16 +329,34 @@ export default function STOPMethodPage() {
               Tax Planning
             </h3>
             <div className="space-y-3">
-              <div className="neo-button p-3 text-left">
-                <h4 className="font-semibold text-gray-800 mb-1">GST Management</h4>
+              <div 
+                onClick={() => navigate('/methods/stop/taxes')}
+                className="neo-button p-3 text-left cursor-pointer hover:shadow-md transition-all"
+              >
+                <h4 className="font-semibold text-gray-800 mb-1 flex items-center justify-between">
+                  GST Management
+                  <ArrowRight className="w-4 h-4 text-red-600" />
+                </h4>
                 <p className="text-sm text-gray-600">Input credit optimization, compliance</p>
               </div>
-              <div className="neo-button p-3 text-left">
-                <h4 className="font-semibold text-gray-800 mb-1">Income Tax</h4>
+              <div 
+                onClick={() => navigate('/methods/stop/taxes')}
+                className="neo-button p-3 text-left cursor-pointer hover:shadow-md transition-all"
+              >
+                <h4 className="font-semibold text-gray-800 mb-1 flex items-center justify-between">
+                  Income Tax
+                  <ArrowRight className="w-4 h-4 text-red-600" />
+                </h4>
                 <p className="text-sm text-gray-600">Corporate tax, advance tax planning</p>
               </div>
-              <div className="neo-button p-3 text-left">
-                <h4 className="font-semibold text-gray-800 mb-1">Deductions</h4>
+              <div 
+                onClick={() => navigate('/methods/stop/taxes')}
+                className="neo-button p-3 text-left cursor-pointer hover:shadow-md transition-all"
+              >
+                <h4 className="font-semibold text-gray-800 mb-1 flex items-center justify-between">
+                  Deductions
+                  <ArrowRight className="w-4 h-4 text-red-600" />
+                </h4>
                 <p className="text-sm text-gray-600">Section 80C, business expenses</p>
               </div>
             </div>
