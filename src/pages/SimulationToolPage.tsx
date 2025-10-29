@@ -601,7 +601,7 @@ export default function SimulationToolPage() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => window.location.href = '/methods/nws'}
+              onClick={() => window.location.href = '/methods/stop'}
               className="cursor-pointer group"
             >
               <div className="flex flex-col items-center">
@@ -620,7 +620,7 @@ export default function SimulationToolPage() {
                   ₹{(simulationData.rnd / 1000).toFixed(0)}k
                 </p>
                 <p className="text-sm text-gray-500 text-center">
-                  Click to explore N.W.S Method
+                  Click to explore S.T.O.P Method
                 </p>
               </div>
             </motion.div>
@@ -685,7 +685,7 @@ export default function SimulationToolPage() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => window.location.href = '/methods/stop'}
+              onClick={() => window.location.href = '/methods/nws'}
               className="cursor-pointer group"
             >
               <div className="flex flex-col items-center">
@@ -704,7 +704,7 @@ export default function SimulationToolPage() {
                   ₹{(((simulationData.productRevenue + simulationData.serviceRevenue) - (simulationData.productCost + simulationData.serviceCost + simulationData.operating + simulationData.rnd + simulationData.sga + simulationData.tax)) / 1000).toFixed(0)}k
                 </p>
                 <p className="text-sm text-gray-500 text-center">
-                  Click to explore S.T.O.P Method
+                  Click to explore N.W.S Method
                 </p>
               </div>
             </motion.div>
