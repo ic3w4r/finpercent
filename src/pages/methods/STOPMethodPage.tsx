@@ -80,37 +80,73 @@ export default function STOPMethodPage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="text-center">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/methods/stop/savings')}
+              className="text-center cursor-pointer neo-card p-4"
+            >
               <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-green-100 to-green-200 flex items-center justify-center">
                 <PiggyBank className="w-8 h-8 text-green-600" />
               </div>
               <h3 className="font-bold text-green-700 mb-2">Savings</h3>
-              <p className="text-sm text-gray-600">Future growth and emergency funds</p>
-            </div>
+              <p className="text-sm text-gray-600 mb-2">Future growth and emergency funds</p>
+              <div className="flex items-center justify-center text-xs text-green-600">
+                <span>View Details</span>
+                <ArrowRight className="w-3 h-3 ml-1" />
+              </div>
+            </motion.div>
             
-            <div className="text-center">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/methods/stop/taxes')}
+              className="text-center cursor-pointer neo-card p-4"
+            >
               <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-red-100 to-red-200 flex items-center justify-center">
                 <FileText className="w-8 h-8 text-red-600" />
               </div>
               <h3 className="font-bold text-red-700 mb-2">Taxes</h3>
-              <p className="text-sm text-gray-600">Legal compliance and tax planning</p>
-            </div>
+              <p className="text-sm text-gray-600 mb-2">Legal compliance and tax planning</p>
+              <div className="flex items-center justify-center text-xs text-red-600">
+                <span>View Details</span>
+                <ArrowRight className="w-3 h-3 ml-1" />
+              </div>
+            </motion.div>
             
-            <div className="text-center">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/methods/stop/operations')}
+              className="text-center cursor-pointer neo-card p-4"
+            >
               <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-blue-100 to-blue-200 flex items-center justify-center">
                 <Settings className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="font-bold text-blue-700 mb-2">Operations</h3>
-              <p className="text-sm text-gray-600">Daily business operations and expenses</p>
-            </div>
+              <p className="text-sm text-gray-600 mb-2">Daily business operations and expenses</p>
+              <div className="flex items-center justify-center text-xs text-blue-600">
+                <span>View Details</span>
+                <ArrowRight className="w-3 h-3 ml-1" />
+              </div>
+            </motion.div>
             
-            <div className="text-center">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/methods/stop/profit')}
+              className="text-center cursor-pointer neo-card p-4"
+            >
               <div className="neo-button w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-purple-100 to-purple-200 flex items-center justify-center">
                 <TrendingUp className="w-8 h-8 text-purple-600" />
               </div>
               <h3 className="font-bold text-purple-700 mb-2">Profit</h3>
-              <p className="text-sm text-gray-600">Net profit for growth and distribution</p>
-            </div>
+              <p className="text-sm text-gray-600 mb-2">Net profit for growth and distribution</p>
+              <div className="flex items-center justify-center text-xs text-purple-600">
+                <span>View Details</span>
+                <ArrowRight className="w-3 h-3 ml-1" />
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 
