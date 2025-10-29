@@ -40,6 +40,7 @@ function App() {
               <Route path="/methods/kakeibo" element={<KakeiboMethodPage />} />
               <Route path="/methods/taxes" element={<TaxStrategiesPage />} />
               <Route path="/methods/operations" element={<OperationsGuidePage />} />
+              <Route path="/methods/:method/:category" element={<MethodDetails />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/company-status" element={<CompanyStatusPage />} />
