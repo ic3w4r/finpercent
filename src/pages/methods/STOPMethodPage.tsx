@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   PiggyBank,
@@ -10,7 +11,8 @@ import {
   Target,
   Wallet,
   Building,
-  FileText
+  FileText,
+  ArrowRight
 } from 'lucide-react';
 
 export default function STOPMethodPage() {
