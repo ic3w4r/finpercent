@@ -11,6 +11,9 @@ import SimulationToolPage from './pages/SimulationToolPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
 import CompanyStatusPage from './pages/CompanyStatusPage';
+import DebtOCCPage from './pages/DebtOCCPage';
+import DebtODPage from './pages/DebtODPage';
+import DebtWCPage from './pages/DebtWCPage';
 import STOPMethodPage from './pages/methods/STOPMethodPage';
 import NWSMethodPage from './pages/methods/NWSMethodPage';
 import KakeiboMethodPage from './pages/methods/KakeiboMethodPage';
@@ -18,12 +21,14 @@ import TaxStrategiesPage from './pages/methods/TaxStrategiesPage';
 import OperationsGuidePage from './pages/methods/OperationsGuidePage';
 import MethodDetails from './components/details/MethodDetails';
 import { OnboardingProvider } from './contexts/OnboardingContext';
+import { DebtProvider } from './contexts/DebtContext';
 import './App.css';
 
 function App() {
   return (
-    <OnboardingProvider>
-      <Router>
+    <DebtProvider>
+      <OnboardingProvider>
+        <Router>
         <div className="flex min-h-screen bg-primary-50 dark:bg-gray-900">
           <Navigation />
           <main className="flex-1 md:ml-64">
@@ -44,12 +49,16 @@ function App() {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/company-status" element={<CompanyStatusPage />} />
+              <Route path="/debt/occ" element={<DebtOCCPage />} />
+              <Route path="/debt/od" element={<DebtODPage />} />
+              <Route path="/debt/wc" element={<DebtWCPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
         </div>
-      </Router>
-    </OnboardingProvider>
+        </Router>
+      </OnboardingProvider>
+    </DebtProvider>
   );
 }
 

@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import '../styles/neomorphic.css';
 import { 
-  TrendingUp, TrendingDown, DollarSign, 
-  Activity, PieChart, BarChart2, 
-  Target, Briefcase, ShoppingBag,
-  Wallet, ArrowDownCircle, ArrowUpCircle,
+  TrendingUp, TrendingDown, PieChart,
+  Target, ShoppingBag,
+  Wallet, ArrowDownCircle,
   PiggyBank, Receipt, Building2, Book,
   BookOpen, ChevronRight, BarChart3
 } from 'lucide-react';
-import StockMarketLayout from '../layouts/StockMarketLayout';
 import MarketChart from '../components/stock-market/MarketChart';
-import { STOPMethod } from '../components/STOPMethod';
-import NWSMethod from '../components/stats/NWSMethod';
 import DebtManagement from '../components/DebtManagement';
 import KakeiboMethod from '../components/KakeiboMethod';
 import { useNavigate, Link } from 'react-router-dom';
@@ -395,8 +391,8 @@ export default function StockMarketPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Method Selection Tabs - Scrollable on mobile */}
-        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 mb-6">
+  {/* Method Selection Tabs - Scrollable on mobile */}
+  <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 mb-6">
           <div className="flex space-x-2 min-w-max pb-2">
             <button
               onClick={() => setActiveMethod('overview')}
@@ -471,8 +467,8 @@ export default function StockMarketPage() {
           </div>
         </div>
 
-        {/* Business KPIs - Grid layout adjusts for mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+  {/* Business KPIs - Grid layout adjusts for mobile */}
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
           {businessKPIs.map((kpi, index) => (
             <motion.div
               key={kpi.label}
@@ -508,13 +504,13 @@ export default function StockMarketPage() {
           ))}
         </div>
 
-        {/* Zone of Play - Only visible in overview */}
-        {activeMethod === 'overview' && <ZoneOfPlay />}
+  {/* Zone of Play - Only visible in overview */}
+  {activeMethod === 'overview' && <ZoneOfPlay />}
 
         {/* Method Content */}
         <div className="min-h-[600px] space-y-6">
           {activeMethod === 'overview' && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {methodMetrics.map((method) => (
                 <motion.div
                   key={method.category}
@@ -552,7 +548,7 @@ export default function StockMarketPage() {
 
           {activeMethod === 'stop' && (
             <div className="space-y-6">
-              <div className="mt-8">
+              <div className="mt-6">
                 <div className="flex flex-col space-y-2 mb-4">
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     S.T.O.P Method Analysis
@@ -562,7 +558,7 @@ export default function StockMarketPage() {
                     <span className="text-sm text-green-600">+15%</span>
                   </div>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-4 gap-6">
                   {[
                     { letter: 'S', label: 'Savings', percent: '25%', amount: '$2,500', color: 'bg-green-500', path: '/method/stop/savings' },
                     { letter: 'T', label: 'Taxes', percent: '30%', amount: '$3,000', color: 'bg-red-500', path: '/method/stop/taxes' },
@@ -594,7 +590,7 @@ export default function StockMarketPage() {
 
           {activeMethod === 'nws' && (
             <div className="space-y-6">
-              <div className="mt-12">
+              <div className="mt-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -630,7 +626,7 @@ export default function StockMarketPage() {
                     </button>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-6">
                   {[
                     { letter: 'N', label: 'Necessities', percent: '50%', amount: '$5,000', color: 'bg-blue-500', path: '/method/nws/necessities' },
                     { letter: 'W', label: 'Wants', percent: '30%', amount: '$3,000', color: 'bg-purple-500', path: '/method/nws/wants' },
@@ -659,7 +655,7 @@ export default function StockMarketPage() {
                   <KakeiboMethod monthlyIncome={10000} />
                 ) : (
                   /* Line Charts for NWS Categories */
-                  <div className="grid grid-cols-3 gap-4 mt-4">
+                  <div className="grid grid-cols-3 gap-6 mt-4">
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
                       <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-4">Necessities Trend</h4>
                       <div className="h-48">
@@ -724,8 +720,8 @@ export default function StockMarketPage() {
           )}
         </div>
 
-        {/* Additional Insights - Responsive grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
+  {/* Additional Insights - Responsive grid */}
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Method Integration
@@ -802,8 +798,8 @@ export default function StockMarketPage() {
           </div>
         </div>
 
-        {/* Methods Guide Section */}
-        <div className="mt-8 space-y-6">
+  {/* Methods Guide Section */}
+  <div className="mt-6 space-y-6">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Financial Methods Guide
@@ -823,7 +819,7 @@ export default function StockMarketPage() {
               className="neo-card p-6 border-l-4 border-blue-500"
             >
               <div className="flex items-center mb-4">
-                <div className="neo-button p-3 text-blue-600 mr-4">
+                <div className="neo-button glass-action p-3 text-blue-600 mr-4">
                   <Wallet className="w-6 h-6" />
                 </div>
                 <div>
@@ -851,7 +847,7 @@ export default function StockMarketPage() {
               </div>
               <Link 
                 to="/methods/nws"
-                className="neo-button w-full flex items-center justify-center px-4 py-2 text-blue-600 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors duration-200"
+                className="neo-button glass-action w-full flex items-center justify-center px-4 py-2 text-blue-600 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors duration-200"
               >
                 Learn NWS Method
                 <ChevronRight className="w-4 h-4 ml-2" />
@@ -866,7 +862,7 @@ export default function StockMarketPage() {
               className="neo-card p-6 border-l-4 border-green-500"
             >
               <div className="flex items-center mb-4">
-                <div className="neo-button p-3 text-green-600 mr-4">
+                <div className="neo-button glass-action p-3 text-green-600 mr-4">
                   <BookOpen className="w-6 h-6" />
                 </div>
                 <div>
@@ -894,7 +890,7 @@ export default function StockMarketPage() {
               </div>
               <Link 
                 to="/methods/kakeibo"
-                className="neo-button w-full flex items-center justify-center px-4 py-2 text-green-600 font-medium hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-200"
+                className="neo-button glass-action w-full flex items-center justify-center px-4 py-2 text-green-600 font-medium hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-200"
               >
                 Learn Kakeibo Method
                 <ChevronRight className="w-4 h-4 ml-2" />
@@ -909,7 +905,7 @@ export default function StockMarketPage() {
               className="neo-card p-6 border-l-4 border-purple-500"
             >
               <div className="flex items-center mb-4">
-                <div className="neo-button p-3 text-purple-600 mr-4">
+                <div className="neo-button glass-action p-3 text-purple-600 mr-4">
                   <Target className="w-6 h-6" />
                 </div>
                 <div>
@@ -937,7 +933,7 @@ export default function StockMarketPage() {
               </div>
               <Link 
                 to="/methods/stop"
-                className="neo-button w-full flex items-center justify-center px-4 py-2 text-purple-600 font-medium hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors duration-200"
+                className="neo-button glass-action w-full flex items-center justify-center px-4 py-2 text-purple-600 font-medium hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors duration-200"
               >
                 Learn S.T.O.P Method
                 <ChevronRight className="w-4 h-4 ml-2" />
@@ -948,7 +944,7 @@ export default function StockMarketPage() {
           {/* Method Integration with Stock Market */}
           <div className="neo-card p-6">
             <div className="flex items-center mb-6">
-              <div className="neo-button p-3 text-primary-600 dark:text-primary-400 mr-4">
+                <div className="neo-button glass-action p-3 text-primary-600 dark:text-primary-400 mr-4">
                 <BarChart3 className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-semibold text-primary-900 dark:text-primary-100">
@@ -962,7 +958,7 @@ export default function StockMarketPage() {
                 transition={{ delay: 0.1 }}
                 className="text-center"
               >
-                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <div className="neo-button glass-action w-16 h-16 flex items-center justify-center mx-auto mb-4">
                   <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">1</span>
                 </div>
                 <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Risk Assessment</h4>
@@ -976,7 +972,7 @@ export default function StockMarketPage() {
                 transition={{ delay: 0.2 }}
                 className="text-center"
               >
-                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <div className="neo-button glass-action w-16 h-16 flex items-center justify-center mx-auto mb-4">
                   <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">2</span>
                 </div>
                 <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Capital Allocation</h4>
@@ -990,7 +986,7 @@ export default function StockMarketPage() {
                 transition={{ delay: 0.3 }}
                 className="text-center"
               >
-                <div className="neo-button w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <div className="neo-button glass-action w-16 h-16 flex items-center justify-center mx-auto mb-4">
                   <span className="text-primary-600 dark:text-primary-400 font-bold text-xl">3</span>
                 </div>
                 <h4 className="font-semibold text-primary-900 dark:text-primary-100 mb-3">Performance Tracking</h4>

@@ -70,7 +70,7 @@ export default function ProfileStats({
             className="neo-card p-6 hover:shadow-lg transition-all duration-300"
           >
             <div className="flex items-center justify-between mb-4">
-              <div className={`neo-button p-3 ${stat.color}`}>
+              <div className={`neo-button glass-action p-3 ${stat.color}`}>
                 <Icon className="w-6 h-6" />
               </div>
               <span className={`text-xs font-semibold px-2 py-1 rounded-full bg-opacity-10 border border-current ${stat.color}`}>

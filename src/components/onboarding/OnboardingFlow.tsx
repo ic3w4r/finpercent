@@ -117,7 +117,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onClose, onComp
             <div className="p-6 border-b border-primary-200 dark:border-gray-700 bg-gradient-to-r from-primary-100 to-beige-100">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="neo-button w-12 h-12 flex items-center justify-center">
+                  <div className="neo-button glass-action w-12 h-12 flex items-center justify-center">
                     <div className="w-6 h-6 text-primary-600 font-bold flex items-center">
                       <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mr-1"></div>
                       <div className="text-lg">%</div>
@@ -135,7 +135,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onClose, onComp
                 </div>
                 <button
                   onClick={onClose}
-                  className="neo-button p-3 text-gray-600 hover:text-red-500 transition-colors"
+                  className="neo-button glass-action p-3 text-gray-600 hover:text-red-500 transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -235,11 +235,11 @@ const OnboardingCard: React.FC<{
           className="flex items-center justify-between p-4"
         >
           <div className="flex items-center space-x-4">
-            <motion.div
+              <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: 'spring' }}
-              className="neo-button w-12 h-12 bg-gradient-to-r from-green-500 to-primary-500 text-white flex items-center justify-center"
+              className="neo-button glass-action w-12 h-12 bg-gradient-to-r from-green-500 to-primary-500 text-white flex items-center justify-center"
             >
               <CheckCircle className="w-6 h-6" />
             </motion.div>
@@ -255,7 +255,7 @@ const OnboardingCard: React.FC<{
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-            className="neo-button w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full"
+            className="neo-button glass-action w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full"
           />
         </motion.div>
       ) : (
@@ -263,7 +263,7 @@ const OnboardingCard: React.FC<{
         <div className="space-y-6 p-6">
           <div className="flex items-center space-x-4">
             <div className={`
-              neo-button w-16 h-16 flex items-center justify-center transition-all duration-300
+              neo-button glass-action w-16 h-16 flex items-center justify-center transition-all duration-300
               ${isActive ? 'bg-gradient-to-r from-primary-500 to-green-500 text-white shadow-lg' : 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-600'}
             `}>
               <Icon className="w-8 h-8" />
@@ -331,7 +331,7 @@ const BalanceSheetUpload: React.FC<{ onComplete: () => void }> = ({ onComplete }
       <div className="neo-card p-8 text-center border-2 border-dashed border-primary-300">
         {!file ? (
           <div>
-            <div className="neo-button w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary-100 to-primary-200 flex items-center justify-center">
+            <div className="neo-button glass-action w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary-100 to-primary-200 flex items-center justify-center">
               <Upload className="w-8 h-8 text-primary-600" />
             </div>
             <p className="text-gray-700 dark:text-gray-300 mb-4 font-medium">
@@ -349,7 +349,7 @@ const BalanceSheetUpload: React.FC<{ onComplete: () => void }> = ({ onComplete }
             />
             <label
               htmlFor="balance-sheet-upload"
-              className="neo-button px-6 py-3 bg-gradient-to-r from-primary-500 to-green-500 text-white cursor-pointer font-medium inline-flex items-center space-x-2 hover:shadow-lg transition-all"
+              className="neo-button glass-action px-6 py-3 bg-gradient-to-r from-primary-500 to-green-500 text-white cursor-pointer font-medium inline-flex items-center space-x-2 hover:shadow-lg transition-all"
             >
               <Upload className="w-4 h-4" />
               <span>Choose File</span>
@@ -357,7 +357,7 @@ const BalanceSheetUpload: React.FC<{ onComplete: () => void }> = ({ onComplete }
           </div>
         ) : (
           <div>
-            <div className="neo-button w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-green-100 to-green-200 flex items-center justify-center">
+            <div className="neo-button glass-action w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-green-100 to-green-200 flex items-center justify-center">
               <FileText className="w-8 h-8 text-green-600" />
             </div>
             <p className="text-green-700 dark:text-green-400 mb-4 font-medium">
@@ -389,7 +389,7 @@ const BalanceSheetUpload: React.FC<{ onComplete: () => void }> = ({ onComplete }
             ) : (
               <button
                 onClick={startUpload}
-                className="neo-button px-6 py-3 bg-gradient-to-r from-green-500 to-primary-500 text-white font-medium hover:shadow-lg transition-all"
+                className="neo-button glass-action px-6 py-3 bg-gradient-to-r from-green-500 to-primary-500 text-white font-medium hover:shadow-lg transition-all"
               >
                 Upload Balance Sheet
               </button>
@@ -437,7 +437,7 @@ const DataExtraction: React.FC<{ onComplete: () => void }> = ({ onComplete }) =>
 
   return (
     <div className="text-center py-8 font-['Manrope']">
-      <div className="neo-button w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-primary-100 to-green-100 flex items-center justify-center">
+    <div className="neo-button glass-action w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-primary-100 to-green-100 flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}

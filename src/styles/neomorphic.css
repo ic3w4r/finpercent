@@ -39,6 +39,8 @@
   transition: all 0.2s ease;
 }
 
+/* Keep older neo-button behavior but allow glass-action to layer on top for consistent polish */
+
 .neo-button:hover {
   box-shadow: 
     12px 12px 24px #bebebe,

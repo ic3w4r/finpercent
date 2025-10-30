@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import PageTransition from './components/ui/PageTransition';
 import SuperFeaturesPage from './pages/SuperFeaturesPage';
-import ErrorPage from './pages/ErrorPage';
 
 // Import all pages
 import DashboardPage from './pages/DashboardPage';
@@ -12,6 +11,9 @@ import SettingsPage from './pages/SettingsPage';
 import CompanyStatusPage from './pages/CompanyStatusPage';
 import FinringPage from './pages/FinringPage';
 import DebtRepaymentPage from './pages/DebtRepaymentPage';
+import DebtOCCPage from './pages/DebtOCCPage';
+import DebtODPage from './pages/DebtODPage';
+import DebtWCPage from './pages/DebtWCPage';
 import InvestmentPoolingPage from './pages/InvestmentPoolingPage';
 import AutomatedBankingPage from './pages/AutomatedBankingPage';
 import StockMarketPage from './pages/StockMarketPage';
@@ -35,7 +37,7 @@ export default function AppRoutes({ viewMode }: AppRoutesProps) {
   }
 
   return (
-    <Routes errorElement={<ErrorPage />}>
+    <Routes>
       <Route 
         path="/" 
         element={
@@ -107,6 +109,30 @@ export default function AppRoutes({ viewMode }: AppRoutesProps) {
             <DebtRepaymentPage />
           </PageTransition>
         } 
+      />
+      <Route
+        path="/debt/occ"
+        element={
+          <PageTransition>
+            <DebtOCCPage />
+          </PageTransition>
+        }
+      />
+      <Route
+        path="/debt/od"
+        element={
+          <PageTransition>
+            <DebtODPage />
+          </PageTransition>
+        }
+      />
+      <Route
+        path="/debt/wc"
+        element={
+          <PageTransition>
+            <DebtWCPage />
+          </PageTransition>
+        }
       />
       <Route 
         path="/investment-pooling" 

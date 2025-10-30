@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
 import OnboardingNudge from '../components/dashboard/OnboardingNudge';
@@ -141,7 +141,7 @@ export default function DashboardPage() {
               transition={{ delay: showBadgeAnimation ? 3.4 : 0.2 }}
               className="flex flex-col items-center space-y-2"
             >
-              <div className="neo-button w-12 h-12 flex items-center justify-center">
+              <div className="neo-button glass-action w-12 h-12 flex items-center justify-center bg-white/25 dark:bg-gray-800/40 backdrop-blur-sm border border-white/10 dark:border-gray-700/30 shadow-inner shadow-md">
                 <div className="text-primary-600 text-lg font-bold">
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-primary-600 rounded-full mr-1"></div>
@@ -172,7 +172,7 @@ export default function DashboardPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (showBadgeAnimation ? 3.6 : 0.4) + index * 0.1 }}
-                className="neo-card p-6 text-center"
+                className="neo-card p-6 text-center bg-white/20 dark:bg-gray-800/30 backdrop-blur-sm border border-white/10 dark:border-gray-700/30 shadow-lg hover:shadow-2xl transition-shadow duration-200"
               >
                 <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2 font-['Manrope']">
                   {stat.title}
@@ -194,7 +194,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: showBadgeAnimation ? 4 : 0.8, duration: 0.8 }}
-            className="neo-card p-6 mb-8"
+            className="neo-card p-6 mb-8 bg-white/16 dark:bg-gray-800/24 backdrop-blur-md border border-white/8 dark:border-gray-700/20 shadow-2xl rounded-2xl"
           >
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
@@ -248,7 +248,7 @@ export default function DashboardPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: showBadgeAnimation ? 4.2 : 1 }}
-              className="neo-card p-6"
+              className="neo-card p-6 bg-white/18 dark:bg-gray-800/28 backdrop-blur-sm border border-white/8 dark:border-gray-700/20 shadow-lg rounded-xl"
             >
               <h3 className="text-lg font-bold text-primary-800 dark:text-primary-300 mb-4 font-['Manrope']">
                 Recent Activity
@@ -276,7 +276,7 @@ export default function DashboardPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: showBadgeAnimation ? 4.4 : 1.2 }}
-              className="neo-card p-6"
+              className="neo-card p-6 bg-white/18 dark:bg-gray-800/28 backdrop-blur-sm border border-white/8 dark:border-gray-700/20 shadow-lg rounded-xl"
             >
               <h3 className="text-lg font-bold text-primary-800 dark:text-primary-300 mb-4 font-['Manrope']">
                 Quick Actions
@@ -287,9 +287,14 @@ export default function DashboardPage() {
                   { title: 'Update Portfolio', desc: 'Modify investment allocations' },
                   { title: 'Set Goals', desc: 'Define financial objectives' }
                 ].map((action, index) => (
-                  <button key={index} className="neo-button p-4 text-left hover:shadow-md transition-all">
-                    <h4 className="font-medium text-gray-900 dark:text-white font-['Manrope']">{action.title}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 font-['Manrope']">{action.desc}</p>
+                  <button
+                    key={index}
+                    className="neo-button glass-action p-4 text-left rounded-lg transition-all focus:outline-none relative overflow-hidden"
+                  >
+                    <div className="relative">
+                      <h4 className="font-medium text-gray-900 dark:text-white font-['Manrope']">{action.title}</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 font-['Manrope']">{action.desc}</p>
+                    </div>
                   </button>
                 ))}
               </div>

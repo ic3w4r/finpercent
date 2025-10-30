@@ -78,7 +78,7 @@
   }
   
   .button-primary {
-    @apply neo-button px-4 py-2 rounded-lg text-primary-600 dark:text-primary-300 font-medium 
+    @apply neo-button glass-button px-4 py-2 rounded-lg text-primary-600 dark:text-primary-300 font-medium 
            hover:text-primary-700 dark:hover:text-primary-200
            bg-gradient-to-r hover:from-accent-50 hover:to-primary-100
            transition-all duration-200;

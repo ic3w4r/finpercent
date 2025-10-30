@@ -62,7 +62,7 @@ export default function ProfileHeader({ name, role, ranking, imageUrl, onImageUp
                 </span>
               </div>
             )}
-            <label className="absolute bottom-2 right-2 neo-button p-3 cursor-pointer hover:shadow-lg transition-all duration-300">
+            <label className="absolute bottom-2 right-2 neo-button glass-action p-3 cursor-pointer hover:shadow-lg transition-all duration-300">
               <Camera className="w-4 h-4 text-primary-600" />
               <input
                 type="file"
@@ -91,7 +91,7 @@ export default function ProfileHeader({ name, role, ranking, imageUrl, onImageUp
             to="/company-status"
             className="inline-flex items-center space-x-3 group"
           >
-            <div className={`neo-button px-4 py-2 ${rankingStyle.bg} ${rankingStyle.border} border transition-all duration-300 group-hover:shadow-lg`}>
+            <div className={`neo-button glass-action px-4 py-2 ${rankingStyle.bg} ${rankingStyle.border} border transition-all duration-300 group-hover:shadow-lg`}>
               <div className="flex items-center space-x-2">
                 <Award className={`w-5 h-5 ${rankingStyle.color} transition-transform group-hover:scale-110`} />
                 <span className={`font-semibold ${rankingStyle.color}`}>

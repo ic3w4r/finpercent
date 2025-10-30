@@ -215,7 +215,7 @@ export default function SimulationToolPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="neo-button w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100">
+          <div className="neo-button glass-action w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100">
             <Zap className="w-8 h-8 text-blue-600" />
           </div>
           <h1 className="text-3xl font-bold text-primary-900 dark:text-primary-100 font-['Manrope'] mb-2">
@@ -241,7 +241,7 @@ export default function SimulationToolPage() {
             <div className="flex space-x-3">
               <button
                 onClick={startSimulation}
-                className={`neo-button px-6 py-2 flex items-center space-x-2 transition-all ${
+                className={`neo-button glass-action px-6 py-2 flex items-center space-x-2 transition-all ${
                   isSimulating 
                     ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' 
                     : 'bg-gradient-to-r from-green-500 to-green-600 text-white'
@@ -252,7 +252,7 @@ export default function SimulationToolPage() {
               </button>
               <button
                 onClick={resetSimulation}
-                className="neo-button px-6 py-2 flex items-center space-x-2 text-gray-700"
+                className="neo-button glass-action px-6 py-2 flex items-center space-x-2 text-gray-700"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>Reset</span>
@@ -264,21 +264,21 @@ export default function SimulationToolPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <button
               onClick={() => applyPreset('aggressive_growth')}
-              className="neo-button p-4 text-left hover:shadow-md transition-all"
+              className="neo-button glass-action p-4 text-left hover:shadow-md transition-all"
             >
               <h3 className="font-bold text-blue-700 mb-1">Aggressive Growth</h3>
               <p className="text-sm text-gray-600">High revenue growth with increased R&D investment</p>
             </button>
             <button
               onClick={() => applyPreset('cost_optimization')}
-              className="neo-button p-4 text-left hover:shadow-md transition-all"
+              className="neo-button glass-action p-4 text-left hover:shadow-md transition-all"
             >
               <h3 className="font-bold text-green-700 mb-1">Cost Optimization</h3>
               <p className="text-sm text-gray-600">Focus on reducing operational costs and improving margins</p>
             </button>
             <button
               onClick={() => applyPreset('balanced')}
-              className="neo-button p-4 text-left hover:shadow-md transition-all"
+              className="neo-button glass-action p-4 text-left hover:shadow-md transition-all"
             >
               <h3 className="font-bold text-purple-700 mb-1">Balanced Approach</h3>
               <p className="text-sm text-gray-600">Moderate growth with controlled cost increases</p>

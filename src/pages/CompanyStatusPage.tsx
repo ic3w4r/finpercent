@@ -26,7 +26,7 @@ export default function CompanyStatusPage() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => navigate(-1)}
-          className="neo-button px-4 py-2 text-gray-600 dark:text-gray-400 hover:shadow-lg transition-all duration-300"
+          className="neo-button glass-action px-4 py-2 text-gray-600 dark:text-gray-400 hover:shadow-lg transition-all duration-300"
         >
           <ChevronLeft className="w-5 h-5 mr-2" />
           Back to Profile
@@ -39,7 +39,7 @@ export default function CompanyStatusPage() {
           transition={{ delay: 0.1 }}
           className="text-center mb-8"
         >
-          <div className="neo-button w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+          <div className="neo-button glass-action w-16 h-16 mx-auto mb-4 flex items-center justify-center">
             <Building2 className="w-8 h-8 text-primary-600" />
           </div>
           <h1 className="text-3xl font-bold text-primary-900 dark:text-primary-100 mb-2">
@@ -103,7 +103,7 @@ export default function CompanyStatusPage() {
                 className="neo-card p-6 hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`neo-button p-3 ${stat.color}`}>
+                  <div className={`neo-button glass-action p-3 ${stat.color}`}>
                     <Icon className="w-6 h-6" />
                   </div>
                   <span className={`text-xs font-semibold px-3 py-1 rounded-full ${stat.bgColor} ${stat.color} border border-current`}>
@@ -133,7 +133,7 @@ export default function CompanyStatusPage() {
         >
           {!showUploader ? (
             <div className="text-center space-y-6">
-              <div className="neo-button w-20 h-20 mx-auto flex items-center justify-center">
+              <div className="neo-button glass-action w-20 h-20 mx-auto flex items-center justify-center">
                 <Upload className="w-10 h-10 text-primary-600" />
               </div>
               <div>
@@ -148,11 +148,11 @@ export default function CompanyStatusPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => setShowUploader(true)}
-                  className="neo-button px-8 py-3 text-primary-600 dark:text-primary-400 font-medium hover:shadow-lg transition-all duration-300"
+                  className="neo-button glass-action px-8 py-3 text-primary-600 dark:text-primary-400 font-medium hover:shadow-lg transition-all duration-300"
                 >
                   Upload Balance Sheet
                 </button>
-                <button className="neo-button px-8 py-3 text-gray-600 dark:text-gray-400 font-medium hover:shadow-lg transition-all duration-300">
+                <button className="neo-button glass-action px-8 py-3 text-gray-600 dark:text-gray-400 font-medium hover:shadow-lg transition-all duration-300">
                   View Sample Format
                 </button>
               </div>
@@ -169,7 +169,7 @@ export default function CompanyStatusPage() {
                 </h2>
                 <button
                   onClick={() => setShowUploader(false)}
-                  className="neo-button px-4 py-2 text-gray-600 dark:text-gray-400"
+                  className="neo-button glass-action px-4 py-2 text-gray-600 dark:text-gray-400"
                 >
                   Cancel
                 </button>

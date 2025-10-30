@@ -43,7 +43,7 @@ export default function StockMarketLayout({ children, marketKPIs = [] }: StockMa
       {/* Business Metrics Overview */}
       <div className="sticky top-0 z-40 bg-white dark:bg-gray-800 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-3">
             {kpis.map((kpi, index) => (
               <motion.div
                 key={kpi.label}
@@ -96,7 +96,7 @@ export default function StockMarketLayout({ children, marketKPIs = [] }: StockMa
       </div>
 
       {/* Main Dashboard Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -116,7 +116,8 @@ export default function StockMarketLayout({ children, marketKPIs = [] }: StockMa
             </span>
           </div>
           
-          {children}
+          {/* Ensure consistent vertical rhythm between top-level sections */}
+          <div className="space-y-6">{children}</div>
         </motion.div>
       </main>
     </div>

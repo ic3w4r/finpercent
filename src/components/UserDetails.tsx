@@ -74,7 +74,7 @@ export default function UserDetails({ user }: UserDetailsProps) {
         <h2 className="text-xl font-bold text-primary-900 dark:text-primary-100">
           Personal Information
         </h2>
-        <button className="neo-button px-4 py-2 text-primary-600 dark:text-primary-400 hover:shadow-lg transition-all duration-300">
+        <button className="neo-button glass-action px-4 py-2 text-primary-600 dark:text-primary-400 hover:shadow-lg transition-all duration-300">
           <Edit className="w-4 h-4 mr-2" />
           Edit Profile
         </button>
@@ -97,7 +97,7 @@ export default function UserDetails({ user }: UserDetailsProps) {
               {user.name}
             </h3>
             <div className="flex items-center space-x-3 mt-2">
-              <div className={`neo-button px-3 py-1 ${rankingStyle.bg} ${rankingStyle.border} border`}>
+              <div className={`neo-button glass-action px-3 py-1 ${rankingStyle.bg} ${rankingStyle.border} border`}>
                 <div className="flex items-center space-x-2">
                   <Award className={`w-4 h-4 ${rankingStyle.color}`} />
                   <span className={`text-sm font-medium ${rankingStyle.color}`}>
@@ -128,7 +128,7 @@ export default function UserDetails({ user }: UserDetailsProps) {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="neo-button p-3 text-gray-600 dark:text-gray-400">
+                  <div className="neo-button glass-action p-3 text-gray-600 dark:text-gray-400">
                     <Icon className="w-5 h-5" />
                   </div>
                   <div>
