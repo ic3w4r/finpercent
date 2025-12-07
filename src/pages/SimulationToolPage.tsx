@@ -1,20 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type ComponentType } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  BarChart3, 
-  Target, 
-  Zap,
-  RefreshCw,
-  Play,
-  Pause,
-  RotateCcw,
-  Settings,
-  DollarSign,
-  PieChart,
-  Activity
-} from 'lucide-react';
+import { TrendingUp, TrendingDown, BarChart3, Target, Zap, Play, Pause, RotateCcw, Settings, DollarSign, PieChart, Activity } from 'lucide-react';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
 
 interface SimulationData {
@@ -33,7 +19,7 @@ interface KPI {
   value: number;
   previousValue: number;
   unit: string;
-  icon: React.ComponentType<any>;
+  icon: ComponentType<any>;
   color: string;
   format: (value: number) => string;
 }
@@ -51,7 +37,7 @@ export default function SimulationToolPage() {
     tax: 40000
   });
 
-  const [originalData, setOriginalData] = useState<SimulationData>({ ...simulationData });
+  const [originalData] = useState<SimulationData>({ ...simulationData });
 
   // Calculate KPIs based on simulation data
   const calculateKPIs = (data: SimulationData): KPI[] => {

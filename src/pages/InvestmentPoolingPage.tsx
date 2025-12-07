@@ -1,73 +1,72 @@
-import React, { useState } from 'react';
-import { 
-  ChevronLeft, Users, HandCoins, Scale, TrendingUp, FileText, ShieldCheck,
-  Building2, Factory, PieChart, BarChart3, Calculator, Target, 
+import { useState, useEffect } from 'react';
+import {
+  ChevronLeft, Users, TrendingUp, FileText,
+  Building2, Factory, PieChart, BarChart3, Calculator, Target,
   Shield, Eye, AlertTriangle, CheckCircle, ArrowRight, Coins,
   Banknote, TrendingDown, Zap
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-export default function InvestmentPoolingPage() {
-  const [activeTab, setActiveTab] = useState<'asset' | 'operations'>('asset');
+interface FinningPointPageProps {
+  initialTab?: 'asset' | 'operations';
+}
+
+export default function FinningPointPage({ initialTab }: FinningPointPageProps) {
+  const [activeTab, setActiveTab] = useState<'asset' | 'operations'>(initialTab ?? 'asset');
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname.toLowerCase();
+    if (path.includes('/investment-pooling/asset') || path.endsWith('/asset')) {
+      setActiveTab('asset');
+    } else if (path.includes('/investment-pooling/operations') || path.endsWith('/operations')) {
+      setActiveTab('operations');
+    }
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-beige-50 to-primary-100 p-6 pb-20">
       <div className="max-w-6xl mx-auto">
         {/* Back Button */}
-        <Link 
-          to="/explore"
-          className="flex items-center text-primary-600 hover:text-primary-700 mb-8"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span className="ml-2">Back to Explore</span>
-        </Link>
-
-        {/* Main Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800 mb-4">
-            Investment Pooling Platform
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Advanced pooling solutions for asset building and operational funding with 
-            comprehensive risk assessment and monitoring systems.
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <Link to="/explore" className="flex items-center text-primary-600 hover:text-primary-700">
+            <ChevronLeft className="w-5 h-5" />
+            <span className="ml-2">Back to Explore</span>
+          </Link>
+          <h1 className="text-3xl font-bold text-primary-900 tracking-tight">Finning Point</h1>
         </div>
 
         {/* Main Tabs */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-xl p-2 shadow-lg border border-primary-200">
-            <button
-              onClick={() => setActiveTab('asset')}
-              className={`px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                activeTab === 'asset'
-                  ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg'
-                  : 'text-primary-600 hover:bg-primary-50'
+        <div className="flex justify-center mb-10">
+          <div className="bg-white rounded-xl p-2 shadow-lg border border-primary-200 flex gap-2">
+            <Link
+              to="/investment-pooling/asset"
+              className={`neo-button glass-action px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                activeTab === 'asset' ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg' : 'text-primary-600 hover:bg-primary-50'
               }`}
             >
-              Asset Gained Pooling
-            </button>
-            <button
-              onClick={() => setActiveTab('operations')}
-              className={`px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                activeTab === 'operations'
-                  ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg'
-                  : 'text-primary-600 hover:bg-primary-50'
+              Asset Pooling
+            </Link>
+            <Link
+              to="/investment-pooling/operations"
+              className={`neo-button glass-action px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                activeTab === 'operations' ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg' : 'text-primary-600 hover:bg-primary-50'
               }`}
             >
-              Operations Gained Pooling
-            </button>
+              Operations Pooling
+            </Link>
           </div>
         </div>
 
-        {/* Asset Gained Pooling Section */}
+        {/* Asset Pooling Section */}
         {activeTab === 'asset' && (
-          <div className="space-y-8">
+          <div className="space-y-10">
             {/* Asset Overview */}
             <div className="glass-card rounded-2xl p-8">
-              <div className="flex items-center mb-6">
-                <Building2 className="w-8 h-8 text-primary-600 mr-4" />
+              <div className="flex items-center gap-4 mb-6">
+                <Building2 className="w-8 h-8 text-primary-600" />
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-800">Asset Gained Pooling</h2>
+                  <h2 className="text-2xl font-bold text-gray-800">Asset Pooling</h2>
                   <p className="text-primary-600 font-medium">Fractional Investment for High-Value Asset Building</p>
                 </div>
               </div>
@@ -168,15 +167,15 @@ export default function InvestmentPoolingPage() {
           </div>
         )}
 
-        {/* Operations Gained Pooling Section */}
+        {/* Operations Pooling Section */}
         {activeTab === 'operations' && (
-          <div className="space-y-8">
+          <div className="space-y-10">
             {/* Operations Overview */}
             <div className="glass-card rounded-2xl p-8">
-              <div className="flex items-center mb-6">
-                <Zap className="w-8 h-8 text-orange-600 mr-4" />
+              <div className="flex items-center gap-4 mb-6">
+                <Zap className="w-8 h-8 text-orange-600" />
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-800">Operations Gained Pooling</h2>
+                  <h2 className="text-2xl font-bold text-gray-800">Operations Pooling</h2>
                   <p className="text-orange-600 font-medium">Escrow-Managed Operational Funding with Risk Assessment</p>
                 </div>
               </div>
@@ -331,22 +330,21 @@ export default function InvestmentPoolingPage() {
         )}
 
         {/* Call to Action */}
-        <div className="text-center mt-12">
-          <div className="glass-card rounded-2xl p-8">
+        <div className="flex flex-col items-center mt-16">
+          <div className="glass-card rounded-2xl p-8 w-full max-w-2xl">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Ready to Start Pooling?</h3>
-            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              Join our advanced investment pooling platform with comprehensive risk assessment 
-              and professional fund management systems.
+            <p className="text-gray-600 mb-6">
+              Join our advanced investment pooling platform with comprehensive risk assessment and professional fund management systems.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-lg hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-2">
+              <Link to="/investment-pooling/asset" className="neo-button glass-action px-8 py-3 rounded-lg font-semibold bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg hover:from-primary-700 hover:to-primary-800 transition-all inline-block text-center">
                 Start Asset Pooling
-              </button>
-              <button className="px-8 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-lg hover:from-orange-700 hover:to-red-700 transition-all shadow-lg">
+              </Link>
+              <Link to="/investment-pooling/operations" className="neo-button glass-action px-8 py-3 rounded-lg font-semibold bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-lg hover:from-orange-700 hover:to-red-700 transition-all inline-block text-center">
                 Apply for Operations Fund
-              </button>
+              </Link>
             </div>
-            <p className="text-sm text-gray-600 mt-4">
+            <p className="text-sm text-gray-600 mt-2">
               Need more information? <Link to="/contact" className="text-primary-600 hover:text-primary-700 font-medium">Contact our investment specialists</Link>
             </p>
           </div>

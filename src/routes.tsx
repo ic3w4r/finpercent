@@ -9,7 +9,7 @@ import StatsPage from './pages/StatsPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
 import CompanyStatusPage from './pages/CompanyStatusPage';
-import FinringPage from './pages/FinringPage';
+import FinringPage from './pages/FinningUnifiedPage';
 import DebtRepaymentPage from './pages/DebtRepaymentPage';
 import DebtOCCPage from './pages/DebtOCCPage';
 import DebtODPage from './pages/DebtODPage';
@@ -138,9 +138,25 @@ export default function AppRoutes({ viewMode }: AppRoutesProps) {
         path="/investment-pooling" 
         element={
           <PageTransition>
-            <InvestmentPoolingPage />
+            <FinringPage />
           </PageTransition>
         } 
+      />
+      <Route
+        path="/investment-pooling/asset"
+        element={
+          <PageTransition>
+            <InvestmentPoolingPage initialTab="asset" />
+          </PageTransition>
+        }
+      />
+      <Route
+        path="/investment-pooling/operations"
+        element={
+          <PageTransition>
+            <InvestmentPoolingPage initialTab="operations" />
+          </PageTransition>
+        }
       />
       <Route 
         path="/automated-banking" 

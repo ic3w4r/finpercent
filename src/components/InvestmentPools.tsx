@@ -1,4 +1,4 @@
-import React from 'react';
+// React import not required with new JSX transform
 import { ArrowRight } from 'lucide-react';
 
 const industries = [
@@ -22,10 +22,10 @@ const industries = [
 
 export default function InvestmentPools() {
   return (
-    <div className="glass-container space-y-6 p-6 rounded-xl">
+    <div className="neo-card space-y-6 p-6 rounded-xl bg-white/12 backdrop-blur-sm border border-white/8">
       <div>
-        <h2 className="text-2xl font-bold text-gray-200">Join the pool</h2>
-        <p className="text-gray-300 mt-1">Industries are coming together to get access to more funding</p>
+        <h2 className="text-2xl font-bold text-primary-800">Join the pool</h2>
+        <p className="text-gray-600 mt-1">Industries are coming together to get access to more funding</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -44,10 +44,10 @@ export default function InvestmentPools() {
       </div>
 
       <div className="flex justify-between">
-        <button className="px-6 py-2 glass-button rounded-full text-gray-200">
+        <button className="neo-button glass-action px-6 py-2 rounded-full text-primary-700 bg-white/6">
           Invite friends
         </button>
-        <button className="px-6 py-2 glass-button-primary rounded-full flex items-center space-x-2">
+        <button className="neo-button glass-action px-6 py-2 rounded-full flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white">
           <span>Discover</span>
           <ArrowRight className="w-4 h-4" />
         </button>

@@ -1,11 +1,27 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDebt } from '../contexts/DebtContext';
-import { ArrowRight, TrendingDown } from 'lucide-react';
+import { ArrowRight, TrendingDown, BarChart3, AlertCircle } from 'lucide-react';
 import { LineChart, Line, XAxis, ResponsiveContainer } from 'recharts';
 import { useCurrency } from '../hooks/useCurrency';
 
 // (removed unused base data) projections are generated from state below
+
+// EMI Capacity Tool Types
+type EmiCapacityResults = {
+  survivalEmi: number;
+  operatingEmi: number;
+  stretchEmi: number;
+  survivalLoan: number;
+  operatingLoan: number;
+  stretchLoan: number;
+  behaviourScore: number;
+  globalRiskColor: 'GREEN' | 'AMBER' | 'RED';
+  avgAdjNetCash: number;
+  volatility: number;
+  wcNeedPerMonth: number;
+  wcDeficit: number;
+};
 
 export default function DebtManagement() {
   const { formatAmount } = useCurrency();
@@ -15,6 +31,24 @@ export default function DebtManagement() {
     occ, od, wc, occRate, odRate, wcRate,
     applySnowballTarget, applyAvalancheTarget, applyVelocityTarget
   } = useDebt();
+
+  // EMI Capacity Tool state
+  const [showEmiTool, setShowEmiTool] = useState(false);
+  const [emiToolInputs, setEmiToolInputs] = useState({
+    monthlyRevenue: 100000,
+    monthlyFixed: 30000,
+    p20Surplus: 15000,
+    p50Surplus: 20000,
+    p80Surplus: 25000,
+    existingEmi: 5000,
+    otherCommitments: 2000,
+    interestRate: 16,
+    tenureMonths: 60,
+    gstOnTimeRatio: 0.7,
+    chequeBounceCount: 2,
+    monthsNegativeBalance: 3,
+  });
+  const [emiCapacityResults, setEmiCapacityResults] = useState<EmiCapacityResults | null>(null);
 
   // Helper to ensure non-negative
   const clamp = (v: number) => Math.max(0, Math.round(v));
@@ -36,6 +70,131 @@ export default function DebtManagement() {
 
   const applyVelocity = () => {
     applyVelocityTarget();
+  };
+
+  // EMI Capacity calculation
+  const calculateEmiCapacity = () => {
+    const n = (val: number) => (isNaN(val) ? 0 : val);
+
+    const p20_adj = n(emiToolInputs.p20Surplus);
+    const p50_adj = n(emiToolInputs.p50Surplus);
+    const p80_adj = n(emiToolInputs.p80Surplus);
+    const avg_adj_net_cash = (p20_adj + p50_adj + p80_adj) / 3;
+
+    const volatilityRaw = avg_adj_net_cash === 0 ? 0 : (p80_adj - p20_adj) / Math.max(avg_adj_net_cash, 1);
+    const volatility = Math.max(0, Math.min(volatilityRaw, 1.5));
+
+    const fixedCostBase = n(emiToolInputs.monthlyFixed);
+    const otherFixedM = n(emiToolInputs.otherCommitments);
+    const emiExisting = n(emiToolInputs.existingEmi);
+
+    let cadsSafe = p20_adj - otherFixedM;
+    let cadsNormal = p50_adj - otherFixedM;
+    let cadsStretch = p80_adj - otherFixedM;
+
+    cadsSafe = Math.max(0, cadsSafe);
+    cadsNormal = Math.max(0, cadsNormal);
+    cadsStretch = Math.max(0, cadsStretch);
+
+    let volFactor = 1;
+    if (volatility < 0.3) volFactor = 1;
+    else if (volatility <= 0.6) volFactor = 0.9;
+    else volFactor = 0.75;
+
+    cadsSafe *= volFactor;
+    cadsNormal *= volFactor;
+    cadsStretch *= volFactor;
+
+    const wcNeedPerMonth = (n(emiToolInputs.monthlyRevenue) * 30) / 30;
+    const wcDeficit = Math.max(0, wcNeedPerMonth - cadsNormal);
+
+    const k = 0.75;
+    const cadsSafeWc = Math.max(0, cadsSafe - k * wcDeficit);
+    const cadsNormalWc = Math.max(0, cadsNormal - k * wcDeficit);
+    const cadsStretchWc = Math.max(0, cadsStretch - k * wcDeficit);
+
+    const dscrMin = 1.3;
+
+    // Correct EMI calculation:
+    // CADS available / DSCR = Total EMI we can service
+    // New EMI capacity = (Total EMI capacity) - (Existing EMI)
+    const calcEmiNew = (cadsBand: number): number => {
+      if (cadsBand <= 0) return 0;
+      const totalEmiCapacity = cadsBand / dscrMin;
+      const newEmiCapacity = Math.max(0, totalEmiCapacity - emiExisting);
+      return newEmiCapacity;
+    };
+
+    let emiSafeRaw = calcEmiNew(cadsSafeWc);
+    let emiNormalRaw = calcEmiNew(cadsNormalWc);
+    let emiStretchRaw = calcEmiNew(cadsStretchWc);
+
+    emiSafeRaw = Math.max(0, emiSafeRaw);
+    emiNormalRaw = Math.max(0, emiNormalRaw);
+    emiStretchRaw = Math.max(0, emiStretchRaw);
+
+    // Buffer: retain at least 20% of CADS as safety cushion
+    const bufferPercent = 0.2;
+    const emiSafeFinal = Math.max(0, emiSafeRaw * (1 - bufferPercent));
+    const emiNormalFinal = Math.max(0, emiNormalRaw * (1 - bufferPercent));
+    const emiStretchFinal = Math.max(0, emiStretchRaw * (1 - bufferPercent));
+
+    // Minimum EMI threshold (below this, don't show an EMI option)
+    const minEmiThreshold = 2000;
+    const survivalEmi = emiSafeFinal < minEmiThreshold ? 0 : Math.round(emiSafeFinal);
+    const operatingEmi = emiNormalFinal < minEmiThreshold ? 0 : Math.round(emiNormalFinal);
+    const stretchEmi = emiStretchFinal < minEmiThreshold ? 0 : Math.round(emiStretchFinal);
+
+    const r = n(emiToolInputs.interestRate) / 100 / 12;
+    const nMonths = n(emiToolInputs.tenureMonths);
+
+    const loanFromEmi = (emi: number): number => {
+      if (emi <= 0 || r <= 0 || nMonths <= 0) return 0;
+      const pow = Math.pow(1 + r, nMonths);
+      const principal = (emi * (pow - 1)) / (r * pow);
+      return Math.round(principal);
+    };
+
+    const survivalLoan = loanFromEmi(survivalEmi);
+    const operatingLoan = loanFromEmi(operatingEmi);
+    const stretchLoan = loanFromEmi(stretchEmi);
+
+    const gstScore = emiToolInputs.gstOnTimeRatio * 30;
+    const chequeScore = emiToolInputs.chequeBounceCount === 0 ? 25 : emiToolInputs.chequeBounceCount <= 2 ? 20 : 10;
+    const negBalScore = emiToolInputs.monthsNegativeBalance === 0 ? 20 : emiToolInputs.monthsNegativeBalance <= 3 ? 15 : 10;
+    const behaviourScoreRaw = gstScore + chequeScore + negBalScore;
+    const behaviourScore = Math.max(0, Math.min(100, Math.round(behaviourScoreRaw)));
+
+    const baseEmi = operatingEmi > 0 ? operatingEmi : survivalEmi;
+    const baseCads = operatingEmi > 0 ? cadsNormalWc : cadsSafeWc;
+    const totalDebtService = emiExisting + baseEmi;
+    const dscrBase = totalDebtService <= 0 ? 0 : baseCads / totalDebtService;
+    const surplusAfterEmi = baseCads - baseEmi;
+    const surplusRatio = fixedCostBase <= 0 ? 0 : surplusAfterEmi / fixedCostBase;
+
+    let globalRiskColor: 'GREEN' | 'AMBER' | 'RED' = 'RED';
+    if (dscrBase >= 1.5 && surplusRatio >= 0.75 && behaviourScore >= 70) {
+      globalRiskColor = 'GREEN';
+    } else if (dscrBase >= 1.2 && surplusRatio >= 0.4 && behaviourScore >= 50) {
+      globalRiskColor = 'AMBER';
+    }
+
+    const res: EmiCapacityResults = {
+      survivalEmi,
+      operatingEmi,
+      stretchEmi,
+      survivalLoan,
+      operatingLoan,
+      stretchLoan,
+      behaviourScore,
+      globalRiskColor,
+      avgAdjNetCash: Math.round(avg_adj_net_cash),
+      volatility: Number(volatility.toFixed(2)),
+      wcNeedPerMonth: Math.round(wcNeedPerMonth),
+      wcDeficit: Math.round(wcDeficit),
+    };
+
+    setEmiCapacityResults(res);
   };
 
   // Generate projected data for chart based on current balances and a chosen strategy
@@ -103,7 +262,8 @@ export default function DebtManagement() {
   }, [projectionMethod, defaultProjection, snowballProjection, avalancheProjection, velocityProjection]);
 
   return (
-    <div className="glass-card rounded-xl p-6">
+    <div className="space-y-6">
+      <div className="glass-card rounded-xl p-6">
       <div className="mb-6">
         <h2 className="text-xl font-bold">Total Debt</h2>
         <div className="flex items-baseline space-x-2 mt-2">
@@ -233,6 +393,196 @@ export default function DebtManagement() {
           </div>
         </div>
       </div>
+
+      {/* EMI Capacity Tool Section - Separate Card */}
+      <div className="glass-card rounded-xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <BarChart3 className="w-6 h-6 text-primary-600" />
+            <h3 className="text-lg font-bold text-gray-800">EMI Capacity Tool</h3>
+          </div>
+          <button
+            onClick={() => {
+              setShowEmiTool(!showEmiTool);
+              if (!showEmiTool) calculateEmiCapacity();
+            }}
+            className="neo-button glass-action px-4 py-2 text-sm"
+          >
+            {showEmiTool ? 'Hide' : 'Analyze'}
+          </button>
+        </div>
+
+        {showEmiTool && (
+          <div className="mt-4 space-y-4">
+            <p className="text-sm text-gray-600">Assess your EMI repayment capacity across three risk bands based on your cashflow and existing commitments.</p>
+
+            {/* Quick input grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <EmiInputField
+                label="Monthly Revenue (₹)"
+                value={emiToolInputs.monthlyRevenue}
+                onChange={(v) => setEmiToolInputs({ ...emiToolInputs, monthlyRevenue: v })}
+              />
+              <EmiInputField
+                label="Monthly Fixed Costs (₹)"
+                value={emiToolInputs.monthlyFixed}
+                onChange={(v) => setEmiToolInputs({ ...emiToolInputs, monthlyFixed: v })}
+              />
+              <EmiInputField
+                label="Existing EMI (₹)"
+                value={emiToolInputs.existingEmi}
+                onChange={(v) => setEmiToolInputs({ ...emiToolInputs, existingEmi: v })}
+              />
+              <EmiInputField
+                label="Low Season Surplus (₹)"
+                value={emiToolInputs.p20Surplus}
+                onChange={(v) => setEmiToolInputs({ ...emiToolInputs, p20Surplus: v })}
+              />
+              <EmiInputField
+                label="Median Surplus (₹)"
+                value={emiToolInputs.p50Surplus}
+                onChange={(v) => setEmiToolInputs({ ...emiToolInputs, p50Surplus: v })}
+              />
+              <EmiInputField
+                label="High Season Surplus (₹)"
+                value={emiToolInputs.p80Surplus}
+                onChange={(v) => setEmiToolInputs({ ...emiToolInputs, p80Surplus: v })}
+              />
+            </div>
+
+            <button
+              onClick={calculateEmiCapacity}
+              className="w-full neo-button glass-action px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-semibold rounded-lg hover:from-primary-700 hover:to-primary-800"
+            >
+              Calculate EMI Capacity
+            </button>
+
+            {/* Results display */}
+            {emiCapacityResults && (
+              <div className="mt-6 space-y-4">
+                {/* Risk badges */}
+                <div className="grid grid-cols-4 gap-3">
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                    <div className="text-xs font-medium text-gray-500">Debt Readiness</div>
+                    <div
+                      className={`text-sm font-bold mt-1 ${
+                        emiCapacityResults.globalRiskColor === 'GREEN'
+                          ? 'text-green-600'
+                          : emiCapacityResults.globalRiskColor === 'AMBER'
+                          ? 'text-amber-600'
+                          : 'text-red-600'
+                      }`}
+                    >
+                      {emiCapacityResults.globalRiskColor}
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                    <div className="text-xs font-medium text-gray-500">Safe EMI</div>
+                    <div className="text-sm font-bold mt-1 text-gray-800">
+                      ₹{emiCapacityResults.survivalEmi > 0 ? emiCapacityResults.survivalEmi.toLocaleString() : 'N/A'}
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                    <div className="text-xs font-medium text-gray-500">Max EMI</div>
+                    <div className="text-sm font-bold mt-1 text-gray-800">
+                      ₹{emiCapacityResults.operatingEmi > 0 ? emiCapacityResults.operatingEmi.toLocaleString() : 'N/A'}
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                    <div className="text-xs font-medium text-gray-500">Behaviour Score</div>
+                    <div className="text-sm font-bold mt-1 text-gray-800">
+                      {emiCapacityResults.behaviourScore}/100
+                    </div>
+                  </div>
+                </div>
+
+                {/* EMI bands table */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Band</th>
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Monthly EMI</th>
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Loan Amount</th>
+                        <th className="text-left py-2 px-2 font-semibold text-gray-700">Risk Level</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-gray-100">
+                        <td className="py-2 px-2 text-gray-700">Survival</td>
+                        <td className="py-2 px-2 text-gray-700">
+                          ₹{emiCapacityResults.survivalEmi > 0 ? emiCapacityResults.survivalEmi.toLocaleString() : 'Not advised'}
+                        </td>
+                        <td className="py-2 px-2 text-gray-700">
+                          ₹{emiCapacityResults.survivalLoan > 0 ? emiCapacityResults.survivalLoan.toLocaleString() : '-'}
+                        </td>
+                        <td className="py-2 px-2 text-green-600 font-medium">Low</td>
+                      </tr>
+                      <tr className="border-b border-gray-100">
+                        <td className="py-2 px-2 text-gray-700">Operating</td>
+                        <td className="py-2 px-2 text-gray-700">
+                          ₹{emiCapacityResults.operatingEmi > 0 ? emiCapacityResults.operatingEmi.toLocaleString() : 'Not advised'}
+                        </td>
+                        <td className="py-2 px-2 text-gray-700">
+                          ₹{emiCapacityResults.operatingLoan > 0 ? emiCapacityResults.operatingLoan.toLocaleString() : '-'}
+                        </td>
+                        <td className="py-2 px-2 text-amber-600 font-medium">Medium</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 px-2 text-gray-700">Stretch</td>
+                        <td className="py-2 px-2 text-gray-700">
+                          ₹{emiCapacityResults.stretchEmi > 0 ? emiCapacityResults.stretchEmi.toLocaleString() : 'Not advised'}
+                        </td>
+                        <td className="py-2 px-2 text-gray-700">
+                          ₹{emiCapacityResults.stretchLoan > 0 ? emiCapacityResults.stretchLoan.toLocaleString() : '-'}
+                        </td>
+                        <td className="py-2 px-2 text-red-600 font-medium">High</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Working capital warning */}
+                {emiCapacityResults.wcDeficit > 0 && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg flex gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-red-700">
+                      <strong>Working Capital Alert:</strong> Your business needs ₹{emiCapacityResults.wcDeficit.toLocaleString()} in additional working capital. Stay in the Survival or Operating EMI band to protect liquidity.
+                    </div>
+                  </div>
+                )}
+
+                {/* Key metrics */}
+                <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="text-sm text-blue-900 space-y-1">
+                    <div><strong>Average cashflow:</strong> ₹{emiCapacityResults.avgAdjNetCash.toLocaleString()}/month</div>
+                    <div><strong>Cashflow volatility:</strong> {emiCapacityResults.volatility} (Higher = more risky)</div>
+                    <div><strong>Behaviour score:</strong> {emiCapacityResults.behaviourScore}/100 (Based on GST, cheques, withdrawals)</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
     </div>
   );
-}
+};
+
+// Helper component for EMI tool inputs
+const EmiInputField: React.FC<{ label: string; value: number; onChange: (v: number) => void }> = ({
+  label,
+  value,
+  onChange,
+}) => (
+  <div>
+    <label className="text-xs font-medium text-gray-600">{label}</label>
+    <input
+      type="number"
+      value={value}
+      onChange={(e) => onChange(Number(e.target.value) || 0)}
+      className="w-full mt-1 px-2 py-1 border border-gray-300 rounded-lg text-sm"
+    />
+  </div>
+);

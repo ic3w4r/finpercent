@@ -7,6 +7,7 @@ import StatsPage from './pages/StatsPage';
 import SuperFeaturesPage from './pages/SuperFeaturesPage';
 import StockMarketPage from './pages/StockMarketPage';
 import InvestmentPoolingPage from './pages/InvestmentPoolingPage';
+import FinningUnifiedPage from './pages/FinningUnifiedPage';
 import SimulationToolPage from './pages/SimulationToolPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
@@ -38,7 +39,9 @@ function App() {
               <Route path="/stats" element={<StatsPage />} />
               <Route path="/super-features" element={<SuperFeaturesPage />} />
               <Route path="/stock-market" element={<StockMarketPage />} />
-              <Route path="/investment-pooling" element={<InvestmentPoolingPage />} />
+              <Route path="/investment-pooling" element={<FinningUnifiedPage />} />
+              <Route path="/investment-pooling/asset" element={<InvestmentPoolingPage initialTab="asset" />} />
+              <Route path="/investment-pooling/operations" element={<InvestmentPoolingPage initialTab="operations" />} />
               <Route path="/simulation-tool" element={<SimulationToolPage />} />
               <Route path="/methods/stop" element={<STOPMethodPage />} />
               <Route path="/methods/nws" element={<NWSMethodPage />} />
