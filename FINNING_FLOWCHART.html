@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finning Flowchart - Perfect Alignment & Comprehensibility</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #64748b 0%, #3b82f6 50%, #7c3aed 100%);
+            padding: 20px;
+            min-height: 900px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Dot grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            height: 900px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        /* Row Labels */
+        .row-label {
+            position: absolute;
+            left: -120px;
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .row-label.start { top: 8%; animation-delay: 0.2s; }
+        .row-label.choose { top: 32%; animation-delay: 0.4s; }
+        .row-label.engage { top: 58%; animation-delay: 0.6s; }
+        .row-label.achieve { top: 85%; animation-delay: 0.8s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: rotate(180deg) translateX(-20px); }
+            to { opacity: 1; transform: rotate(180deg) translateX(0); }
+        }
+
+        /* Horizontal Divider Lines */
+        .divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            border: none;
+            opacity: 0;
+            animation: drawLine 1.5s ease-out forwards;
+        }
+
+        .divider.row1 { top: 20%; animation-delay: 0.3s; }
+        .divider.row2 { top: 45%; animation-delay: 0.5s; }
+        .divider.row3 { top: 72%; animation-delay: 0.7s; }
+
+        @keyframes drawLine {
+            from { opacity: 0; width: 0; margin: 0 auto; }
+            to { opacity: 1; width: 100%; margin: 0; }
+        }
+
+        /* Flow Direction Badge */
+        .flow-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            color: #7c3aed;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            font-size: 0.85rem;
+            max-width: 280px;
+        }
+
+        .legend h4 {
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 4px 0;
+            color: #666;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* Nodes */
+        .node {
+            position: absolute;
+            border-radius: 16px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            transform-origin: center;
+            user-select: none;
+        }
+
+        .node:hover {
+            transform: translateY(-8px) scale(1.08);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+        }
+
+        .node:active {
+            transform: translateY(-4px) scale(1.05);
+        }
+
+        .node.clicked {
+            box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.5), 0 16px 48px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.5), 0 16px 48px rgba(0,0,0,0.3); }
+            50% { box-shadow: 0 0 0 8px rgba(147, 51, 234, 0.3), 0 20px 56px rgba(0,0,0,0.4); }
+        }
+
+        /* Node Sizes */
+        .node.main-hub { width: 240px; padding: 20px; }
+        .node.entry-goal { width: 220px; padding: 18px; }
+        .node.feature { width: 200px; padding: 16px; }
+
+        /* Node Colors */
+        .node.user-entry { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); }
+        .node.circle { background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%); }
+        .node.pool { background: linear-gradient(135deg, #eab308 0%, #f59e0b 100%); }
+        .node.workshops { background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%); }
+        .node.posts { background: linear-gradient(135deg, #16a34a 0%, #059669 100%); }
+        .node.asset { background: linear-gradient(135deg, #4338ca 0%, #2563eb 100%); }
+        .node.operations { background: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%); }
+        .node.growth { background: linear-gradient(135deg, #059669 0%, #16a34a 100%); }
+
+        .node-icon {
+            width: 24px;
+            height: 24px;
+            margin: 0 auto 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .node:hover .node-icon {
+            transform: rotate(360deg);
+        }
+
+        .node-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .node-desc {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Connection Count Badges */
+        .connection-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* SVG Connections */
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connection {
+            fill: none;
+            stroke: url(#gradient);
+            stroke-width: 3;
+            opacity: 0.7;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: all 0.3s ease;
+        }
+
+        .connection.active {
+            stroke-width: 4;
+            opacity: 1;
+            filter: drop-shadow(0 0 8px rgba(147, 51, 234, 0.5));
+        }
+
+        /* Info Panel */
+        .info-panel {
+            position: absolute;
+            top: 50%;
+            right: -400px;
+            width: 350px;
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: translateY(-50%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .info-panel.active {
+            right: 20px;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .info-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #6b7280;
+            transition: all 0.2s ease;
+        }
+
+        .info-close:hover {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .info-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .info-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .info-desc {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .info-connections {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .info-connections h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .connection-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 0.85rem;
+            color: #6b7280;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .connection-item:hover {
+            background: #f3f4f6;
+        }
+
+        .connection-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container { max-width: 1000px; }
+            .node { transform: scale(0.9); }
+        }
+
+        @media (max-width: 768px) {
+            .container { max-width: 100%; padding: 10px; }
+            .row-label { display: none; }
+            .flow-badge { top: 10px; left: 10px; }
+            .legend { bottom: 10px; left: 10px; max-width: 250px; }
+            .node { transform: scale(0.8); }
+            .info-panel { width: 300px; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1rem; }
+            .node { transform: scale(0.7); }
+            .info-panel { width: 280px; right: -320px; }
+            .info-panel.active { right: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Flow Direction Badge -->
+    <div class="flow-badge">⬇️ Top-Down Flow</div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <h4>📋 Usage Tips</h4>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: #3b82f6;"></div>
+            <span>Hover to see connections</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: #7c3aed;"></div>
+            <span>Click nodes for details</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: #16a34a;"></div>
+            <span>Follow purple arrows</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: #ea580c;"></div>
+            <span>Numbers show connections</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>🚀 Finning Flowchart</h1>
+        <p class="subtitle">Perfect Alignment & Enhanced Comprehensibility</p>
+
+        <!-- Row Labels -->
+        <div class="row-label start">Start</div>
+        <div class="row-label choose">Choose Path</div>
+        <div class="row-label engage">Engage</div>
+        <div class="row-label achieve">Achieve</div>
+
+        <!-- Horizontal Dividers -->
+        <hr class="divider row1">
+        <hr class="divider row2">
+        <hr class="divider row3">
+
+        <!-- SVG Connections Layer -->
+        <svg class="connections" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+
+            <!-- User Entry to Circle & Pool -->
+            <path class="connection" d="M 700 72 Q 700 120 525 200" />
+            <path class="connection" d="M 700 72 Q 700 120 875 200" />
+
+            <!-- Circle to Workshops & Posts -->
+            <path class="connection" d="M 350 232 Q 350 280 280 348" />
+            <path class="connection" d="M 350 232 Q 350 280 490 348" />
+
+            <!-- Pool to Asset & Operations -->
+            <path class="connection" d="M 1050 232 Q 1050 280 910 348" />
+            <path class="connection" d="M 1050 232 Q 1050 280 1120 348" />
+
+            <!-- Workshops & Posts to Growth -->
+            <path class="connection" d="M 280 380 Q 280 480 420 580 Q 560 680 700 765" />
+            <path class="connection" d="M 490 380 Q 490 480 560 580 Q 630 680 700 765" />
+
+            <!-- Asset & Operations to Growth -->
+            <path class="connection" d="M 910 380 Q 910 480 840 580 Q 770 680 700 765" />
+            <path class="connection" d="M 1120 380 Q 1120 480 980 580 Q 840 680 700 765" />
+        </svg>
+
+        <!-- Nodes -->
+        <!-- Row 1: Start (8%) -->
+        <div class="node entry-goal user-entry" style="left: 50%; top: 8%; transform: translateX(-50%);" data-id="user-entry">
+            <div class="node-icon">👤</div>
+            <div class="node-title">User Entry</div>
+            <div class="node-desc">Join the Finning community and start your financial journey</div>
+            <div class="connection-badge">2</div>
+        </div>
+
+        <!-- Row 2: Choose Path (32%) -->
+        <div class="node main-hub circle" style="left: 25%; top: 32%; transform: translateX(-50%);" data-id="circle">
+            <div class="node-icon">⭕</div>
+            <div class="node-title">Finning Circle</div>
+            <div class="node-desc">Learn, share knowledge, and build financial literacy together</div>
+            <div class="connection-badge">3</div>
+        </div>
+
+        <div class="node main-hub pool" style="left: 75%; top: 32%; transform: translateX(-50%);" data-id="pool">
+            <div class="node-icon">🏊</div>
+            <div class="node-title">Finning Pool</div>
+            <div class="node-desc">Pool resources and invest in promising opportunities</div>
+            <div class="connection-badge">3</div>
+        </div>
+
+        <!-- Row 3: Engage (58%) -->
+        <div class="node feature workshops" style="left: 15%; top: 58%; transform: translateX(-50%);" data-id="workshops">
+            <div class="node-icon">🎓</div>
+            <div class="node-title">Workshops</div>
+            <div class="node-desc">Interactive learning sessions on financial topics</div>
+            <div class="connection-badge">1</div>
+        </div>
+
+        <div class="node feature posts" style="left: 35%; top: 58%; transform: translateX(-50%);" data-id="posts">
+            <div class="node-icon">📝</div>
+            <div class="node-title">Community Posts</div>
+            <div class="node-desc">Share insights, ask questions, and engage with peers</div>
+            <div class="connection-badge">1</div>
+        </div>
+
+        <div class="node feature asset" style="left: 65%; top: 58%; transform: translateX(-50%);" data-id="asset">
+            <div class="node-icon">📈</div>
+            <div class="node-title">Asset Pooling</div>
+            <div class="node-desc">Contribute to investment pools for collective growth</div>
+            <div class="connection-badge">1</div>
+        </div>
+
+        <div class="node feature operations" style="left: 85%; top: 58%; transform: translateX(-50%);" data-id="operations">
+            <div class="node-icon">⚙️</div>
+            <div class="node-title">Operations Fund</div>
+            <div class="node-desc">Support operational funding for promising businesses</div>
+            <div class="connection-badge">1</div>
+        </div>
+
+        <!-- Row 4: Achieve (85%) -->
+        <div class="node entry-goal growth" style="left: 50%; top: 85%; transform: translateX(-50%);" data-id="growth">
+            <div class="node-icon">💰</div>
+            <div class="node-title">Financial Growth</div>
+            <div class="node-desc">Achieve sustainable financial success through community and investment</div>
+            <div class="connection-badge">4</div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-panel" id="infoPanel">
+            <button class="info-close" onclick="closeInfoPanel()">×</button>
+            <div id="infoContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Node data
+        const nodeData = {
+            'user-entry': {
+                title: 'User Entry',
+                icon: '👤',
+                iconBg: '#3b82f6',
+                description: 'Welcome to Finning! This is where new users join our community. From here, you can choose between learning through the Circle or investing through the Pool.',
+                connections: [
+                    { name: 'Finning Circle', color: '#7c3aed' },
+                    { name: 'Finning Pool', color: '#eab308' }
+                ]
+            },
+            'circle': {
+                title: 'Finning Circle',
+                icon: '⭕',
+                iconBg: '#7c3aed',
+                description: 'The learning hub of Finning. Participate in workshops, share knowledge through posts, and build your financial literacy with the community.',
+                connections: [
+                    { name: 'Workshops', color: '#ea580c' },
+                    { name: 'Community Posts', color: '#16a34a' },
+                    { name: 'Financial Growth', color: '#059669' }
+                ]
+            },
+            'pool': {
+                title: 'Finning Pool',
+                icon: '🏊',
+                iconBg: '#eab308',
+                description: 'The investment arm of Finning. Pool your resources with others to invest in assets or support operational funding for businesses.',
+                connections: [
+                    { name: 'Asset Pooling', color: '#4338ca' },
+                    { name: 'Operations Fund', color: '#0d9488' },
+                    { name: 'Financial Growth', color: '#059669' }
+                ]
+            },
+            'workshops': {
+                title: 'Workshops',
+                icon: '🎓',
+                iconBg: '#ea580c',
+                description: 'Interactive learning sessions covering various financial topics. Learn from experts and fellow community members.',
+                connections: [
+                    { name: 'Financial Growth', color: '#059669' }
+                ]
+            },
+            'posts': {
+                title: 'Community Posts',
+                icon: '📝',
+                iconBg: '#16a34a',
+                description: 'Share your financial insights, ask questions, and engage in meaningful discussions with the Finning community.',
+                connections: [
+                    { name: 'Financial Growth', color: '#059669' }
+                ]
+            },
+            'asset': {
+                title: 'Asset Pooling',
+                icon: '📈',
+                iconBg: '#4338ca',
+                description: 'Contribute to investment pools that focus on asset appreciation. Collective investment for maximum returns.',
+                connections: [
+                    { name: 'Financial Growth', color: '#059669' }
+                ]
+            },
+            'operations': {
+                title: 'Operations Fund',
+                icon: '⚙️',
+                iconBg: '#0d9488',
+                description: 'Support operational funding for promising businesses. Help entrepreneurs grow while earning returns.',
+                connections: [
+                    { name: 'Financial Growth', color: '#059669' }
+                ]
+            },
+            'growth': {
+                title: 'Financial Growth',
+                icon: '💰',
+                iconBg: '#059669',
+                description: 'The ultimate goal of Finning. Achieve sustainable financial success through learning, community engagement, and strategic investments.',
+                connections: [
+                    { name: 'Finning Circle', color: '#7c3aed' },
+                    { name: 'Workshops', color: '#ea580c' },
+                    { name: 'Community Posts', color: '#16a34a' },
+                    { name: 'Asset Pooling', color: '#4338ca' },
+                    { name: 'Operations Fund', color: '#0d9488' }
+                ]
+            }
+        };
+
+        // Current active node
+        let activeNode = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click listeners to nodes
+            document.querySelectorAll('.node').forEach(node => {
+                node.addEventListener('click', function() {
+                    const nodeId = this.dataset.id;
+                    showInfoPanel(nodeId);
+                    highlightConnections(nodeId);
+                });
+
+                node.addEventListener('mouseenter', function() {
+                    const nodeId = this.dataset.id;
+                    highlightConnections(nodeId);
+                });
+
+                node.addEventListener('mouseleave', function() {
+                    if (!activeNode) {
+                        clearHighlights();
+                    }
+                });
+            });
+        });
+
+        function showInfoPanel(nodeId) {
+            const data = nodeData[nodeId];
+            if (!data) return;
+
+            const panel = document.getElementById('infoPanel');
+            const content = document.getElementById('infoContent');
+
+            content.innerHTML = `
+                <div class="info-icon" style="background: ${data.iconBg};">${data.icon}</div>
+                <div class="info-title">${data.title}</div>
+                <div class="info-desc">${data.description}</div>
+                <div class="info-connections">
+                    <h5>🔗 Connections (${data.connections.length})</h5>
+                    ${data.connections.map(conn => `
+                        <div class="connection-item" onclick="focusNode('${conn.name.toLowerCase().replace(' ', '-')}')">
+                            <div class="connection-dot" style="background: ${conn.color};"></div>
+                            <span>${conn.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            panel.classList.add('active');
+            activeNode = nodeId;
+        }
+
+        function closeInfoPanel() {
+            document.getElementById('infoPanel').classList.remove('active');
+            clearHighlights();
+            activeNode = null;
+        }
+
+        function highlightConnections(nodeId) {
+            // Clear previous highlights
+            clearHighlights();
+
+            // Get connections for this node
+            const data = nodeData[nodeId];
+            if (!data) return;
+
+            // Highlight connected nodes
+            data.connections.forEach(conn => {
+                const connId = conn.name.toLowerCase().replace(' ', '-');
+                const connNode = document.querySelector(`[data-id="${connId}"]`);
+                if (connNode) {
+                    connNode.classList.add('clicked');
+                }
+            });
+
+            // Highlight SVG paths (simplified - would need more complex logic for real implementation)
+            document.querySelectorAll('.connection').forEach(path => {
+                path.classList.add('active');
+            });
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.node.clicked').forEach(node => {
+                node.classList.remove('clicked');
+            });
+            document.querySelectorAll('.connection.active').forEach(path => {
+                path.classList.remove('active');
+            });
+        }
+
+        function focusNode(nodeId) {
+            const node = document.querySelector(`[data-id="${nodeId}"]`);
+            if (node) {
+                node.click();
+                node.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Close panel when clicking outside
+        document.addEventListener('click', function(e) {
+            const panel = document.getElementById('infoPanel');
+            if (!panel.contains(e.target) && !e.target.closest('.node')) {
+                closeInfoPanel();
+            }
+        });
+    </script>
+</body>
+</html>

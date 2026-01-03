@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { ChevronLeft, Users, ThumbsUp, MessageSquare, Share2, Building2, Factory, Target } from 'lucide-react';
+import { ChevronLeft, Users, ThumbsUp, MessageSquare, Share2, Building2, Factory, Target, Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import InvestmentPools from '../components/InvestmentPools';
+import SankeyDiagram from '../components/charts/SankeyDiagram';
 
 export default function FinningUnifiedPage() {
-  const [activeTab, setActiveTab] = useState<'circle' | 'pool'>('circle');
+  const [activeTab, setActiveTab] = useState<'circle' | 'pool' | 'flowchart'>('circle');
+  const [showFlowchart, setShowFlowchart] = useState(false);
 
   const posts = [
     {
@@ -43,6 +45,7 @@ export default function FinningUnifiedPage() {
           <div className="flex items-center space-x-2">
             <button onClick={() => setActiveTab('circle')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab==='circle'?'ring-2 ring-offset-1':''}`}>Finning Circle</button>
             <button onClick={() => setActiveTab('pool')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab==='pool'?'ring-2 ring-offset-1':''}`}>Finning Pool</button>
+            <button onClick={() => setActiveTab('flowchart')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab==='flowchart'?'ring-2 ring-offset-1':''}`}>Journey Map</button>
           </div>
         </div>
 
@@ -144,6 +147,153 @@ export default function FinningUnifiedPage() {
                 <div className="text-sm text-purple-600 font-medium">ROI: 20-35%</div>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === 'flowchart' && (
+          <div className="space-y-6">
+            <div className="neo-card p-6 bg-white/12 dark:bg-gray-800/20 backdrop-blur-sm border border-white/8 dark:border-gray-700/20 rounded-2xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold">Finning Journey Map</h2>
+                  <p className="text-gray-600">Visual overview of your financial growth path through the Finning ecosystem</p>
+                </div>
+                <button
+                  onClick={() => setShowFlowchart(!showFlowchart)}
+                  className="neo-button glass-action px-4 py-2 flex items-center gap-2"
+                >
+                  {showFlowchart ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showFlowchart ? 'Hide' : 'Show'} Flowchart
+                </button>
+              </div>
+            </div>
+
+            {showFlowchart && (
+              <div className="space-y-6">
+                {/* Interactive Sankey Diagram */}
+                <SankeyDiagram 
+                  data={{
+                    nodes: [
+                      { name: "User Entry", value: 1000 },
+                      { name: "Finning Circle", value: 500 },
+                      { name: "Finning Pool", value: 500 },
+                      { name: "Workshops", value: 250 },
+                      { name: "Community Posts", value: 250 },
+                      { name: "Asset Pooling", value: 300 },
+                      { name: "Operations Fund", value: 200 },
+                      { name: "Financial Growth", value: 1000 }
+                    ],
+                    links: [
+                      { source: 0, target: 1, value: 500 }, // User Entry → Finning Circle
+                      { source: 0, target: 2, value: 500 }, // User Entry → Finning Pool
+                      { source: 1, target: 3, value: 200 }, // Finning Circle → Workshops
+                      { source: 1, target: 4, value: 300 }, // Finning Circle → Community Posts
+                      { source: 2, target: 5, value: 300 }, // Finning Pool → Asset Pooling
+                      { source: 2, target: 6, value: 200 }, // Finning Pool → Operations Fund
+                      { source: 3, target: 7, value: 200 }, // Workshops → Financial Growth
+                      { source: 4, target: 7, value: 300 }, // Community Posts → Financial Growth
+                      { source: 5, target: 7, value: 300 }, // Asset Pooling → Financial Growth
+                      { source: 6, target: 7, value: 200 }  // Operations Fund → Financial Growth
+                    ]
+                  }}
+                  width={900}
+                  height={500}
+                />
+
+                {/* Enhanced Navigation Guide */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="neo-card p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+                    <h4 className="font-bold text-blue-900 dark:text-blue-100 mb-4 flex items-center">
+                      <Target className="w-5 h-5 mr-2" />
+                      Journey Stages
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
+                        <div>
+                          <div className="font-semibold text-blue-800 dark:text-blue-200">Start</div>
+                          <div className="text-sm text-blue-600 dark:text-blue-300">Join the Finning community</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
+                        <div>
+                          <div className="font-semibold text-purple-800 dark:text-purple-200">Choose Path</div>
+                          <div className="text-sm text-purple-600 dark:text-purple-300">Circle (learn) or Pool (invest)</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">3</div>
+                        <div>
+                          <div className="font-semibold text-green-800 dark:text-green-200">Engage</div>
+                          <div className="text-sm text-green-600 dark:text-green-300">Participate in activities</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-sm">4</div>
+                        <div>
+                          <div className="font-semibold text-emerald-800 dark:text-emerald-200">Achieve</div>
+                          <div className="text-sm text-emerald-600 dark:text-emerald-300">Reach financial growth</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="neo-card p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
+                    <h4 className="font-bold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                      <Building2 className="w-5 h-5 mr-2" />
+                      Path Options
+                    </h4>
+                    <div className="space-y-4">
+                      <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-lg border border-green-200 dark:border-green-700">
+                        <div className="flex items-center mb-2">
+                          <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                          <span className="font-semibold text-purple-800 dark:text-purple-200">Finning Circle Path</span>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">Focus on learning and community building</p>
+                        <div className="flex flex-wrap gap-1">
+                          <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded">Workshops</span>
+                          <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded">Community Posts</span>
+                        </div>
+                      </div>
+                      <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-lg border border-green-200 dark:border-green-700">
+                        <div className="flex items-center mb-2">
+                          <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                          <span className="font-semibold text-yellow-800 dark:text-yellow-200">Finning Pool Path</span>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">Focus on investment and business growth</p>
+                        <div className="flex flex-wrap gap-1">
+                          <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs rounded">Asset Pooling</span>
+                          <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs rounded">Operations Fund</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Interactive Features */}
+                <div className="neo-card p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20">
+                  <h4 className="font-bold text-indigo-900 dark:text-indigo-100 mb-4">Interactive Features</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="text-center p-4 bg-white/60 dark:bg-gray-800/60 rounded-lg">
+                      <div className="text-2xl mb-2">🔍</div>
+                      <div className="font-semibold text-indigo-800 dark:text-indigo-200">Hover Flows</div>
+                      <div className="text-sm text-indigo-600 dark:text-indigo-300">See detailed values and connections</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/60 dark:bg-gray-800/60 rounded-lg">
+                      <div className="text-2xl mb-2">📊</div>
+                      <div className="font-semibold text-indigo-800 dark:text-indigo-200">Visual Analytics</div>
+                      <div className="text-sm text-indigo-600 dark:text-indigo-300">Understand flow distribution</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/60 dark:bg-gray-800/60 rounded-lg">
+                      <div className="text-2xl mb-2">🎯</div>
+                      <div className="font-semibold text-indigo-800 dark:text-indigo-200">Path Guidance</div>
+                      <div className="text-sm text-indigo-600 dark:text-indigo-300">Clear journey progression</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
