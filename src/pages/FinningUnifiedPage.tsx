@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, Users, ThumbsUp, MessageSquare, Share2, Building2, Factory, Target, Eye, EyeOff } from 'lucide-react';
+import { ChevronLeft, Users, ThumbsUp, MessageSquare, Share2, Building2, Factory, Target, Eye, EyeOff, X, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import InvestmentPools from '../components/InvestmentPools';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
@@ -7,6 +7,94 @@ import SankeyDiagram from '../components/charts/SankeyDiagram';
 export default function FinningUnifiedPage() {
   const [activeTab, setActiveTab] = useState<'circle' | 'pool' | 'flowchart'>('circle');
   const [showFlowchart, setShowFlowchart] = useState(false);
+  const [selectedNode, setSelectedNode] = useState<string | null>(null);
+
+  const nodeDescriptions = {
+    "User Entry": {
+      title: "👤 User Entry Point",
+      description: "The starting point for all users joining the Finning ecosystem. This represents new members who are beginning their financial journey and seeking to connect with like-minded individuals and opportunities.",
+      details: [
+        "New user registration and onboarding",
+        "Community introduction and orientation",
+        "Initial assessment of financial goals",
+        "Connection to relevant Finning paths"
+      ]
+    },
+    "Finning Circle": {
+      title: "⭕ Finning Circle",
+      description: "A collaborative learning community where financial professionals, entrepreneurs, and enthusiasts gather to share knowledge, insights, and experiences. Focus on education and peer-to-peer learning.",
+      details: [
+        "Knowledge sharing and discussions",
+        "Workshops and educational sessions",
+        "Community-driven content creation",
+        "Peer mentoring and support"
+      ]
+    },
+    "Finning Pool": {
+      title: "🏊 Finning Pool",
+      description: "An investment and resource pooling platform where members can collectively invest in promising opportunities, share risks, and amplify returns through collaborative funding.",
+      details: [
+        "Collective investment opportunities",
+        "Asset pooling and syndication",
+        "Operations funding for businesses",
+        "Shared risk and reward model"
+      ]
+    },
+    "Workshops": {
+      title: "🎓 Educational Workshops",
+      description: "Structured learning sessions led by financial experts, covering topics from basic financial literacy to advanced investment strategies and business development.",
+      details: [
+        "Financial planning workshops",
+        "Investment strategy sessions",
+        "Business development training",
+        "Industry-specific knowledge sharing"
+      ]
+    },
+    "Community Posts": {
+      title: "📝 Community Posts",
+      description: "A dynamic feed of insights, success stories, market analysis, and discussions shared by community members. This creates a living knowledge base of financial wisdom.",
+      details: [
+        "Success stories and case studies",
+        "Market insights and analysis",
+        "Discussion threads and Q&A",
+        "Real-time financial updates"
+      ]
+    },
+    "Asset Pooling": {
+      title: "📈 Asset Pooling",
+      description: "A sophisticated investment mechanism where community members pool their resources to invest in high-potential opportunities, including real estate, startups, and business ventures.",
+      details: [
+        "Real estate investment pools",
+        "Startup and business funding",
+        "Collective asset management",
+        "Diversified investment portfolios"
+      ]
+    },
+    "Operations Fund": {
+      title: "⚙️ Operations Fund",
+      description: "A dedicated funding mechanism for operational needs of businesses and projects within the Finning ecosystem. Provides working capital and growth funding for established ventures.",
+      details: [
+        "Business working capital",
+        "Operational expansion funding",
+        "Project-specific financing",
+        "Growth capital for established businesses"
+      ]
+    },
+    "Financial Growth": {
+      title: "💰 Financial Growth",
+      description: "The ultimate destination representing sustainable financial success, wealth accumulation, and long-term prosperity achieved through active participation in the Finning ecosystem.",
+      details: [
+        "Wealth accumulation and preservation",
+        "Sustainable financial independence",
+        "Portfolio growth and diversification",
+        "Legacy building and financial security"
+      ]
+    }
+  };
+
+  const handleNodeClick = (nodeName: string) => {
+    setSelectedNode(nodeName);
+  };
 
   const posts = [
     {
@@ -198,6 +286,7 @@ export default function FinningUnifiedPage() {
                   }}
                   width={900}
                   height={500}
+                  onNodeClick={handleNodeClick}
                 />
 
                 {/* Enhanced Navigation Guide */}
@@ -274,7 +363,7 @@ export default function FinningUnifiedPage() {
                 {/* Interactive Features */}
                 <div className="neo-card p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20">
                   <h4 className="font-bold text-indigo-900 dark:text-indigo-100 mb-4">Interactive Features</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="text-center p-4 bg-white/60 dark:bg-gray-800/60 rounded-lg">
                       <div className="text-2xl mb-2">🔍</div>
                       <div className="font-semibold text-indigo-800 dark:text-indigo-200">Hover Flows</div>
@@ -286,10 +375,64 @@ export default function FinningUnifiedPage() {
                       <div className="text-sm text-indigo-600 dark:text-indigo-300">Understand flow distribution</div>
                     </div>
                     <div className="text-center p-4 bg-white/60 dark:bg-gray-800/60 rounded-lg">
+                      <div className="text-2xl mb-2">ℹ️</div>
+                      <div className="font-semibold text-indigo-800 dark:text-indigo-200">Info Icons</div>
+                      <div className="text-sm text-indigo-600 dark:text-indigo-300">Click for detailed descriptions</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/60 dark:bg-gray-800/60 rounded-lg">
                       <div className="text-2xl mb-2">🎯</div>
                       <div className="font-semibold text-indigo-800 dark:text-indigo-200">Path Guidance</div>
                       <div className="text-sm text-indigo-600 dark:text-indigo-300">Clear journey progression</div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Node Description Modal */}
+            {selectedNode && (
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="neo-card bg-white dark:bg-gray-800 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+                  <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                      {nodeDescriptions[selectedNode as keyof typeof nodeDescriptions]?.title}
+                    </h3>
+                    <button
+                      onClick={() => setSelectedNode(null)}
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                    >
+                      <X className="w-5 h-5 text-gray-500" />
+                    </button>
+                  </div>
+
+                  <div className="p-6">
+                    <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                      {nodeDescriptions[selectedNode as keyof typeof nodeDescriptions]?.description}
+                    </p>
+
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-gray-900 dark:text-white flex items-center">
+                        <Info className="w-4 h-4 mr-2 text-blue-500" />
+                        Key Features:
+                      </h4>
+                      <ul className="space-y-2">
+                        {nodeDescriptions[selectedNode as keyof typeof nodeDescriptions]?.details.map((detail, index) => (
+                          <li key={index} className="flex items-start text-gray-700 dark:text-gray-300">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            {detail}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end p-6 border-t border-gray-200 dark:border-gray-700">
+                    <button
+                      onClick={() => setSelectedNode(null)}
+                      className="neo-button glass-action px-6 py-2"
+                    >
+                      Close
+                    </button>
                   </div>
                 </div>
               </div>

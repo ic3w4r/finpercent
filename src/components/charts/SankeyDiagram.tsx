@@ -11,12 +11,14 @@ interface SankeyDiagramProps {
   data: SankeyData;
   width?: number;
   height?: number;
+  onNodeClick?: (nodeName: string) => void;
 }
 
 const SankeyDiagram: React.FC<SankeyDiagramProps> = ({ 
   data, 
   width = 800, 
-  height = 400 
+  height = 400,
+  onNodeClick
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -258,19 +260,36 @@ const SankeyDiagram: React.FC<SankeyDiagramProps> = ({
       .style("text-shadow", "0 1px 2px rgba(255, 255, 255, 0.8)")
       .text((d: any) => d.name);
 
-    // Enhanced node values with better styling
+    // Enhanced node values with better styling - now showing info icons
     node
       .append("text")
       .attr("x", (d: any) => d.x0 < innerWidth / 2 ? d.x1 + 12 : d.x0 - 12)
       .attr("y", (d: any) => (d.y1 + d.y0) / 2 + 8)
       .attr("dy", "0.35em")
       .attr("text-anchor", (d: any) => d.x0 < innerWidth / 2 ? "start" : "end")
-      .style("font-size", "12px")
+      .style("font-size", "16px")
       .style("font-weight", "600")
       .style("font-family", "Manrope, sans-serif")
       .style("fill", "#22c55e")
       .style("text-shadow", "0 1px 2px rgba(255, 255, 255, 0.8)")
-      .text((d: any) => `$${d.value.toLocaleString()}`);
+      .style("cursor", "pointer")
+      .text("ℹ️")
+      .on("click", function(event, d: any) {
+        event.stopPropagation();
+        if (onNodeClick) {
+          onNodeClick(d.name);
+        }
+      })
+      .on("mouseover", function() {
+        select(this)
+          .style("transform", "scale(1.2)")
+          .style("fill", "#16a34a");
+      })
+      .on("mouseout", function() {
+        select(this)
+          .style("transform", "scale(1)")
+          .style("fill", "#22c55e");
+      });
 
     // Add animation on load
     link
