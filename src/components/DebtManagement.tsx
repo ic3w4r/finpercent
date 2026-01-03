@@ -76,74 +76,67 @@ export default function DebtManagement() {
   const calculateEmiCapacity = () => {
     const n = (val: number) => (isNaN(val) ? 0 : val);
 
+    // Basic inputs
+    const monthlyRevenue = n(emiToolInputs.monthlyRevenue);
+    const annualRevenue = monthlyRevenue * 12;
+    const emiExisting = n(emiToolInputs.existingEmi);
+
+    // Cashflow bands
     const p20_adj = n(emiToolInputs.p20Surplus);
     const p50_adj = n(emiToolInputs.p50Surplus);
     const p80_adj = n(emiToolInputs.p80Surplus);
     const avg_adj_net_cash = (p20_adj + p50_adj + p80_adj) / 3;
 
+    // Volatility penalty
     const volatilityRaw = avg_adj_net_cash === 0 ? 0 : (p80_adj - p20_adj) / Math.max(avg_adj_net_cash, 1);
     const volatility = Math.max(0, Math.min(volatilityRaw, 1.5));
-
-    const fixedCostBase = n(emiToolInputs.monthlyFixed);
-    const otherFixedM = n(emiToolInputs.otherCommitments);
-    const emiExisting = n(emiToolInputs.existingEmi);
-
-    let cadsSafe = p20_adj - otherFixedM;
-    let cadsNormal = p50_adj - otherFixedM;
-    let cadsStretch = p80_adj - otherFixedM;
-
-    cadsSafe = Math.max(0, cadsSafe);
-    cadsNormal = Math.max(0, cadsNormal);
-    cadsStretch = Math.max(0, cadsStretch);
 
     let volFactor = 1;
     if (volatility < 0.3) volFactor = 1;
     else if (volatility <= 0.6) volFactor = 0.9;
     else volFactor = 0.75;
 
-    cadsSafe *= volFactor;
-    cadsNormal *= volFactor;
-    cadsStretch *= volFactor;
+    // Apply volatility discount to surplus
+    let cadsSafe = Math.max(0, (p20_adj - n(emiToolInputs.otherCommitments)) * volFactor);
+    let cadsNormal = Math.max(0, (p50_adj - n(emiToolInputs.otherCommitments)) * volFactor);
+    let cadsStretch = Math.max(0, (p80_adj - n(emiToolInputs.otherCommitments)) * volFactor);
 
-    const wcNeedPerMonth = (n(emiToolInputs.monthlyRevenue) * 30) / 30;
-    const wcDeficit = Math.max(0, wcNeedPerMonth - cadsNormal);
+    // Scale DSCR based on revenue size
+    // For ₹10L revenue (~₹83K/month): use 1.5 DSCR (stricter)
+    // For ₹1Cr+ revenue: use 1.3 DSCR (standard)
+    const scaledDscr = annualRevenue < 1500000 ? 1.5 : annualRevenue < 5000000 ? 1.4 : 1.3;
 
-    const k = 0.75;
-    const cadsSafeWc = Math.max(0, cadsSafe - k * wcDeficit);
-    const cadsNormalWc = Math.max(0, cadsNormal - k * wcDeficit);
-    const cadsStretchWc = Math.max(0, cadsStretch - k * wcDeficit);
+    // Also apply revenue-based EMI caps: max EMI ≈ 2-3% of annual revenue per month
+    const revenueBasedEmiCap = (annualRevenue * 0.025) / 12; // 2.5% of annual revenue
+    const minimumEmiForSmallBiz = 1000; // For very small businesses
 
-    const dscrMin = 1.3;
-
-    // Correct EMI calculation:
-    // CADS available / DSCR = Total EMI we can service
-    // New EMI capacity = (Total EMI capacity) - (Existing EMI)
+    // Calculate EMI capacity from CADS with DSCR
     const calcEmiNew = (cadsBand: number): number => {
       if (cadsBand <= 0) return 0;
-      const totalEmiCapacity = cadsBand / dscrMin;
+      const totalEmiCapacity = cadsBand / scaledDscr;
       const newEmiCapacity = Math.max(0, totalEmiCapacity - emiExisting);
       return newEmiCapacity;
     };
 
-    let emiSafeRaw = calcEmiNew(cadsSafeWc);
-    let emiNormalRaw = calcEmiNew(cadsNormalWc);
-    let emiStretchRaw = calcEmiNew(cadsStretchWc);
+    let emiSafeRaw = calcEmiNew(cadsSafe);
+    let emiNormalRaw = calcEmiNew(cadsNormal);
+    let emiStretchRaw = calcEmiNew(cadsStretch);
 
-    emiSafeRaw = Math.max(0, emiSafeRaw);
-    emiNormalRaw = Math.max(0, emiNormalRaw);
-    emiStretchRaw = Math.max(0, emiStretchRaw);
+    // Cap EMI to revenue-based limits
+    emiSafeRaw = Math.min(emiSafeRaw, revenueBasedEmiCap);
+    emiNormalRaw = Math.min(emiNormalRaw, revenueBasedEmiCap * 1.2); // Stretch gets 20% more room
+    emiStretchRaw = Math.min(emiStretchRaw, revenueBasedEmiCap * 1.5);
 
-    // Buffer: retain at least 20% of CADS as safety cushion
-    const bufferPercent = 0.2;
+    // Apply 15% safety buffer for small businesses, 10% for larger
+    const bufferPercent = annualRevenue < 1500000 ? 0.15 : 0.1;
     const emiSafeFinal = Math.max(0, emiSafeRaw * (1 - bufferPercent));
     const emiNormalFinal = Math.max(0, emiNormalRaw * (1 - bufferPercent));
     const emiStretchFinal = Math.max(0, emiStretchRaw * (1 - bufferPercent));
 
-    // Minimum EMI threshold (below this, don't show an EMI option)
-    const minEmiThreshold = 2000;
-    const survivalEmi = emiSafeFinal < minEmiThreshold ? 0 : Math.round(emiSafeFinal);
-    const operatingEmi = emiNormalFinal < minEmiThreshold ? 0 : Math.round(emiNormalFinal);
-    const stretchEmi = emiStretchFinal < minEmiThreshold ? 0 : Math.round(emiStretchFinal);
+    // Round and apply minimum threshold
+    const survivalEmi = emiSafeFinal < minimumEmiForSmallBiz ? 0 : Math.round(emiSafeFinal / 100) * 100; // Round to nearest ₹100
+    const operatingEmi = emiNormalFinal < minimumEmiForSmallBiz ? 0 : Math.round(emiNormalFinal / 100) * 100;
+    const stretchEmi = emiStretchFinal < minimumEmiForSmallBiz ? 0 : Math.round(emiStretchFinal / 100) * 100;
 
     const r = n(emiToolInputs.interestRate) / 100 / 12;
     const nMonths = n(emiToolInputs.tenureMonths);
@@ -166,18 +159,22 @@ export default function DebtManagement() {
     const behaviourScore = Math.max(0, Math.min(100, Math.round(behaviourScoreRaw)));
 
     const baseEmi = operatingEmi > 0 ? operatingEmi : survivalEmi;
-    const baseCads = operatingEmi > 0 ? cadsNormalWc : cadsSafeWc;
+    const baseCads = operatingEmi > 0 ? cadsNormal : cadsSafe;
     const totalDebtService = emiExisting + baseEmi;
     const dscrBase = totalDebtService <= 0 ? 0 : baseCads / totalDebtService;
     const surplusAfterEmi = baseCads - baseEmi;
-    const surplusRatio = fixedCostBase <= 0 ? 0 : surplusAfterEmi / fixedCostBase;
+    const surplusRatio = monthlyRevenue <= 0 ? 0 : surplusAfterEmi / monthlyRevenue;
 
     let globalRiskColor: 'GREEN' | 'AMBER' | 'RED' = 'RED';
-    if (dscrBase >= 1.5 && surplusRatio >= 0.75 && behaviourScore >= 70) {
+    if (dscrBase >= 1.5 && surplusRatio >= 0.5 && behaviourScore >= 70) {
       globalRiskColor = 'GREEN';
-    } else if (dscrBase >= 1.2 && surplusRatio >= 0.4 && behaviourScore >= 50) {
+    } else if (dscrBase >= 1.2 && surplusRatio >= 0.2 && behaviourScore >= 50) {
       globalRiskColor = 'AMBER';
     }
+
+    // Calculate WC need and deficit
+    const wcNeedPerMonth = monthlyRevenue * 0.2; // Working capital typically 20% of revenue
+    const wcDeficit = Math.max(0, wcNeedPerMonth - cadsNormal);
 
     const res: EmiCapacityResults = {
       survivalEmi,
@@ -460,6 +457,24 @@ export default function DebtManagement() {
             {/* Results display */}
             {emiCapacityResults && (
               <div className="mt-6 space-y-4">
+                {/* Over-leveraged warning */}
+                {emiCapacityResults.survivalEmi === 0 && emiCapacityResults.operatingEmi === 0 && emiCapacityResults.stretchEmi === 0 && (
+                  <div className="p-4 bg-red-50 border-2 border-red-300 rounded-lg">
+                    <div className="flex gap-3 items-start">
+                      <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-semibold text-red-800">Business Over-Leveraged</div>
+                        <div className="text-sm text-red-700 mt-1">Your existing EMI commitments (₹{emiCapacityResults && emiToolInputs.existingEmi > 0 ? emiToolInputs.existingEmi.toLocaleString() : '0'}/month) exceed your repayment capacity. Consider:</div>
+                        <ul className="text-sm text-red-700 mt-2 ml-4 list-disc">
+                          <li>Restructuring/refinancing existing loans</li>
+                          <li>Increasing business revenue to improve capacity</li>
+                          <li>Consolidating high-interest debts at lower rates</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Risk badges */}
                 <div className="grid grid-cols-4 gap-3">
                   <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
@@ -479,13 +494,13 @@ export default function DebtManagement() {
                   <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
                     <div className="text-xs font-medium text-gray-500">Safe EMI</div>
                     <div className="text-sm font-bold mt-1 text-gray-800">
-                      ₹{emiCapacityResults.survivalEmi > 0 ? emiCapacityResults.survivalEmi.toLocaleString() : 'N/A'}
+                      ₹{emiCapacityResults.survivalEmi.toLocaleString()}
                     </div>
                   </div>
                   <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
                     <div className="text-xs font-medium text-gray-500">Max EMI</div>
                     <div className="text-sm font-bold mt-1 text-gray-800">
-                      ₹{emiCapacityResults.operatingEmi > 0 ? emiCapacityResults.operatingEmi.toLocaleString() : 'N/A'}
+                      ₹{emiCapacityResults.operatingEmi.toLocaleString()}
                     </div>
                   </div>
                   <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
@@ -511,30 +526,30 @@ export default function DebtManagement() {
                       <tr className="border-b border-gray-100">
                         <td className="py-2 px-2 text-gray-700">Survival</td>
                         <td className="py-2 px-2 text-gray-700">
-                          ₹{emiCapacityResults.survivalEmi > 0 ? emiCapacityResults.survivalEmi.toLocaleString() : 'Not advised'}
+                          ₹{emiCapacityResults.survivalEmi.toLocaleString()}
                         </td>
                         <td className="py-2 px-2 text-gray-700">
-                          ₹{emiCapacityResults.survivalLoan > 0 ? emiCapacityResults.survivalLoan.toLocaleString() : '-'}
+                          ₹{emiCapacityResults.survivalLoan > 0 ? emiCapacityResults.survivalLoan.toLocaleString() : '0'}
                         </td>
                         <td className="py-2 px-2 text-green-600 font-medium">Low</td>
                       </tr>
                       <tr className="border-b border-gray-100">
                         <td className="py-2 px-2 text-gray-700">Operating</td>
                         <td className="py-2 px-2 text-gray-700">
-                          ₹{emiCapacityResults.operatingEmi > 0 ? emiCapacityResults.operatingEmi.toLocaleString() : 'Not advised'}
+                          ₹{emiCapacityResults.operatingEmi.toLocaleString()}
                         </td>
                         <td className="py-2 px-2 text-gray-700">
-                          ₹{emiCapacityResults.operatingLoan > 0 ? emiCapacityResults.operatingLoan.toLocaleString() : '-'}
+                          ₹{emiCapacityResults.operatingLoan > 0 ? emiCapacityResults.operatingLoan.toLocaleString() : '0'}
                         </td>
                         <td className="py-2 px-2 text-amber-600 font-medium">Medium</td>
                       </tr>
                       <tr>
                         <td className="py-2 px-2 text-gray-700">Stretch</td>
                         <td className="py-2 px-2 text-gray-700">
-                          ₹{emiCapacityResults.stretchEmi > 0 ? emiCapacityResults.stretchEmi.toLocaleString() : 'Not advised'}
+                          ₹{emiCapacityResults.stretchEmi.toLocaleString()}
                         </td>
                         <td className="py-2 px-2 text-gray-700">
-                          ₹{emiCapacityResults.stretchLoan > 0 ? emiCapacityResults.stretchLoan.toLocaleString() : '-'}
+                          ₹{emiCapacityResults.stretchLoan > 0 ? emiCapacityResults.stretchLoan.toLocaleString() : '0'}
                         </td>
                         <td className="py-2 px-2 text-red-600 font-medium">High</td>
                       </tr>

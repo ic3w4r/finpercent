@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Capacity Tool - Data Flow Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .flow-chart {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .stage {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            position: relative;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .stage.input {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stage.process {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stage.calculation {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .stage.output {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .stage h3 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+
+        .stage-content {
+            font-size: 0.95em;
+            line-height: 1.8;
+            flex-grow: 1;
+        }
+
+        .item {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 5px 0;
+            font-weight: 500;
+        }
+
+        .item-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            right: -32px;
+            width: 30px;
+            height: 3px;
+            background: #667eea;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .arrow::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: -15px;
+            font-size: 32px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .flow-chart .stage:last-child .arrow {
+            display: none;
+        }
+
+        /* Detailed Flow Section */
+        .detailed-flow {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .detailed-flow h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .flow-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+
+        .flow-row:nth-child(even) {
+            direction: rtl;
+        }
+
+        .flow-row:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .input-box, .output-box, .calc-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .output-box {
+            border-left-color: #43e97b;
+        }
+
+        .calc-box {
+            border-left-color: #4facfe;
+        }
+
+        .input-box h4, .output-box h4, .calc-box h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .flow-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        .flow-item strong {
+            color: #667eea;
+        }
+
+        .example-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px dashed #667eea;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .example-calc {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        /* Interactive Elements */
+        .interactive-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        .interactive-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .calculate-btn {
+            background: #43e97b;
+            color: #333;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .calculate-btn:hover {
+            background: #38f9d7;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(67, 233, 123, 0.3);
+        }
+
+        .results-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .results-box.show {
+            display: block;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .result-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95em;
+        }
+
+        .legend-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+        }
+
+        .legend-input { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .legend-process { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .legend-calc { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .legend-output { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+        @media (max-width: 1200px) {
+            .flow-chart {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .flow-chart {
+                grid-template-columns: 1fr;
+            }
+
+            .arrow {
+                display: none;
+            }
+
+            .flow-row {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+
+            .flow-row:nth-child(even) {
+                direction: ltr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 EMI Capacity Tool - Data Flow Visualization</h1>
+        <p class="subtitle">From User Input → Calculation Engine → Risk Analysis → Final Output</p>
+
+        <!-- Main Flow Chart -->
+        <div class="flow-chart">
+            <div class="stage input">
+                <h3>📊 STAGE 1: USER INPUTS</h3>
+                <div class="stage-content">
+                    <div class="item"><span class="item-label">Monthly Revenue</span>₹100,000</div>
+                    <div class="item"><span class="item-label">Existing EMI</span>₹50,000</div>
+                    <div class="item"><span class="item-label">Low Surplus</span>₹15,000</div>
+                    <div class="item"><span class="item-label">Median Surplus</span>₹20,000</div>
+                    <div class="item"><span class="item-label">High Surplus</span>₹25,000</div>
+                </div>
+                <div class="arrow"></div>
+            </div>
+
+            <div class="stage process">
+                <h3>⚙️ STAGE 2: CASHFLOW ANALYSIS</h3>
+                <div class="stage-content">
+                    <div class="item"><span class="item-label">Avg Net Cash</span>₹20,000/month</div>
+                    <div class="item"><span class="item-label">Volatility</span>0.5 (50%)</div>
+                    <div class="item"><span class="item-label">Vol Factor</span>0.9 (10% discount)</div>
+                    <div class="item"><span class="item-label">CADS Normal</span>₹16,200</div>
+                </div>
+                <div class="arrow"></div>
+            </div>
+
+            <div class="stage calculation">
+                <h3>🧮 STAGE 3: EMI CAPACITY CALC</h3>
+                <div class="stage-content">
+                    <div class="item"><span class="item-label">Scaled DSCR</span>1.5 (small biz)</div>
+                    <div class="item"><span class="item-label">Total Capacity</span>₹10,800</div>
+                    <div class="item"><span class="item-label">New EMI</span>-₹39,200</div>
+                    <div class="item"><span class="item-label">Capped Result</span>₹0</div>
+                </div>
+                <div class="arrow"></div>
+            </div>
+
+            <div class="stage process">
+                <h3>🛡️ STAGE 4: SAFETY CHECKS</h3>
+                <div class="stage-content">
+                    <div class="item"><span class="item-label">Buffer (15%)</span>Applied</div>
+                    <div class="item"><span class="item-label">Min Threshold</span>₹1,000</div>
+                    <div class="item"><span class="item-label">Final EMI</span>₹0</div>
+                    <div class="item"><span class="item-label">Behaviour Score</span>56/100</div>
+                </div>
+                <div class="arrow"></div>
+            </div>
+
+            <div class="stage output">
+                <h3>📈 STAGE 5: OUTPUT RESULTS</h3>
+                <div class="stage-content">
+                    <div class="item"><span class="item-label">Debt Readiness</span>🔴 RED</div>
+                    <div class="item"><span class="item-label">Safe EMI</span>₹0</div>
+                    <div class="item"><span class="item-label">Max EMI</span>₹0</div>
+                    <div class="item"><span class="item-label">WC Deficit</span>₹3,800</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Flow Breakdown -->
+        <div class="detailed-flow">
+            <h2>📋 Detailed Flow Breakdown</h2>
+
+            <!-- Stage 1: Input Collection -->
+            <div class="flow-row">
+                <div class="input-box">
+                    <h4>🔹 INPUT COLLECTION (User Form)</h4>
+                    <div class="flow-item"><strong>Monthly Revenue:</strong> User enters ₹100,000</div>
+                    <div class="flow-item"><strong>Monthly Fixed Costs:</strong> User enters ₹30,000</div>
+                    <div class="flow-item"><strong>Existing EMI:</strong> User enters ₹50,000</div>
+                    <div class="flow-item"><strong>Low Season Surplus:</strong> User enters ₹15,000</div>
+                    <div class="flow-item"><strong>Median Surplus:</strong> User enters ₹20,000</div>
+                    <div class="flow-item"><strong>High Season Surplus:</strong> User enters ₹25,000</div>
+                </div>
+                <div class="calc-box">
+                    <h4>🔸 DATA EXTRACTION & NORMALIZATION</h4>
+                    <div class="example-title">Step 1: Parse all inputs</div>
+                    <div class="example-calc">
+monthlyRevenue = 100000
+annualRevenue = 100000 × 12 = 1,200,000
+emiExisting = 50000
+
+p20 (Low) = 15000
+p50 (Mid) = 20000
+p80 (High) = 25000
+
+avgNetCash = (15k + 20k + 25k) / 3 = 20000
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 2: Volatility & CADS -->
+            <div class="flow-row">
+                <div class="calc-box">
+                    <h4>🔸 VOLATILITY CALCULATION</h4>
+                    <div class="example-title">Step 2: Measure cashflow stability</div>
+                    <div class="example-calc">
+volatility = (p80 - p20) / avgNetCash
+          = (25k - 15k) / 20k
+          = 10k / 20k
+          = 0.5
+
+volFactor:
+if vol < 0.3 → factor = 1.0
+if 0.3 ≤ vol ≤ 0.6 → factor = 0.9 ✓
+if vol > 0.6 → factor = 0.75
+
+Result: Apply 10% discount to surplus
+                    </div>
+                </div>
+                <div class="calc-box">
+                    <h4>🔸 CADS CALCULATION</h4>
+                    <div class="example-title">Step 3: Cash available for debt service</div>
+                    <div class="example-calc">
+CADS = Surplus - Other Commitments
+       × Volatility Factor
+
+CADSSafe = (15k - 2k) × 0.9 = 11,700
+CADSNorm = (20k - 2k) × 0.9 = 16,200
+CADSStretch = (25k - 2k) × 0.9 = 20,700
+
+These are the 3 risk bands for EMI capacity
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 3: DSCR & EMI Capacity -->
+            <div class="flow-row">
+                <div class="calc-box">
+                    <h4>🔸 REVENUE-BASED DSCR SCALING</h4>
+                    <div class="example-title">Step 4: Adjust for business size</div>
+                    <div class="example-calc">
+Annual Revenue: ₹1,200,000
+
+DSCR Thresholds:
+< ₹15L → DSCR = 1.5 (stricter)
+₹15-50L → DSCR = 1.4
+> ₹50L → DSCR = 1.3
+
+Result: scaledDscr = 1.5
+
+This means: CADS must be 1.5x
+total debt service for safety
+                    </div>
+                </div>
+                <div class="calc-box">
+                    <h4>🔸 NEW EMI CAPACITY CALCULATION</h4>
+                    <div class="example-title">Step 5: Calculate borrowing room</div>
+                    <div class="example-calc">
+Formula: NewEMI = (CADS / DSCR) - Existing
+
+Safe:
+  Total = 11,700 / 1.5 = 7,800
+  New = 7,800 - 50,000 = -42,200
+  Capped = max(0, -42,200) = 0
+
+Normal:
+  Total = 16,200 / 1.5 = 10,800
+  New = 10,800 - 50,000 = -39,200
+  Capped = 0
+
+Stretch:
+  Total = 20,700 / 1.5 = 13,800
+  New = 13,800 - 50,000 = -36,200
+  Capped = 0
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 4: Buffers & Safety -->
+            <div class="flow-row">
+                <div class="calc-box">
+                    <h4>🔸 SAFETY BUFFER & ROUNDING</h4>
+                    <div class="example-title">Step 6: Apply protective measures</div>
+                    <div class="example-calc">
+Buffer Percentage:
+< ₹15L revenue → 15% (small biz)
+> ₹15L revenue → 10%
+
+Applied: 15% buffer to safe EMI
+
+Final = max(0, 0 × (1 - 0.15))
+      = 0
+
+Min Threshold: ₹1,000
+if final < 1000 → result = 0
+
+All EMI bands = ₹0
+                    </div>
+                </div>
+                <div class="calc-box">
+                    <h4>🔸 BEHAVIOUR SCORE CALC</h4>
+                    <div class="example-title">Step 7: Assess payment discipline</div>
+                    <div class="example-calc">
+Weighted Scoring (max 75):
+
+GST Compliance Score:
+  0.7 × 30 = 21 points
+
+Cheque Bounce Score:
+  2 bounces → 20 points
+
+Negative Balance Score:
+  3 months → 15 points
+
+TOTAL = 21 + 20 + 15 = 56/100
+
+Lower score = Higher risk
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 5: Risk & Output -->
+            <div class="flow-row">
+                <div class="calc-box">
+                    <h4>🔸 RISK COLOR DETERMINATION</h4>
+                    <div class="example-title">Step 8: Assign risk level</div>
+                    <div class="example-calc">
+GREEN:
+  DSCR ≥ 1.5 AND
+  Surplus Ratio ≥ 50% AND
+  Score ≥ 70
+
+AMBER:
+  DSCR ≥ 1.2 AND
+  Surplus Ratio ≥ 20% AND
+  Score ≥ 50
+
+RED: Otherwise
+
+Analysis:
+  DSCR = 16,200/(50,000+0) = 0.32 ✗
+  Surplus = 0% ✗
+  Score = 56 (< 70) ✗
+
+RESULT: 🔴 RED
+(Over-leveraged)
+                    </div>
+                </div>
+                <div class="output-box">
+                    <h4>✅ FINAL OUTPUT</h4>
+                    <div class="flow-item"><strong>Debt Readiness:</strong> 🔴 RED</div>
+                    <div class="flow-item"><strong>Safe EMI:</strong> ₹0</div>
+                    <div class="flow-item"><strong>Max EMI:</strong> ₹0</div>
+                    <div class="flow-item"><strong>Behaviour Score:</strong> 56/100</div>
+                    <div class="flow-item"><strong>WC Need:</strong> ₹20,000</div>
+                    <div class="flow-item"><strong>WC Deficit:</strong> ₹3,800</div>
+                    <div class="flow-item"><strong>Alert:</strong> Over-leveraged!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Calculator -->
+        <div class="interactive-section">
+            <h2>🔄 Interactive Flow Calculator</h2>
+            <p style="margin-bottom: 25px;">Enter your values to see the flow in real-time:</p>
+            
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Monthly Revenue (₹)</label>
+                    <input type="number" id="monthlyRev" value="100000" placeholder="100000">
+                </div>
+                <div class="input-group">
+                    <label>Existing EMI (₹)</label>
+                    <input type="number" id="existingEmi" value="50000" placeholder="5000">
+                </div>
+                <div class="input-group">
+                    <label>Low Surplus (₹)</label>
+                    <input type="number" id="lowSurplus" value="15000" placeholder="15000">
+                </div>
+                <div class="input-group">
+                    <label>Median Surplus (₹)</label>
+                    <input type="number" id="medSurplus" value="20000" placeholder="20000">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label>High Surplus (₹)</label>
+                    <input type="number" id="highSurplus" value="25000" placeholder="25000">
+                </div>
+                <div class="input-group">
+                    <label>Other Commitments (₹)</label>
+                    <input type="number" id="otherCommit" value="2000" placeholder="2000">
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateFlow()">📊 Calculate & Show Flow</button>
+
+            <div id="resultsBox" class="results-box">
+                <h3 style="color: #333; margin-bottom: 20px;">🎯 Real-Time Flow Results</h3>
+                <div class="result-grid" id="resultGrid"></div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box legend-input"></div>
+                <span><strong>Input Stage:</strong> User data collection</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box legend-process"></div>
+                <span><strong>Process:</strong> Data analysis & transformation</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box legend-calc"></div>
+                <span><strong>Calculation:</strong> Complex math & formulas</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box legend-output"></div>
+                <span><strong>Output:</strong> Final results & analysis</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateFlow() {
+            const monthlyRev = parseFloat(document.getElementById('monthlyRev').value) || 0;
+            const existingEmi = parseFloat(document.getElementById('existingEmi').value) || 0;
+            const lowSurplus = parseFloat(document.getElementById('lowSurplus').value) || 0;
+            const medSurplus = parseFloat(document.getElementById('medSurplus').value) || 0;
+            const highSurplus = parseFloat(document.getElementById('highSurplus').value) || 0;
+            const otherCommit = parseFloat(document.getElementById('otherCommit').value) || 0;
+
+            const annualRev = monthlyRev * 12;
+            const avgNetCash = (lowSurplus + medSurplus + highSurplus) / 3;
+            const volatility = avgNetCash === 0 ? 0 : (highSurplus - lowSurplus) / avgNetCash;
+            const volFactor = volatility < 0.3 ? 1 : volatility <= 0.6 ? 0.9 : 0.75;
+
+            const cadsSafe = Math.max(0, (lowSurplus - otherCommit) * volFactor);
+            const cadsNormal = Math.max(0, (medSurplus - otherCommit) * volFactor);
+            const cadsStretch = Math.max(0, (highSurplus - otherCommit) * volFactor);
+
+            const scaledDscr = annualRev < 1500000 ? 1.5 : annualRev < 5000000 ? 1.4 : 1.3;
+            const revenueEmiCap = (annualRev * 0.025) / 12;
+
+            const calcEmi = (cads) => Math.max(0, (cads / scaledDscr) - existingEmi);
+            let emiSafe = Math.min(calcEmi(cadsSafe), revenueEmiCap);
+            let emiNormal = Math.min(calcEmi(cadsNormal), revenueEmiCap * 1.2);
+            let emiStretch = Math.min(calcEmi(cadsStretch), revenueEmiCap * 1.5);
+
+            const buffer = annualRev < 1500000 ? 0.15 : 0.1;
+            emiSafe = Math.max(0, emiSafe * (1 - buffer));
+            emiNormal = Math.max(0, emiNormal * (1 - buffer));
+            emiStretch = Math.max(0, emiStretch * (1 - buffer));
+
+            const minThreshold = 1000;
+            const survivalEmi = emiSafe < minThreshold ? 0 : Math.round(emiSafe / 100) * 100;
+            const operatingEmi = emiNormal < minThreshold ? 0 : Math.round(emiNormal / 100) * 100;
+            const stretchEmi = emiStretch < minThreshold ? 0 : Math.round(emiStretch / 100) * 100;
+
+            const baseEmi = operatingEmi > 0 ? operatingEmi : survivalEmi;
+            const baseCads = operatingEmi > 0 ? cadsNormal : cadsSafe;
+            const dscr = (baseEmi + existingEmi) <= 0 ? 0 : baseCads / (baseEmi + existingEmi);
+            const surplusRatio = monthlyRev <= 0 ? 0 : (baseCads - baseEmi) / monthlyRev;
+
+            let riskColor = 'RED';
+            if (dscr >= 1.5 && surplusRatio >= 0.5) riskColor = 'GREEN';
+            else if (dscr >= 1.2 && surplusRatio >= 0.2) riskColor = 'AMBER';
+
+            const wcNeed = monthlyRev * 0.2;
+            const wcDeficit = Math.max(0, wcNeed - cadsNormal);
+
+            const results = {
+                'Annual Revenue': `₹${(annualRev/100000).toFixed(1)}L`,
+                'Avg Net Cash': `₹${Math.round(avgNetCash).toLocaleString()}`,
+                'Volatility': volatility.toFixed(2),
+                'DSCR': scaledDscr.toFixed(1),
+                'Safe EMI': `₹${survivalEmi.toLocaleString()}`,
+                'Max EMI': `₹${operatingEmi.toLocaleString()}`,
+                'Stretch EMI': `₹${stretchEmi.toLocaleString()}`,
+                'Risk Level': `🔴 ${riskColor}`,
+                'DSCR Score': dscr.toFixed(2),
+                'WC Need': `₹${Math.round(wcNeed).toLocaleString()}`,
+                'WC Deficit': `₹${Math.round(wcDeficit).toLocaleString()}`
+            };
+
+            const resultGrid = document.getElementById('resultGrid');
+            resultGrid.innerHTML = '';
+
+            Object.entries(results).forEach(([label, value]) => {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                item.innerHTML = `<div class="result-label">${label}</div><div class="result-value">${value}</div>`;
+                resultGrid.appendChild(item);
+            });
+
+            document.getElementById('resultsBox').classList.add('show');
+        }
+
+        // Calculate on page load
+        window.addEventListener('load', calculateFlow);
+    </script>
+</body>
+</html>
