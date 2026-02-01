@@ -131,9 +131,12 @@ export default function FinningUnifiedPage() {
             <h1 className="text-3xl font-bold text-primary-900">Finning Hub</h1>
           </div>
           <div className="flex items-center space-x-2">
-            <button onClick={() => setActiveTab('circle')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab==='circle'?'ring-2 ring-offset-1':''}`}>Finning Circle</button>
-            <button onClick={() => setActiveTab('pool')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab==='pool'?'ring-2 ring-offset-1':''}`}>Finning Pool</button>
-            <button onClick={() => setActiveTab('flowchart')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab==='flowchart'?'ring-2 ring-offset-1':''}`}>Journey Map</button>
+            <button onClick={() => setActiveTab('circle')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'circle' ? 'ring-2 ring-offset-1' : ''}`}>Finning Circle</button>
+            <button onClick={() => setActiveTab('pool')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'pool' ? 'ring-2 ring-offset-1' : ''}`}>Finning Pool</button>
+            <button onClick={() => setActiveTab('flowchart')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'flowchart' ? 'ring-2 ring-offset-1' : ''}`}>Journey Map</button>
+            <Link to="/trade-centre" className="neo-button glass-action px-4 py-2 rounded flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700 transition">
+              <span className="mr-1">🏪</span> Trade Centre
+            </Link>
           </div>
         </div>
 
@@ -259,7 +262,7 @@ export default function FinningUnifiedPage() {
             {showFlowchart && (
               <div className="space-y-6">
                 {/* Interactive Sankey Diagram */}
-                <SankeyDiagram 
+                <SankeyDiagram
                   data={{
                     nodes: [
                       { name: "User Entry", value: 1000 },

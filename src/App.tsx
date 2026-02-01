@@ -8,6 +8,7 @@ import SuperFeaturesPage from './pages/SuperFeaturesPage';
 import StockMarketPage from './pages/StockMarketPage';
 import InvestmentPoolingPage from './pages/InvestmentPoolingPage';
 import FinningUnifiedPage from './pages/FinningUnifiedPage';
+import TradeCentrePage from './pages/TradeCentrePage';
 import SimulationToolPage from './pages/SimulationToolPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
@@ -30,35 +31,36 @@ function App() {
     <DebtProvider>
       <OnboardingProvider>
         <Router>
-        <div className="flex min-h-screen bg-primary-50 dark:bg-gray-900">
-          <Navigation />
-          <main className="flex-1 md:ml-64">
-            <Routes>
-              <Route path="/" element={<DashboardPage />} />
-              <Route path="/explore" element={<ExplorePage />} />
-              <Route path="/stats" element={<StatsPage />} />
-              <Route path="/super-features" element={<SuperFeaturesPage />} />
-              <Route path="/stock-market" element={<StockMarketPage />} />
-              <Route path="/investment-pooling" element={<FinningUnifiedPage />} />
-              <Route path="/investment-pooling/asset" element={<InvestmentPoolingPage initialTab="asset" />} />
-              <Route path="/investment-pooling/operations" element={<InvestmentPoolingPage initialTab="operations" />} />
-              <Route path="/simulation-tool" element={<SimulationToolPage />} />
-              <Route path="/methods/stop" element={<STOPMethodPage />} />
-              <Route path="/methods/nws" element={<NWSMethodPage />} />
-              <Route path="/methods/kakeibo" element={<KakeiboMethodPage />} />
-              <Route path="/methods/taxes" element={<TaxStrategiesPage />} />
-              <Route path="/methods/operations" element={<OperationsGuidePage />} />
-              <Route path="/methods/:method/:category" element={<MethodDetails />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/company-status" element={<CompanyStatusPage />} />
-              <Route path="/debt/occ" element={<DebtOCCPage />} />
-              <Route path="/debt/od" element={<DebtODPage />} />
-              <Route path="/debt/wc" element={<DebtWCPage />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </main>
-        </div>
+          <div className="flex min-h-screen bg-primary-50 dark:bg-gray-900">
+            <Navigation />
+            <main className="flex-1 md:ml-64">
+              <Routes>
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/explore" element={<ExplorePage />} />
+                <Route path="/stats" element={<StatsPage />} />
+                <Route path="/super-features" element={<SuperFeaturesPage />} />
+                <Route path="/stock-market" element={<StockMarketPage />} />
+                <Route path="/investment-pooling" element={<FinningUnifiedPage />} />
+                <Route path="/investment-pooling/asset" element={<InvestmentPoolingPage initialTab="asset" />} />
+                <Route path="/investment-pooling/operations" element={<InvestmentPoolingPage initialTab="operations" />} />
+                <Route path="/trade-centre" element={<TradeCentrePage />} />
+                <Route path="/simulation-tool" element={<SimulationToolPage />} />
+                <Route path="/methods/stop" element={<STOPMethodPage />} />
+                <Route path="/methods/nws" element={<NWSMethodPage />} />
+                <Route path="/methods/kakeibo" element={<KakeiboMethodPage />} />
+                <Route path="/methods/taxes" element={<TaxStrategiesPage />} />
+                <Route path="/methods/operations" element={<OperationsGuidePage />} />
+                <Route path="/methods/:method/:category" element={<MethodDetails />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/company-status" element={<CompanyStatusPage />} />
+                <Route path="/debt/occ" element={<DebtOCCPage />} />
+                <Route path="/debt/od" element={<DebtODPage />} />
+                <Route path="/debt/wc" element={<DebtWCPage />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </main>
+          </div>
         </Router>
       </OnboardingProvider>
     </DebtProvider>
