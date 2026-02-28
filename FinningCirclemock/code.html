@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global Trade Events Dashboard | SME Fintech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#72df48", "background-light": "#f6f8f6", "background-dark": "#162012"}, fontFamily: {display: "Manrope"}, borderRadius: {DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px"}}}};</script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .map-pulse {
+            box-shadow: 0 0 0 0 rgba(37, 106, 244, 0.7);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 106, 244, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(37, 106, 244, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 106, 244, 0); }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Navigation Rail -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-background-light dark:bg-background-dark">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white">account_balance</span>
+</div>
+<div>
+<h1 class="text-sm font-bold tracking-tight">SME FINTECH</h1>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-widest">Trade Connect</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span class="text-sm font-medium">My Events</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20" href="#">
+<span class="material-symbols-outlined text-[20px]">public</span>
+<span class="text-sm font-medium">Global Map</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">factory</span>
+<span class="text-sm font-medium">Industries</span>
+</a>
+<div class="pt-4 pb-2">
+<p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Settings</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="text-sm font-medium">Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Account</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2 bg-slate-100 dark:bg-slate-800/50 rounded-xl">
+<div class="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-700 overflow-hidden">
+<img alt="User avatar" data-alt="Corporate professional headshot avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMdu1co0ikvEM4WEbes51icbnRKY-VoyECY21ikX5mPumhoOtRHpJsXYOsFy84mWHlIr4DyBBRHO5WBkswxHcRgNGtMpHHOWeFgD7k9DwEtG3cl6fLDih4oLGLtYzDYbdjl_mQCT1d92BrMiXx7OO4N1vXbW5zDXwTnXYJWxojk_ZUWFh33RPUktL2y1DoRANC0VpcTgbSqtPWeid6jjCtO5_byu6QzgAEQ2kou3KJxy_XwOKF8bJ_McYzlZbF6o7NZxxLBrM2s2Q"/>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-xs font-semibold truncate">Global Logistics Ltd.</p>
+<p class="text-[10px] text-slate-500 truncate">Premium Plan</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark overflow-hidden">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 bg-background-light/50 dark:bg-background-dark/50 backdrop-blur-md">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800/50 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary placeholder:text-slate-500" placeholder="Search events, cities, or industry tags..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Create Alert
+                </button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+<!-- Map Section -->
+<div class="relative w-full h-[400px] rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl group">
+<div class="absolute inset-0 bg-[#0a0f1a]" data-alt="Abstract dark world map with minimalist data points" data-location="Global" style="background-image: url('https://placeholder.pics/svg/300'); background-size: cover; background-position: center;">
+<!-- Map Markers (Simulated) -->
+<div class="absolute top-1/4 left-1/4 w-3 h-3 bg-primary rounded-full map-pulse"></div>
+<div class="absolute top-1/3 left-1/2 w-3 h-3 bg-primary rounded-full map-pulse"></div>
+<div class="absolute top-1/2 left-3/4 w-3 h-3 bg-primary rounded-full map-pulse"></div>
+<div class="absolute top-2/3 left-1/3 w-3 h-3 bg-primary rounded-full map-pulse"></div>
+</div>
+<!-- Map Overlay UI -->
+<div class="absolute top-4 left-4 flex flex-col gap-2">
+<div class="bg-slate-900/80 backdrop-blur-md p-3 rounded-lg border border-slate-700 text-white flex items-center gap-3">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400">Live Trade Pulse</span>
+<span class="text-sm font-semibold">1,248 Active Events</span>
+</div>
+<div class="w-px h-8 bg-slate-700"></div>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-slate-900 bg-slate-500"></div>
+<div class="w-6 h-6 rounded-full border-2 border-slate-900 bg-primary"></div>
+<div class="w-6 h-6 rounded-full border-2 border-slate-900 bg-slate-400 flex items-center justify-center text-[8px]">+4</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-4 right-4 flex gap-2">
+<button class="p-2 bg-slate-900/80 rounded-lg text-white border border-slate-700 hover:bg-slate-800">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="p-2 bg-slate-900/80 rounded-lg text-white border border-slate-700 hover:bg-slate-800">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<button class="p-2 bg-slate-900/80 rounded-lg text-white border border-slate-700 hover:bg-slate-800">
+<span class="material-symbols-outlined text-[20px]">near_me</span>
+</button>
+</div>
+</div>
+<!-- Industry Filter Bar -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+<button class="px-4 py-2 bg-primary text-white rounded-full text-xs font-semibold whitespace-nowrap">All Industries</button>
+<button class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 whitespace-nowrap transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">factory</span> Manufacturing
+                    </button>
+<button class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 whitespace-nowrap transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">eco</span> Green Tech
+                    </button>
+<button class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 whitespace-nowrap transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">agriculture</span> Agrotech
+                    </button>
+<button class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 whitespace-nowrap transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span> Logistics
+                    </button>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs text-slate-500 font-medium">Sort by:</span>
+<select class="bg-transparent border-none text-xs font-bold text-primary focus:ring-0 cursor-pointer p-0">
+expand_more
+<option>Upcoming</option>
+<option>Industry Score</option>
+<option>Distance</option>
+</select>
+</div>
+</div>
+<!-- Time Feed / Event Cards -->
+<section class="space-y-4">
+<div class="flex items-center gap-3 border-l-2 border-primary pl-4">
+<h2 class="text-lg font-bold">Upcoming Events</h2>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase">October 2023</span>
+</div>
+<div class="grid grid-cols-1 @[800px]:grid-cols-2 gap-4">
+<!-- Event Card 1 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="text-[10px] font-bold text-slate-500 uppercase">Oct</span>
+<span class="text-lg font-bold text-primary">12</span>
+</div>
+<div>
+<span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded uppercase mb-1 inline-block">Manufacturing</span>
+<h3 class="text-base font-bold group-hover:text-primary transition-colors">Global Manufacturing Expo</h3>
+<p class="text-sm text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Berlin, Germany
+                                    </p>
+</div>
+</div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 mb-6 line-clamp-2">Connect with over 500+ industrial leads and discover the latest in automation and robotics for SMEs.</p>
+<div class="flex items-center gap-2">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg text-xs font-bold hover:bg-primary/90">Register</button>
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">View Details</button>
+</div>
+</div>
+<!-- Event Card 2 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="text-[10px] font-bold text-slate-500 uppercase">Oct</span>
+<span class="text-lg font-bold text-primary">15</span>
+</div>
+<div>
+<span class="text-[10px] font-bold text-cyan-500 bg-cyan-500/10 px-2 py-0.5 rounded uppercase mb-1 inline-block">Green Tech</span>
+<h3 class="text-base font-bold group-hover:text-primary transition-colors">Sustainable Tech Summit</h3>
+<p class="text-sm text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Singapore
+                                    </p>
+</div>
+</div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 mb-6 line-clamp-2">The premier event for sustainable innovation in Asia. Focus on carbon-neutral logistics and renewable grid tech.</p>
+<div class="flex items-center gap-2">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg text-xs font-bold hover:bg-primary/90">Register</button>
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">View Details</button>
+</div>
+</div>
+<!-- Event Card 3 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="text-[10px] font-bold text-slate-500 uppercase">Oct</span>
+<span class="text-lg font-bold text-primary">20</span>
+</div>
+<div>
+<span class="text-[10px] font-bold text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded uppercase mb-1 inline-block">Agrotech</span>
+<h3 class="text-base font-bold group-hover:text-primary transition-colors">Agro-Innovation Fair</h3>
+<p class="text-sm text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Des Moines, USA
+                                    </p>
+</div>
+</div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 mb-6 line-clamp-2">Showcasing the next generation of precision farming and soil health monitoring systems.</p>
+<div class="flex items-center gap-2">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg text-xs font-bold hover:bg-primary/90">Register</button>
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">View Details</button>
+</div>
+</div>
+<!-- Event Card 4 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="text-[10px] font-bold text-slate-500 uppercase">Nov</span>
+<span class="text-lg font-bold text-primary">02</span>
+</div>
+<div>
+<span class="text-[10px] font-bold text-indigo-500 bg-indigo-500/10 px-2 py-0.5 rounded uppercase mb-1 inline-block">Logistics</span>
+<h3 class="text-base font-bold group-hover:text-primary transition-colors">Intra-Logistics Expo</h3>
+<p class="text-sm text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Tokyo, Japan
+                                    </p>
+</div>
+</div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 mb-6 line-clamp-2">Optimizing the last-mile delivery. Join top retailers and logistics giants in Japan's tech hub.</p>
+<div class="flex items-center gap-2">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg text-xs font-bold hover:bg-primary/90">Register</button>
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">View Details</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Sidebar Right -->
+<aside class="w-80 border-l border-slate-200 dark:border-slate-800 flex flex-col bg-slate-50 dark:bg-slate-900/30 overflow-y-auto custom-scrollbar">
+<!-- Calendar Section -->
+<div class="p-6"><h2 class="text-sm font-bold mb-4 flex items-center justify-between">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+        Event Calendar
+    </span>
+</h2>
+<div class="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg mb-4">
+<button class="flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all text-slate-500 dark:text-slate-400">Global</button>
+<button class="flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all bg-white dark:bg-slate-900 text-primary shadow-sm">Local</button>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold">October 2023</span>
+<div class="flex gap-1">
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 mb-2">
+<div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center text-xs">
+<div class="p-2 text-slate-300 dark:text-slate-700">28</div>
+<div class="p-2 text-slate-300 dark:text-slate-700">29</div>
+<div class="p-2 text-slate-300 dark:text-slate-700">30</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">1</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">2</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">3</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer text-primary font-bold border border-primary/20">4</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">5</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">6</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">7</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">8</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">9</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">10</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">11</div>
+<div class="p-2 bg-primary text-white rounded font-bold">12</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">13</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">14</div>
+<div class="p-2 bg-primary/20 text-primary rounded font-bold">15</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">16</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">17</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">18</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">19</div>
+<div class="p-2 bg-primary/20 text-primary rounded font-bold">20</div>
+<div class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">21</div>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Nearby Venues</p>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">location_city</span>
+</div>
+<div>
+<p class="text-[11px] font-bold">Exhibition Center East</p>
+<p class="text-[9px] text-slate-500">2.4 km away • 12 Active Events</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500 text-[18px]">corporate_fare</span>
+</div>
+<div>
+<p class="text-[11px] font-bold">Tech Port Hub</p>
+<p class="text-[9px] text-slate-500">4.8 km away • 5 Active Events</p>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+<!-- Trending Now -->
+<div class="px-6 pb-6">
+<h2 class="text-sm font-bold mb-4 flex items-center justify-between">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-orange-500">trending_up</span>
+                    Trending Now
+                </span>
+<span class="text-[10px] text-slate-500 font-normal underline cursor-pointer">View All</span>
+</h2>
+<div class="space-y-3">
+<!-- Trend Item 1 -->
+<div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+<div class="flex-1 overflow-hidden">
+<p class="text-[10px] font-bold text-primary uppercase">Industry Shift</p>
+<h4 class="text-xs font-bold truncate">Hydrogen Energy Hubs</h4>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-emerald-500 text-[14px]">arrow_upward</span>
+<span class="text-[10px] font-semibold text-emerald-500">+24% Interest</span>
+</div>
+</div>
+<div class="w-10 h-6 flex items-end gap-0.5">
+<div class="w-1 bg-primary/20 h-2 rounded-t"></div>
+<div class="w-1 bg-primary/40 h-3 rounded-t"></div>
+<div class="w-1 bg-primary/60 h-4 rounded-t"></div>
+<div class="w-1 bg-primary/80 h-3 rounded-t"></div>
+<div class="w-1 bg-primary h-5 rounded-t"></div>
+</div>
+</div>
+<!-- Trend Item 2 -->
+<div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+<div class="flex-1 overflow-hidden">
+<p class="text-[10px] font-bold text-orange-500 uppercase">Hot Event</p>
+<h4 class="text-xs font-bold truncate">Web3 Supply Chain Expo</h4>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-emerald-500 text-[14px]">arrow_upward</span>
+<span class="text-[10px] font-semibold text-emerald-500">1.2k Views/hr</span>
+</div>
+</div>
+<div class="w-10 h-6 flex items-end gap-0.5">
+<div class="w-1 bg-primary/20 h-4 rounded-t"></div>
+<div class="w-1 bg-primary/40 h-2 rounded-t"></div>
+<div class="w-1 bg-primary/60 h-3 rounded-t"></div>
+<div class="w-1 bg-primary/80 h-5 rounded-t"></div>
+<div class="w-1 bg-primary h-6 rounded-t"></div>
+</div>
+</div>
+<!-- Trend Item 3 -->
+<div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+<div class="flex-1 overflow-hidden">
+<p class="text-[10px] font-bold text-indigo-500 uppercase">Emerging City</p>
+<h4 class="text-xs font-bold truncate">Bengaluru Tech Hub</h4>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-emerald-500 text-[14px]">arrow_upward</span>
+<span class="text-[10px] font-semibold text-emerald-500">New Corridor</span>
+</div>
+</div>
+<div class="w-10 h-6 flex items-end gap-0.5">
+<div class="w-1 bg-primary/20 h-1 rounded-t"></div>
+<div class="w-1 bg-primary/40 h-2 rounded-t"></div>
+<div class="w-1 bg-primary/60 h-4 rounded-t"></div>
+<div class="w-1 bg-primary/80 h-5 rounded-t"></div>
+<div class="w-1 bg-primary h-4 rounded-t"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Upgrade Card -->
+<div class="mt-auto p-6">
+<div class="bg-primary rounded-xl p-4 text-white">
+<h4 class="text-xs font-bold mb-1">Go Enterprise</h4>
+<p class="text-[10px] text-white/80 mb-3">Unlock AI-driven trade route matching and automated visa assistance.</p>
+<button class="w-full bg-white text-primary py-2 rounded-lg text-[10px] font-bold hover:bg-slate-50 transition-colors">Upgrade Plan</button>
+</div>
+</div>
+</aside>
+</div>
+</body></html>

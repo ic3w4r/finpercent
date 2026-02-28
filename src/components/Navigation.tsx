@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
+import {
   Home as HomeIcon,
   Search as ExploreIcon,
   BarChart3 as StatsIcon,
@@ -18,19 +18,20 @@ import {
   X,
   Target,
   PiggyBank,
-  BookOpen
+  BookOpen,
+  Globe
 } from 'lucide-react';
 // import ThemeToggle from './ThemeToggle';
 
-interface NavigationProps {}
+interface NavigationProps { }
 
-export default function Navigation({}: NavigationProps) {
+export default function Navigation({ }: NavigationProps) {
   const location = useLocation();
-  const [expandedSections, setExpandedSections] = useState<string[]>(['super-features', 'stock-market']);
+  const [expandedSections, setExpandedSections] = useState<string[]>(['finning', 'super-features', 'stock-market']);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleSection = (sectionId: string) => {
-    setExpandedSections(prev => 
+    setExpandedSections(prev =>
       prev.includes(sectionId)
         ? prev.filter(id => id !== sectionId)
         : [...prev, sectionId]
@@ -47,9 +48,14 @@ export default function Navigation({}: NavigationProps) {
   ];
 
   const superFeaturesItems = [
-    { name: 'Investment Pooling', href: '/investment-pooling', icon: InvestmentIcon },
     { name: 'Simulation Tool', href: '/simulation-tool', icon: Zap },
     // Add more super features here
+  ];
+
+  const finningItems = [
+    { name: 'Finning Hub', href: '/finning', icon: FinningIcon },
+    { name: 'Finning Circle', href: '/finning-circle', icon: Globe },
+    { name: 'Investment Pooling', href: '/investment-pooling', icon: InvestmentIcon },
   ];
 
   const stockMarketItems = [
@@ -69,16 +75,16 @@ export default function Navigation({}: NavigationProps) {
     return location.pathname === href;
   };
 
-  const NavLink = ({ 
-    item, 
-    isChild = false 
-  }: { 
-    item: { name: string; href: string; icon: React.ComponentType<any> }; 
+  const NavLink = ({
+    item,
+    isChild = false
+  }: {
+    item: { name: string; href: string; icon: React.ComponentType<any> };
     isChild?: boolean;
   }) => {
     const Icon = item.icon;
     const active = isActiveLink(item.href);
-    
+
     return (
       <Link
         to={item.href}
@@ -86,8 +92,8 @@ export default function Navigation({}: NavigationProps) {
         className={`
           flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 group
           ${isChild ? 'ml-6' : ''}
-          ${active 
-            ? 'bg-gradient-to-r from-primary-500 to-green-500 text-white shadow-lg' 
+          ${active
+            ? 'bg-gradient-to-r from-primary-500 to-green-500 text-white shadow-lg'
             : 'text-gray-700 hover:bg-primary-100 hover:text-primary-900 dark:text-gray-300 dark:hover:bg-gray-700'
           }
         `}
@@ -208,8 +214,30 @@ export default function Navigation({}: NavigationProps) {
                     )}
                   </div>
 
-                  {/* Finning - Direct link */}
-                  <NavLink item={{ name: 'Finning', href: '/finning', icon: FinningIcon }} />
+                  {/* Finning Section */}
+                  <div>
+                    <button
+                      onClick={() => toggleSection('finning')}
+                      className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 hover:bg-primary-100 hover:text-primary-900 dark:text-gray-300 dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
+                    >
+                      <div className="flex items-center">
+                        <FinningIcon className="w-5 h-5 mr-3" />
+                        <span>Finning</span>
+                      </div>
+                      {isExpanded('finning') ? (
+                        <ChevronDown className="w-4 h-4" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4" />
+                      )}
+                    </button>
+                    {isExpanded('finning') && (
+                      <div className="mt-2 space-y-1">
+                        {finningItems.map((item) => (
+                          <NavLink key={item.name} item={item} isChild />
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -255,11 +283,10 @@ export default function Navigation({}: NavigationProps) {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200 ${
-                  active
+                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200 ${active
                     ? 'text-primary-600 dark:text-primary-400'
                     : 'text-gray-500 dark:text-gray-400'
-                }`}
+                  }`}
               >
                 <Icon className="w-5 h-5 mb-1" />
                 <span className="text-xs font-medium">{item.name}</span>

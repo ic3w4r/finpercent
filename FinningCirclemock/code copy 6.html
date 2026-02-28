@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FintechSME Workshop Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#72df48", "background-light": "#f6f8f6", "background-dark": "#162012"}, fontFamily: {display: "Manrope"}, borderRadius: {DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px"}}}};</script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col fixed h-full z-50">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<div class="p-2 bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-none">Workshop Hub</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">SME Growth Portal</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                        All Workshops
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                        My Registrations
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">video_library</span>
+                        Recorded Sessions
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">workspace_premium</span>
+                        Certificates
+                    </a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full" data-alt="User profile avatar with professional look" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA47FaT14-weVEPYnO7a6wihna3UAYyL82SbkBWOHEUr7fs5XxgVU7GJRED_N3epGB8pUyI89B-tEOd3cx4MaFCcS8us2loi9lfc6BuNpn_-yqCpkgjpYniTSNXtpa252WR5308HkxexnBvFO96ru6nP5-krFRc_NksvfFFj7eD8Yn-lezTgpY2SCeZTlswLOeYomaOCObs3vf_uiIWXu7dLWCP3TMctXMYDn5f2qbgq5QTUOxdt6a1lVrduJqcbjHFDJ4j8KY-3s"/>
+<div>
+<p class="text-sm font-medium">Alex Business</p>
+<p class="text-xs text-slate-500">Premium Member</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 ml-64 min-h-screen">
+<!-- Top Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-40 px-8 flex items-center justify-between">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary transition-all" placeholder="Search workshops, experts..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-background-dark"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<div class="p-8 space-y-8">
+<!-- Hero Section -->
+<section class="relative h-80 rounded-xl overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Modern business office background with blue tint" style='background-image: linear-gradient(to right, rgba(16, 22, 34, 0.95), rgba(16, 22, 34, 0.4)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBDVTzagEIfghRRbFErkeSXk1u3LmmVYqb67XT7Bkvxxr-T5yk24KpRoifS7wVEkwAqthiPpZnAJXzdtO42i4B2eWQXtoNVvs4s5orstu0Z9INUVyfnzVmcvhVUt0MKXvt-OEHeSCHH3Zen4oQcI973vIHTaq7prIP6myX73t8II2tpdNrjewtQ4HCWuJ2u8ZYXT4KY_OEqlzGy5tXZMtY0XkfgBEC-Oir1ToyHHBm57eT--mCiYMSLhoyn0gXptnCCYukOdD-EMqI");'></div>
+<div class="relative h-full p-10 flex flex-col justify-center max-w-2xl">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-4 border border-primary/30">
+                            Featured Workshop
+                        </span>
+<h1 class="text-4xl font-black text-white mb-4 leading-tight">Master Your Cash Flow &amp; SME Liquidity</h1>
+<p class="text-slate-300 mb-8 text-lg">Join Sarah Jenkins for an intensive session on optimizing your business's financial health in volatile markets.</p>
+<div class="flex items-center gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-lg transition-all shadow-lg shadow-primary/20 flex items-center gap-2">
+                                Register Now
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<span class="text-slate-400 text-sm flex items-center gap-2 font-medium">
+<span class="material-symbols-outlined text-[18px]">group</span>
+                                12 Seats Remaining
+                            </span>
+</div>
+</div>
+</section>
+<!-- Filters & Categories -->
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold">Upcoming Workshops</h2>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all">All</button>
+<button class="px-4 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all">Finance</button>
+<button class="px-4 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all">Marketing</button>
+<button class="px-4 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all">Sustainability</button>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Main Workshop Grid -->
+<div class="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all flex flex-col">
+<div class="h-40 bg-cover bg-center" data-alt="Blue and gold abstract financial charts pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDaxHE6ELfZrKHVdOxAjO5gxoxUTsMTMbsgb1v1DvN6dj-K5q9Czck2L7BtlyoNi7envlQhmjJAyK3Osm9OvWgeyar4eTC4fowBHXVz8AfwZbIufmpRTxoZzSAUHj_yZwz35ApxbXePeCeYmDul2w02O95wWZ8LW5kK9V9tGzzjvTIj6sYhYA6tUe8e6NkwPh-lzDY26rwRtbBkU-oXQK_IOcBr62vCP03wuXigWcld6fInKvkuvlmahN0xb1NTMqTWyqIaf7iPAEM");'></div>
+<div class="p-5 flex-1 flex flex-col">
+<span class="text-[10px] font-bold text-primary uppercase mb-2">Financial Management</span>
+<h3 class="text-lg font-bold mb-3 line-clamp-2">Tax Strategies for Growing Tech SMEs</h3>
+<div class="flex items-center gap-3 mb-4">
+<img class="size-8 rounded-full" data-alt="Portrait of financial expert Marcus Vane" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVXaSOpR-hEKP4kdlz3emgYAG6gnflIzFh9L3qxCrMlZsPfqamCkBAihg0E0fUzm-aSLurL2_wnMpztZH7rmGDSqauBLfrUOLGCbgctEmCq3isZ0tH4yQcaIR2b4DLqSudyBKhpBxT8SLIq-N_bJHvHmHWKVl-5DETNkW8go_RBvpaES0DdesxzdPF2Gmj4rkHZF8-rdmQQTKvfjqIgycsppy0VaaNmi2QG55EDBvMVZHpN1pz3lxWhsD3oqBb1SJcnB3ViJ1agDw"/>
+<span class="text-sm text-slate-500 dark:text-slate-400">Marcus Vane</span>
+</div>
+<div class="mt-auto space-y-2 mb-6">
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                        Nov 12, 2024
+                                    </div>
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                        2:00 PM - 4:00 PM (2h)
+                                    </div>
+</div>
+<button class="w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary hover:text-white text-primary font-bold py-2 rounded-lg transition-colors">
+                                    Register
+                                </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all flex flex-col">
+<div class="h-40 bg-cover bg-center" data-alt="Vibrant abstract marketing network connections pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDjTczGjfOpHPxuNWw6Y5E4THY34NZnFIgPnEkWXO03VNXj3t6zoGiUasNl49KlCPTHNKCAGxCz19SbPROzrCkv12EHX69M5wC_xvfiN_zBAjievHq51xlKGJzDQ8WW-0SrAWHvoVpWkXf5SldIjCrnr2ROZYUs7PmfSnwYzelU_Ry1hqEYx2YcmoqHRitM5UMNqoGR8Bx4ETw47XGxrvsco6_pQ_7eRIbvAwj1vq2xPVur5Qm-YArM_uqGVkuPS-FgU9-lIjk4tOQ");'></div>
+<div class="p-5 flex-1 flex flex-col">
+<span class="text-[10px] font-bold text-green-500 uppercase mb-2">Sustainability</span>
+<h3 class="text-lg font-bold mb-3 line-clamp-2">ESG Reporting: Why Your SME Needs It Now</h3>
+<div class="flex items-center gap-3 mb-4">
+<img class="size-8 rounded-full" data-alt="Portrait of sustainability consultant Elena Ross" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtU9rTxQGnFU8SZEL9JwbYClDnmh_f8PmLEOoJsbig7tfcEb8NE08mWbZFLsF2se4p9NwJJYq1TAOxaVwyonAiT_97Ifmd2TOzxv8Z6nI8MnAssTsXTSem5XMIUS_8l4cfcP6DlVZi5DAPaMZlRAPFbWim5mk1JIie2X_lBdI9Q8NVwjJCjcC1hkUPF6BFsruh6qVGWvqrc24icMhYxW5ZjCZEbkpaNuFNp1nnsh5QCfm5qB6c__CWuxRonMS09vRjLYPR1K9YWgg"/>
+<span class="text-sm text-slate-500 dark:text-slate-400">Elena Ross</span>
+</div>
+<div class="mt-auto space-y-2 mb-6">
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                        Nov 14, 2024
+                                    </div>
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                        10:00 AM - 11:30 AM (1.5h)
+                                    </div>
+</div>
+<button class="w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary hover:text-white text-primary font-bold py-2 rounded-lg transition-colors">
+                                    Register
+                                </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all flex flex-col">
+<div class="h-40 bg-cover bg-center" data-alt="Growth bars and arrows abstract pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDCKOkNhkuaxzwK649guZc08gwsA302g-vPGGSdU7pVRLCaI4PWTi_gonKJqPzJOtc5pG771VXbscKtIi4dDGJZbnNI4lUzFALNG3yvBeDhkXr15fXAHUzEOUuQof8Caqys2yy6Hd-Nsn8MD9tDxRPnEPaimJFAE4AC6P1hew6UeNVFyBMngxLAQMfE4R0AgeRFL7YIacKf2gUvh4uIuc_jpy1d_LkRB_LcW-kJdjz2uawJgIdd05bmPhkH5NKDnAe-1YbcKp36B2c");'></div>
+<div class="p-5 flex-1 flex flex-col">
+<span class="text-[10px] font-bold text-orange-500 uppercase mb-2">Scaling</span>
+<h3 class="text-lg font-bold mb-3 line-clamp-2">From Local to Global: Export Funding</h3>
+<div class="flex items-center gap-3 mb-4">
+<img class="size-8 rounded-full" data-alt="Portrait of scaling expert David Zhang" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkcLoVzf9TPRamRfmFjfwLhoZEeOu4bz0H4oyz-GvsgJSNd0vXsXMgLrUmHugUSwtdDumuIPdokDtOtAo-kuKlEQ61hD15VE0D7GuKJy5rrlwDOY5hfyqvAbPTCv2EVaZ592nOrJ8sUv5BRWMcRKvTx15oTVh7TjO-QuI-k3L0d0EAepgp52GUi6HyzqshCTI1-Xsn3zU7dljcjfWLLh6uFr0JQyAsjHCy5CyzPyyhOJP06E7y_VX1RssUOxhZvu6320Cnd3rBf-k"/>
+<span class="text-sm text-slate-500 dark:text-slate-400">David Zhang</span>
+</div>
+<div class="mt-auto space-y-2 mb-6">
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                        Nov 15, 2024
+                                    </div>
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                        3:00 PM - 5:00 PM (2h)
+                                    </div>
+</div>
+<button class="w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary hover:text-white text-primary font-bold py-2 rounded-lg transition-colors">
+                                    Register
+                                </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all flex flex-col">
+<div class="h-40 bg-cover bg-center" data-alt="Abstract legal document icons and gavel pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBcVpIhKtxY61iCh-ItmhA4CwwUI9U4dwEQbFMz6gMyAYeh1l2Gq4ZUq_72LnaeGetVrRNOpofw-GZdyxTTYs6A6Ybyb-uBIm8_Tgh3qga7imvTF1lxSxK73d7PB-9mKJ1WsjhXkaf7hdrUkLqkvQpZsjSDG5F3zXX27U3eA9nPx2Ww8GwZSRsPWlA13Ma_Jk5XzDKBcY_W_T1FGRa2eIBaykl2X3qhMV5B-FrltuapaPlvXksyDhlPGTjGkFABpgQpesieu5Pdie8");'></div>
+<div class="p-5 flex-1 flex flex-col">
+<span class="text-[10px] font-bold text-purple-500 uppercase mb-2">Legal Compliance</span>
+<h3 class="text-lg font-bold mb-3 line-clamp-2">New Employment Laws for 2025</h3>
+<div class="flex items-center gap-3 mb-4">
+<img class="size-8 rounded-full" data-alt="Portrait of legal advisor Rachel Kent" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvATuzqYblc2X0eW8zQddPNOlX1OWVsIAiR0LZQjGgSzDQLBYhKNX9Gk7mGmqZpShr7qn6rLXJQMECbm3CGxO5hUj6VZWbQIS6nm5tNwXbttf-N_4VTkdPKAYzLNg-PcOwGkr3NBnUVceO91u8aa74x1bOaVpi2WQosMKVuvC9EuN_UAY5QoR_R8xJgLCBdSeyb3Gs78ppShTFIibwvjW-WLHokiBU53t6u9s-36TXPUtx2zr8EljhQBiL51mLMULlDou-PC_riWg"/>
+<span class="text-sm text-slate-500 dark:text-slate-400">Rachel Kent</span>
+</div>
+<div class="mt-auto space-y-2 mb-6">
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                        Nov 18, 2024
+                                    </div>
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                        11:00 AM - 12:30 PM (1.5h)
+                                    </div>
+</div>
+<button class="w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary hover:text-white text-primary font-bold py-2 rounded-lg transition-colors">
+                                    Register
+                                </button>
+</div>
+</div>
+</div>
+<!-- Sidebar Section: Your Progress -->
+<div class="space-y-6">
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
+<h2 class="font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                                Your Progress
+                            </h2>
+<div class="mb-6">
+<div class="flex justify-between text-sm mb-2">
+<span class="text-slate-500">Workshops Completed</span>
+<span class="font-bold">12/15</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 80%"></div>
+</div>
+<p class="text-xs text-slate-500 mt-2">3 more to reach your <span class="text-primary font-bold">Strategic Leader</span> certificate.</p>
+</div>
+<div class="space-y-4">
+<p class="text-sm font-bold border-t border-slate-100 dark:border-slate-800 pt-4">Recent Achievements</p>
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-yellow-500/10 text-yellow-500 flex items-center justify-center">
+<span class="material-symbols-outlined">military_tech</span>
+</div>
+<div>
+<p class="text-sm font-medium">Finance Specialist</p>
+<p class="text-[10px] text-slate-500">Earned Oct 24, 2024</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center">
+<span class="material-symbols-outlined">workspace_premium</span>
+</div>
+<div>
+<p class="text-sm font-medium">Digital Marketing Pro</p>
+<p class="text-[10px] text-slate-500">Earned Sep 12, 2024</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 px-4 text-sm font-medium border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                View Full Dashboard
+                            </button>
+</div>
+<!-- Mini Ad/Note -->
+<div class="bg-primary rounded-xl p-6 text-white relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-20 transform group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined text-8xl">lightbulb</span>
+</div>
+<h3 class="font-bold mb-2">Personal Mentorship</h3>
+<p class="text-sm text-white/80 mb-4">Get 1-on-1 advice from our experts to accelerate your SME growth.</p>
+<a class="inline-block text-xs font-bold underline underline-offset-4" href="#">Learn More</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

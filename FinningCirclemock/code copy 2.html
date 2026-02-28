@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Details - Trade Centre</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#72df48", "background-light": "#f6f8f6", "background-dark": "#162012"}, fontFamily: {display: "Manrope"}, borderRadius: {DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px"}}}};</script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-hidden">
+<!-- Discovery Feed Background (Simulated/Dimmed) -->
+<div class="fixed inset-0 z-0 opacity-20 pointer-events-none grayscale">
+<div class="grid grid-cols-3 gap-6 p-10">
+<div class="h-64 bg-slate-800 rounded-lg"></div>
+<div class="h-64 bg-slate-800 rounded-lg"></div>
+<div class="h-64 bg-slate-800 rounded-lg"></div>
+<div class="h-64 bg-slate-800 rounded-lg"></div>
+<div class="h-64 bg-slate-800 rounded-lg"></div>
+<div class="h-64 bg-slate-800 rounded-lg"></div>
+</div>
+</div>
+<!-- Overlay Backdrop -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-10"></div>
+<!-- Side Drawer Container -->
+<div class="fixed inset-y-0 right-0 w-full max-w-2xl bg-background-light dark:bg-background-dark z-20 shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col">
+<!-- Header / Navigation -->
+<header class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 sticky top-0 bg-background-light dark:bg-background-dark z-30">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined align-middle">close</span>
+</button>
+<h2 class="text-lg font-bold">Product Details</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-base">compare_arrows</span>
+                    Compare
+                </button>
+<button class="p-2 text-primary hover:bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined">bookmark_add</span>
+</button>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<!-- Image Gallery -->
+<div class="p-6">
+<div class="relative aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 group">
+<img class="w-full h-full object-cover" data-alt="Industrial sustainable blue plastic drums stacked in warehouse" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuxuJDOTlM8vlrHAxus8OQ8oE7q36Av5w_OXDTW1LxChDdF83a51L_U1zfYkdDc5zMvB638SQL37kJHsrgxTBsbnfMJQ9DpTrUvRZlGiQ2Wz2IQyGb7xEC9zoPeuIi3rwmN45dCz1X5OYrC-k_e6jEhfW2HUcEwSBulUbK2-kGZs_BLQLmH5kQ2vgey79Orf2ownax_9Pv_5yJtZEJGH6xhhQmKunVkvnUVB23IRsMzQYBT4RaAf7DURyakFqCPBnputoEFGp_tSg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6">
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">Eco-Certified</span>
+<span class="px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">In Stock</span>
+</div>
+</div>
+</div>
+<!-- Thumbnails -->
+<div class="flex gap-3 mt-4 overflow-x-auto pb-2">
+<div class="w-20 h-20 rounded-lg border-2 border-primary overflow-hidden shrink-0 cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Primary product view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj1B9R1VScMz5RoO4Rcjn3eCT5xOluMj4t78RRZfkariCjsymnRXQQtNqeeYmU_1BUufGDj1UnrIZeA0Qmh_na1npWhadB8ZyteiRzFYo2PU5PSlvpwLdF5ax8gEMJBc6EWLqrVQt5VHPsCwW0Idr4ou_g1h2ovPlmBLeMLYBuTrzbTTsGypKUqvYUxdNCjlIXDD6xm8T973J-bfKYz9by290n91edA-j73f1-mJJjkkUk3__dPSxSe4nCneVTATDFGO5gtyFeCc8"/>
+</div>
+<div class="w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="Close up of material texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChIj_I0PNJVR4LZkU9XsJKZae90ALnq0J9R8lw9lFy6pSeE7Le9KDBmBpsvQN9QjdQ7XDaccd57QQOfaAFsFMrxCFbyaNPej0Uxt6_fJmNzzFVScIHmAcX60hTL1WEDQhL58JbV3re9lENQ4acJ3YBk8tpSs3if9geM73CRx0PSiFLcSHrqgmEsR6XnWZ-a9XLL7B9IsteWy7zeqVeOCiuFFKk_JupCgU_ayEWB3u2qw9iRaBvroR4JZFci-Zf5FQ-br0iR2DsvOQ"/>
+</div>
+<div class="w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="Palletized shipping arrangement" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDLv4gpoqBCOc09QehV5GwF2VHrJWzIMdEvYxGpm9r7MULalLRExLhHTWhJ-voPKSlMP73fHfmBOTSAkGL2DO_gNnQ2ke7SRkSmad4kHZ903ruY1PwkNHfzmMn8a37W8BfdD535vdyddB2t4_zZfqfokNq3RdZqniJ7nh5VULI2828uyJ6oXI6XmvcfPXuXChmL-IVwHhtCGQIOn-hWuHSA41M0wOKrXQtNwszcUZ0yJR2RwgkEVP_NpuUHaGuwfWDHuCOpVq1NHA"/>
+</div>
+<div class="w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="Manufacturing process detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj0iGLUrDu8U6J_gY8WYwlp3FcphNBVrkCusp98xf5VzyaVS18Za9l63_zTnFJWcdxj-_TzKDv1kHfYtwZcKqOXV5B9smxSVvoahJ7ptXuITwAoNTeYDhHPvHzEn65CX3ZpNO9BOVEGsmEkxi17Ywy8LvmBqxDgwEob1cGeNsxuWcg0YUpiEOnCabZv8unWMDqfpqpfc1WSyiuao6Kc0ez007s8FL-h5JDk2BQPBfmAm9ZTrEspco4CQj_4-iP7DwQuSWQzGLHjRk"/>
+</div>
+</div>
+</div>
+<!-- Product Summary Section -->
+<div class="px-6 pb-6">
+<div class="flex justify-between items-start mb-2">
+<h1 class="text-3xl font-extrabold tracking-tight">EcoPack-200 Series</h1>
+<div class="text-right">
+<p class="text-2xl font-black text-primary">$4,250.00</p>
+<p class="text-sm text-slate-500 font-medium">per unit (MOQ 50)</p>
+</div>
+</div>
+<p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    Industrial Grade Sustainable Packaging designed for long-range logistics. Built with high-density recycled HDPE to withstand extreme pressures while minimizing carbon footprint.
+                </p>
+<!-- Manufacturer Snippet -->
+<div class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-white p-2 border border-slate-200 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-slate-900 text-3xl">factory</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold">Global Logistics Supplies</h3>
+<span class="material-symbols-outlined text-primary text-[18px] fill-1">verified</span>
+</div>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">4.9</span>
+<span class="text-xs text-slate-500 ml-1">(1,240 Reviews)</span>
+</div>
+</div>
+</div>
+<button class="text-primary text-sm font-bold hover:underline">View Profile</button>
+</div>
+</div>
+<!-- Tabs Section -->
+<div class="px-6 pb-20">
+<div class="flex border-b border-slate-200 dark:border-slate-800 mb-6 sticky top-0 bg-background-light dark:bg-background-dark py-2">
+<button class="px-4 py-2 text-sm font-bold border-b-2 border-primary text-primary">Specifications</button>
+<button class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">Description</button>
+<button class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">Reviews</button>
+<button class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">Shipping</button>
+</div>
+<div class="space-y-8">
+<!-- Technical Specs Grid -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Core Specifications</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800">
+<p class="text-xs text-slate-500 mb-1">Material</p>
+<p class="font-bold">Recycled HDPE (High-Density Polyethylene)</p>
+</div>
+<div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800">
+<p class="text-xs text-slate-500 mb-1">Dimensions</p>
+<p class="font-bold">1200mm x 800mm x 1150mm</p>
+</div>
+<div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800">
+<p class="text-xs text-slate-500 mb-1">Max Capacity</p>
+<p class="font-bold">200 Liters / 55 Gallons</p>
+</div>
+<div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800">
+<p class="text-xs text-slate-500 mb-1">Tare Weight</p>
+<p class="font-bold">14.5 kg (Standard)</p>
+</div>
+</div>
+</section>
+<!-- Certifications -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Compliance &amp; Certs</h4>
+<div class="flex flex-wrap gap-2">
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="text-sm font-medium">ISO 14001:2015</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="text-sm font-medium">UN Rated 31HA1</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="text-sm font-medium">FDA Food Grade</span>
+</div>
+</div>
+</section>
+<!-- Description Text -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Full Description</h4>
+<div class="prose prose-sm dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-relaxed">
+<p>
+                                The EcoPack-200 Series represents the pinnacle of sustainable industrial storage. Unlike traditional packaging, our proprietary blend of ocean-reclaimed and post-consumer recycled HDPE maintains the structural integrity required for chemical, food, and manufacturing sectors.
+                            </p>
+<ul class="list-disc pl-5 mt-4 space-y-2">
+<li>Stackable up to 3 units high (full load)</li>
+<li>UV-Stabilized for outdoor storage in harsh climates</li>
+<li>Integrated RFID tracking options available</li>
+<li>100% recyclable at end-of-life cycle</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Action Bar -->
+<footer class="p-6 border-t border-slate-200 dark:border-slate-800 bg-background-light dark:bg-background-dark shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+<div class="flex flex-col gap-4">
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl border border-primary text-primary font-bold hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">mail</span>
+                        Message
+                    </button>
+<button class="flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">inventory_2</span>
+                        Sample Order
+                    </button>
+</div>
+<button class="w-full bg-primary text-white py-4 px-6 rounded-xl font-black text-lg shadow-lg shadow-primary/25 hover:brightness-110 active:scale-[0.98] transition-all">
+                    Request Quote
+                </button>
+<p class="text-center text-xs text-slate-500">
+                    Typical response time: <span class="font-bold text-slate-700 dark:text-slate-300">&lt; 2 hours</span>
+</p>
+</div>
+</footer>
+</div>
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(37, 106, 244, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(37, 106, 244, 0.4);
+        }
+    </style>
+</body></html>

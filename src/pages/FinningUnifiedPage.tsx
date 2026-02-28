@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, Users, ThumbsUp, MessageSquare, Share2, Building2, Factory, Target, Eye, EyeOff, X, Info } from 'lucide-react';
+import { ChevronLeft, Building2, Factory, Target, Eye, EyeOff, X, Info, Map, Video, Search, History, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import InvestmentPools from '../components/InvestmentPools';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
@@ -96,29 +96,7 @@ export default function FinningUnifiedPage() {
     setSelectedNode(nodeName);
   };
 
-  const posts = [
-    {
-      id: 1,
-      author: { name: 'Priya Sharma', company: 'Tech Innovations Ltd', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100' },
-      content: 'Just implemented the S.T.O.P method in our company. Seeing great results in financial management!',
-      likes: 245,
-      comments: 28,
-      shares: 12
-    },
-    {
-      id: 2,
-      author: { name: 'Rahul Mehta', company: 'Growth Ventures', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100' },
-      content: 'Hosting a workshop on effective budgeting strategies next week. Join us to learn more about financial planning!',
-      likes: 189,
-      comments: 42,
-      shares: 15
-    }
-  ];
 
-  const upcomingSessions = [
-    { id: 1, title: 'Financial Planning Workshop', date: '2024-03-25', time: '14:00', host: 'Sarah Johnson', attendees: 156 },
-    { id: 2, title: 'Investment Strategies Seminar', date: '2024-03-28', time: '15:30', host: 'Michael Chen', attendees: 203 }
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-beige-50 to-primary-100 p-6 pb-20">
@@ -143,56 +121,66 @@ export default function FinningUnifiedPage() {
         {/* Tab content */}
         {activeTab === 'circle' && (
           <div className="space-y-6">
-            <div className="neo-card p-6 bg-white/12 dark:bg-gray-800/20 backdrop-blur-sm border border-white/8 dark:border-gray-700/20 rounded-2xl">
-              <h2 className="text-2xl font-bold">Finning Circle</h2>
-              <p className="text-gray-600">Community-driven discussions, workshops and peer sessions for financial leaders.</p>
+            <div className="neo-card p-6 bg-white/12 dark:bg-gray-800/20 backdrop-blur-sm border border-white/8 dark:border-gray-700/20 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold">Finning Circle Hub</h2>
+                <p className="text-gray-600">Explore global events, live streams, and manufacturing discovery feeds.</p>
+              </div>
+              <Link to="/finning-circle/dashboard" className="neo-button glass-action px-6 py-3 rounded-lg font-bold flex items-center justify-center bg-primary text-white border-0 hover:bg-primary-600 transition">
+                Enter Circle Dashboard
+              </Link>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="neo-card p-6">
-                <h3 className="text-xl font-bold mb-4">Upcoming Sessions</h3>
-                <div className="space-y-4">
-                  {upcomingSessions.map((session) => (
-                    <div key={session.id} className="neo-card p-4">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="font-semibold">{session.title}</h3>
-                          <p className="text-sm text-gray-600">{session.date} at {session.time}</p>
-                          <p className="text-sm text-primary-600">Hosted by {session.host}</p>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Users className="w-4 h-4 text-gray-400" />
-                          <span className="text-sm text-gray-600">{session.attendees}</span>
-                        </div>
-                      </div>
-                      <button className="neo-button glass-action mt-4 w-full">Join Session</button>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-              <div className="neo-card p-6">
-                <h3 className="text-xl font-bold mb-4">Community Posts</h3>
-                <div className="space-y-4">
-                  {posts.map((post) => (
-                    <div key={post.id} className="glass-card p-4">
-                      <div className="flex items-center space-x-4 mb-4">
-                        <img src={post.author.avatar} alt={post.author.name} className="w-12 h-12 rounded-full" />
-                        <div>
-                          <h3 className="font-semibold">{post.author.name}</h3>
-                          <p className="text-sm text-gray-600">{post.author.company}</p>
-                        </div>
-                      </div>
-                      <p className="text-gray-800 mb-4">{post.content}</p>
-                      <div className="flex justify-between border-t pt-4">
-                        <button className="flex items-center space-x-2 text-gray-600 hover:text-primary-600"><ThumbsUp className="w-5 h-5" /><span>{post.likes}</span></button>
-                        <button className="flex items-center space-x-2 text-gray-600 hover:text-primary-600"><MessageSquare className="w-5 h-5" /><span>{post.comments}</span></button>
-                        <button className="flex items-center space-x-2 text-gray-600 hover:text-primary-600"><Share2 className="w-5 h-5" /><span>{post.shares}</span></button>
-                      </div>
-                    </div>
-                  ))}
+              <Link to="/finning-circle/dashboard" className="neo-card p-6 hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all group border-0 text-left block">
+                <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Map className="w-6 h-6" />
                 </div>
-              </div>
+                <h3 className="text-xl font-bold mb-2 text-gray-900">Trade Dashboard</h3>
+                <p className="text-gray-600 text-sm">Global map view of active trade events, manufacturing hubs, and live pulse.</p>
+              </Link>
+
+              <Link to="/finning-circle/live" className="neo-card p-6 hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all group border-0 text-left block">
+                <div className="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Video className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-gray-900">Live Streams</h3>
+                <p className="text-gray-600 text-sm">Join live product demonstrations, manufacturing floor tours, and real-time chat.</p>
+              </Link>
+
+              <Link to="/finning-circle/discovery" className="neo-card p-6 hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all group border-0 text-left block">
+                <div className="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Search className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-gray-900">Discovery Feed</h3>
+                <p className="text-gray-600 text-sm">Scrollable video feed highlighting the latest in sustainable packaging and industrial tech.</p>
+              </Link>
+
+              <Link to="/finning-circle/timeline" className="neo-card p-6 hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all group border-0 text-left block">
+                <div className="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <History className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-gray-900">Events Timeline</h3>
+                <p className="text-gray-600 text-sm">Chronological view of upcoming workshops, product launches, and expos.</p>
+              </Link>
+
+              <Link to="/finning-circle/venue" className="neo-card p-6 hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all group border-0 text-left block">
+                <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Building2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-gray-900">Venue Profiles</h3>
+                <p className="text-gray-600 text-sm">Detailed looks into major exhibition centers like Singapore EXPO and their SME benefits.</p>
+              </Link>
+
+              <Link to="/finning-circle/workshops" className="neo-card p-6 hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all group border-0 text-left block">
+                <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <GraduationCap className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-gray-900">Masterclass Workshops</h3>
+                <p className="text-gray-600 text-sm">Bite-sized learning modules on B2B manufacturing, global exporting, and digital marketing.</p>
+              </Link>
+
             </div>
           </div>
         )}
