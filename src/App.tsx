@@ -21,6 +21,13 @@ import NWSMethodPage from './pages/methods/NWSMethodPage';
 import KakeiboMethodPage from './pages/methods/KakeiboMethodPage';
 import TaxStrategiesPage from './pages/methods/TaxStrategiesPage';
 import OperationsGuidePage from './pages/methods/OperationsGuidePage';
+import FinningCircleDashboard from './pages/finning-circle/FinningCircleDashboard';
+import FinningCircleLive from './pages/finning-circle/FinningCircleLive';
+import FinningCircleProduct from './pages/finning-circle/FinningCircleProduct';
+import FinningCircleDiscovery from './pages/finning-circle/FinningCircleDiscovery';
+import FinningCircleTimeline from './pages/finning-circle/FinningCircleTimeline';
+import FinningCircleVenue from './pages/finning-circle/FinningCircleVenue';
+import FinningCircleWorkshops from './pages/finning-circle/FinningCircleWorkshops';
 import MethodDetails from './components/details/MethodDetails';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { DebtProvider } from './contexts/DebtContext';
@@ -40,11 +47,23 @@ function App() {
                 <Route path="/stats" element={<StatsPage />} />
                 <Route path="/super-features" element={<SuperFeaturesPage />} />
                 <Route path="/stock-market" element={<StockMarketPage />} />
-                <Route path="/investment-pooling" element={<FinningUnifiedPage />} />
+                <Route path="/finning" element={<FinningUnifiedPage />} />
+                <Route path="/investment-pooling" element={<Navigate to="/investment-pooling/asset" replace />} />
                 <Route path="/investment-pooling/asset" element={<InvestmentPoolingPage initialTab="asset" />} />
                 <Route path="/investment-pooling/operations" element={<InvestmentPoolingPage initialTab="operations" />} />
                 <Route path="/trade-centre" element={<TradeCentrePage />} />
                 <Route path="/simulation-tool" element={<SimulationToolPage />} />
+
+                {/* Finning Circle Routes */}
+                <Route path="/finning-circle" element={<Navigate to="/finning-circle/dashboard" replace />} />
+                <Route path="/finning-circle/dashboard" element={<FinningCircleDashboard />} />
+                <Route path="/finning-circle/live" element={<FinningCircleLive />} />
+                <Route path="/finning-circle/product" element={<FinningCircleProduct />} />
+                <Route path="/finning-circle/discovery" element={<FinningCircleDiscovery />} />
+                <Route path="/finning-circle/timeline" element={<FinningCircleTimeline />} />
+                <Route path="/finning-circle/venue" element={<FinningCircleVenue />} />
+                <Route path="/finning-circle/workshops" element={<FinningCircleWorkshops />} />
+
                 <Route path="/methods/stop" element={<STOPMethodPage />} />
                 <Route path="/methods/nws" element={<NWSMethodPage />} />
                 <Route path="/methods/kakeibo" element={<KakeiboMethodPage />} />

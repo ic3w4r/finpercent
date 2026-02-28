@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TradeCentre Discovery Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#72df48", "background-light": "#f6f8f6", "background-dark": "#162012"}, fontFamily: {display: "Manrope"}, borderRadius: {DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px"}}}};</script>
+<style>
+        .video-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: calc(100vh - 64px);
+        }
+        .video-card {
+            scroll-snap-align: start;
+        }
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+        .glass-overlay {
+            background: linear-gradient(0deg, rgba(16, 22, 34, 0.9) 0%, rgba(16, 22, 34, 0) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex flex-col h-screen">
+<!-- Top Navigation Bar -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md flex items-center justify-between px-6 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl font-bold">query_stats</span>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">TradeCentre</h1>
+</div>
+<div class="hidden md:flex items-center">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-80 bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary text-sm transition-all outline-none" placeholder="Search products, manufacturers, SMEs..." type="text"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<div class="h-10 w-10 rounded-full border-2 border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile avatar of a professional male" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHe2k0cPqTLXDVqygZu_yxfxVS87fVWi4hy80uBQZTN7iDNkSIQ0-eOdcXgH9BK0x8chHWtbow3ti2V9wqgtUHuMOBYHhqtwRM8CROB9qm1J5BGqnVc40yhLqCC1l7tqLZSbXDwkc-e6bQraVjVWnkz56xknk51nG4ffr7N8i0BBbcpSSXFdK44uYZsb4JaOmei0RcsALahcIOzm_sRUb3vcRHvlKadQvM6JuiUxs298TufssV97cgmgjE_c2WFKqVvdx-j2PE-yY"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Navigation Sidebar -->
+<aside class="w-64 hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 p-4 space-y-2 overflow-y-auto">
+<div class="mb-4 px-3">
+<p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Discovery</p>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-semibold" href="#">
+<span class="material-symbols-outlined transition-none" style="font-variation-settings: 'FILL' 1">dashboard</span>
+                        Feed
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                        Events
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium transition-colors" href="#">
+<span class="material-symbols-outlined">live_tv</span>
+                        Live
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium transition-colors" href="#">
+<span class="material-symbols-outlined">school</span>
+                        Workshops
+                    </a>
+</nav>
+<div class="pt-8 mb-4 px-3">
+<p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Following</p>
+</div>
+<div class="space-y-4 px-3">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Corporate logo of BlackRock" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACClpbjcGEr6IGvX-V48DtVE8ziWPxx8OPRNx8g7NedAsh-2lDU-4FvwdHHtIJlrPTNxpSHTxfusVSef4oZNNSl4jVFpRWGFbAHXy8LTt2D27rEL6cb0Qccgsk2TtMML3ArwOoj6B0rpRRP8jVjcWwzm5iK3fiPe8MjmspBCTsHnj_GnvvMOa7Blx4ekE7pzMQgsWZ_ZAGE3QeIPg1fxCe9E_zqTHYU7ECvmWPdFvrUzHHd8o_zNljIH_mCs_9m2_gqlEdmYLwNEE"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">BlackRock</p>
+<p class="text-xs text-slate-500">Insights</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Architectural corporate building icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMJe2t7d4Uqr9ae1rjjzPdwtGIb-tfB0WrKD6bfNNezYLCcgF7XRiK5FE60op9dxe66-AGjFiXeaagjq7F0gexkunnv5AxthwZADd2EsKHyc8yDLVSFf8wI_zPrr6fGcQeETz0AlkU-7gS7tuKyP9Kvu4Ak95NUtLZGpueFq77vvsv2V0DaH0ZFSJ0gf4OGtc7LzihME5EsisiBHqa9YPFcYBNvls23uD8lXTA20oDSycBA8gsNpjr4nl4ALlEfIQtg_dHPW2F1DU"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">Vanguard</p>
+<p class="text-xs text-slate-500">Tech &amp; Growth</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Video Feed Area -->
+<main class="flex-1 flex justify-center bg-slate-100 dark:bg-background-dark/50 relative">
+<div class="video-container w-full max-w-lg mx-auto">
+<!-- Video Post 1 -->
+<section class="video-card relative w-full h-full bg-black flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center opacity-60 flex items-center justify-center" data-alt="Modern eco-friendly packaging manufacturing line" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCHX1L7p-yYhK_Yy-H8F-r-p6T_n5k-T1_x-w-r-p6T_n5k-T1_x-w-r-p6T_n5k-T1_x-w');">
+<div class="bg-primary/20 backdrop-blur-sm p-4 rounded-full">
+<span class="material-symbols-outlined text-white text-5xl">play_arrow</span>
+</div>
+</div>
+<!-- Side Actions -->
+<div class="absolute right-4 bottom-32 flex flex-col items-center gap-6 z-20">
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="p-3 bg-white/10 backdrop-blur-md rounded-full group-hover:bg-primary/20 transition-all text-white">
+<span class="material-symbols-outlined text-3xl">favorite</span>
+</div>
+<span class="text-white text-xs font-bold mt-1">12.4k</span>
+</div>
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="p-3 bg-white/10 backdrop-blur-md rounded-full group-hover:bg-primary/20 transition-all text-white">
+<span class="material-symbols-outlined text-3xl">chat_bubble</span>
+</div>
+<span class="text-white text-xs font-bold mt-1">342</span>
+</div>
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="p-3 bg-white/10 backdrop-blur-md rounded-full group-hover:bg-primary/20 transition-all text-white">
+<span class="material-symbols-outlined text-3xl">bookmark</span>
+</div>
+<span class="text-white text-xs font-bold mt-1">1.2k</span>
+</div>
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="p-3 bg-white/10 backdrop-blur-md rounded-full group-hover:bg-primary/20 transition-all text-white">
+<span class="material-symbols-outlined text-3xl">share</span>
+</div>
+<span class="text-white text-xs font-bold mt-1">890</span>
+</div>
+</div>
+<!-- Bottom Info Overlay -->
+<div class="absolute inset-x-0 bottom-0 glass-overlay p-6 pt-20 text-white z-10 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-12 w-12 rounded-full border-2 border-white overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="BlackRock company avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARawt1VFLriu1cCZglWU24lVojo89mHC2hOTKcdJ8G9ixTN5KMvG45YopCDMm2hUKNSXAeF5gDsqel1Sku-4fKPhYnlDPKmRdpKN-QjeKcDwY8WvO1ZF0QWSLc3sIkC6TfrvfL_hW-mBUXUUVmBN5Gtquwknhn6M1t02qTNSpnl-Y6pAq8D1gMjx-CfastlbISXQG2GB_bAaxjP5HeaYQoLWp2ZiGs6wBc7iG6FMV8khAeUbmWXyAiEvdy9Vt_tOB2g4uftou8AFg"/>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1">
+<span class="font-bold text-lg">EcoPack Global</span>
+<span class="material-symbols-outlined text-primary text-base font-fill" style="font-variation-settings: 'FILL' 1">verified</span>
+</div>
+<p class="text-sm text-slate-300">Pioneering sustainable packaging for SMEs.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<p class="text-sm line-clamp-2 text-slate-200">Introducing our 100% compostable shipping solutions. Optimize your SME's supply chain with plastic-free materials that don't compromise on durability or cost-efficiency.</p>
+<div class="flex flex-wrap gap-2 mt-1"><span class="text-xs bg-white/10 px-2 py-1 rounded-full border border-white/20">#SME</span><span class="text-xs bg-white/10 px-2 py-1 rounded-full border border-white/20">#EcoFriendly</span><span class="text-xs bg-white/10 px-2 py-1 rounded-full border border-white/20">#Manufacturing</span></div>
+</div>
+<div class="flex items-center gap-4 mt-2">
+<button class="flex-1 bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined">shopping_cart</span>
+                                    View Product
+                                </button>
+<div class="h-12 w-12 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-lg text-white border border-white/20 cursor-pointer">
+<span class="material-symbols-outlined">add</span>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="absolute bottom-0 left-0 h-1 bg-primary z-30" style="width: 35%"></div>
+</section>
+<!-- Video Post 2 (Sample for scroll) -->
+<section class="video-card relative w-full h-full bg-slate-900 flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center opacity-60" data-alt="Colorful financial data charts and graphs" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBsCSET4jOgtdEjEzvUJWCLsjRVD0Zszl7F4v_y6V6p-QonT0LllkWJHytB77vhgo41vmfLjKEJH_RAiTyq13QBVMEydc8TjZdmGf8OZdcKm-6sYha55GNds2nnLnuDb_jEpqLk88_W0cBphlxqDZsa9i6dwRF_7PcP8R4UoMzLFlrfblEyv6t7TMa9kDczwNyjDwpXjXqVtQ2L8bHIC_rG6rNMkvaW08t7MGlQTjO039qEEeRcg8nhJ7QB6mumhCNRfivDHbNNp1c');"></div>
+<div class="absolute inset-x-0 bottom-0 glass-overlay p-6 pt-20 text-white z-10">
+<div class="flex items-center gap-3 mb-4">
+<div class="h-12 w-12 rounded-full border-2 border-white overflow-hidden shrink-0 bg-slate-800">
+<span class="material-symbols-outlined text-3xl flex items-center justify-center h-full">account_balance</span>
+</div>
+<div>
+<p class="font-bold text-lg">Industrial Tech</p>
+<p class="text-sm text-slate-300">SME Automation Series</p>
+</div>
+</div>
+<button class="w-full bg-primary py-3 rounded-lg font-bold">View Solutions</button>
+</div>
+</section>
+</div>
+<!-- Floating Video Navigation -->
+<div class="absolute right-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-4">
+<button class="p-3 bg-white/10 dark:bg-slate-800/80 backdrop-blur-md rounded-full text-slate-400 hover:text-primary transition-colors border border-slate-700">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+<button class="p-3 bg-white/10 dark:bg-slate-800/80 backdrop-blur-md rounded-full text-slate-400 hover:text-primary transition-colors border border-slate-700">
+<span class="material-symbols-outlined">arrow_downward</span>
+</button>
+</div>
+</main>
+<!-- Right Sidebar: Contextual Data (Desktop Only) -->
+<aside class="w-80 hidden xl:flex flex-col border-l border-slate-200 dark:border-slate-800 p-6 space-y-6 overflow-y-auto">
+<div class="space-y-4">
+<h3 class="font-bold text-lg">Industrial Trends</h3>
+<div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-medium">Packaging Costs</span>
+<span class="text-sm text-emerald-500 font-bold">-5.20%</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500 w-3/4"></div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h3 class="font-bold text-lg">Industrial Trends</h3>
+<div class="flex gap-4 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
+<div class="h-12 w-12 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">solar_power</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold group-hover:text-primary transition-colors">Clean Energy Fund</p>
+<p class="text-xs text-slate-500">Low volatility • 4.2% Div</p>
+</div>
+</div>
+<div class="flex gap-4 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
+<div class="h-12 w-12 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold group-hover:text-primary transition-colors">Water Resources ETF</p>
+<p class="text-xs text-slate-500">Global Infrastructure</p>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
+<div class="bg-primary/10 rounded-xl p-4 border border-primary/20">
+<p class="text-xs font-bold text-primary uppercase mb-1">Coming Next</p>
+<p class="text-sm font-bold">SME Automation Webinar</p>
+<p class="text-xs text-slate-500 mb-3">Starting in 2 hours</p>
+<button class="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg">Set Reminder</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</body></html>

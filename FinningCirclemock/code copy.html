@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trade Centre - Live Streaming Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#72df48", "background-light": "#f6f8f6", "background-dark": "#162012"}, fontFamily: {display: "Manrope"}, borderRadius: {DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px"}}}};</script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .fill-primary { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+<div class="flex flex-col h-screen overflow-hidden">
+<!-- Top Navigation -->
+<header class="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark/50 backdrop-blur-md z-30">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl">precision_manufacturing</span>
+<h2 class="text-xl font-bold tracking-tight">Trade Centre</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Marketplace</a>
+<a class="text-sm font-medium hover:text-primary transition-colors text-primary" href="#">Live Demos</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">My Factory</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Messages</a>
+</nav>
+</div>
+<div class="flex items-center gap-4 flex-1 justify-end">
+<div class="max-w-xs w-full relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 text-sm focus:ring-2 focus:ring-primary transition-all" placeholder="Search manufacturers..." type="text"/>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">videocam</span>
+                    Go Live
+                </button>
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border-2 border-slate-800" data-alt="User profile avatar">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ0n3UtkuLQAM4m8RRGyValzrtu8agqE9P3a8zEqemq9XqkQ8uPlpfAk52sftNtZjbsy0co6n2nc5L-N0nHLly4RmWJDEJMnsN6qdOy5izpLhgDVuvqYcnwNksr4GdpAecY64bdGxLDBlr3f-0esz6M_3DJbO7uGwb-lIXFVyIjP7nzDtvsfOOHU-0LoymsCqd3Fdr4PEG29EJKfcsxC4VUQwf5YOoOA-LmmbuGxjVH1eiZcQql2-SXCuU_0adeIKW_KYACUBcS08"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col p-4 gap-2 bg-white dark:bg-background-dark shrink-0">
+<div class="mb-4">
+<h3 class="px-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Manufacturer Hub</h3>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-xl fill-primary">sensors</span>
+<span class="text-sm font-medium">Live Streams</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined text-xl">inventory_2</span>
+<span class="text-sm font-medium">Product Catalog</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined text-xl">bar_chart</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+</div>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Stream View -->
+<main class="flex-1 flex flex-col bg-slate-50 dark:bg-slate-950 overflow-y-auto">
+<div class="p-6">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-xs text-slate-500 mb-6">
+<a class="hover:underline" href="#">Home</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:underline" href="#">Live Events</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100">EcoPack-200 Sustainable Demo</span>
+</div>
+<div class="flex flex-col xl:flex-row gap-6">
+<!-- Video Section -->
+<div class="flex-1 space-y-6">
+<!-- Video Player -->
+<div class="relative rounded-xl overflow-hidden bg-black aspect-video shadow-2xl group border border-slate-800">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Industrial machinery factory setting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4jpiVNlcvX0e015FTboymAIpi3YBKe3-jLTqff1C-u1X1UGR14Nv7tQYtP4fBsbmcM-dLdDQleEAvVcG4lk6HAIvGI8XcGzHZwy9-r5Z-V0fYUXWAzjkCdCxYX5vLJ5Sugqh7K1KS97fDG9nS9u5I5AGvrmkPS7tcboOI5TYT0Ez-p0zeDPRRmxvC-KB3kthLWJfHq7YVMrMFnT8_XgkmVK0E-7Isfw0soAJX-27CmZP4dww3J3U3iuYUM1AU5Apmiq8w6lywiQI')"></div>
+<!-- Overlays -->
+<div class="absolute top-4 left-4 flex gap-2">
+<div class="bg-red-600 text-white px-3 py-1 rounded text-xs font-bold flex items-center gap-2 shadow-lg animate-pulse">
+<div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                                        LIVE
+                                    </div>
+<div class="bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded text-xs font-medium flex items-center gap-2 border border-white/10">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                                        1,248 Viewers
+                                    </div>
+</div>
+<!-- Player Controls -->
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+<button class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl transform transition active:scale-95">
+<span class="material-symbols-outlined text-4xl fill-primary">play_arrow</span>
+</button>
+</div>
+<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 space-y-3">
+<div class="flex items-center gap-4">
+<div class="h-1 flex-1 rounded-full bg-white/20">
+<div class="h-full w-2/3 bg-primary rounded-full relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg ring-4 ring-primary/20"></div>
+</div>
+</div>
+<span class="text-white text-xs font-medium">12:45 / 45:00</span>
+</div>
+<div class="flex items-center justify-between text-white">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">volume_up</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">closed_caption</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">settings</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">branding_watermark</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">fullscreen</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Manufacturer Info Bar -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg bg-slate-100 dark:bg-slate-800 p-2 border border-slate-200 dark:border-slate-700" data-alt="Manufacturer Logo">
+<img alt="Logo" class="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWa5VfqlFql-EBk_eh2Q1w6Xbl2JOCzbWoGyo9DNLmm_acWUBQMcmmOjUT6wd6IJg6nVTkKyXP-pJ8NntoJIC3ZDZd1spTwHgYTfzJFGkU80M1wPklsAbZlRxSih39-p3f_gpjXUgVwVC6f9BTKdhAUdZFyyzSBVfpGX1qs-pOzlgFuLPiogQ794lrer1QdwlTmwdxaSFImV2lkhIIb7Z_78bhqRkv79Ucc-9hsdDmVY2bZ7-yHVMq2fpmsEZVcCLXwTdmhm813Uk"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-lg">GreenTech Packaging Solutions</h3>
+<span class="material-symbols-outlined text-primary text-lg fill-primary">verified</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">98% Positive Feedback • 12k Successful Shipments</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2 mr-4">
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-300"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-400"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-500 flex items-center justify-center text-[10px] text-white font-bold">+4k</div>
+</div>
+<button class="px-5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                                        Follow
+                                    </button>
+<button class="px-5 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 font-semibold text-sm hover:bg-primary/20 transition-colors">
+                                        Contact Sales
+                                    </button>
+</div>
+</div>
+</div>
+<!-- Sidebar Info: Featured Product & Chat -->
+<div class="w-full xl:w-96 flex flex-col gap-6 sticky top-6"><div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col shrink-0 shadow-lg">
+<div class="p-4 bg-primary/5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 relative">
+<span class="material-symbols-outlined text-primary text-2xl">smart_toy</span>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>
+</div>
+<div>
+<h4 class="font-bold text-sm">SME Guide</h4>
+<p class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Virtual Concierge</p>
+</div>
+</div>
+<div class="p-4 space-y-4">
+<div class="grid grid-cols-1 gap-2">
+<button class="flex items-center gap-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-all group">
+<span class="material-symbols-outlined text-lg text-slate-400 group-hover:text-primary">picture_as_pdf</span>
+<span class="text-xs font-medium">View Catalog (PDF)</span>
+</button>
+<button class="flex items-center gap-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-all group">
+<span class="material-symbols-outlined text-lg text-slate-400 group-hover:text-primary">corporate_fare</span>
+<span class="text-xs font-medium">Company Overview</span>
+</button>
+<button class="flex items-center gap-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-all group">
+<span class="material-symbols-outlined text-lg text-slate-400 group-hover:text-primary">info</span>
+<span class="text-xs font-medium">Exhibitor Details</span>
+</button>
+</div>
+<div class="space-y-3">
+<div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 text-[11px] leading-relaxed italic text-slate-600 dark:text-slate-400 border border-slate-100 dark:border-slate-700">
+                "Hello! I'm your SME Guide. Ask me anything about GreenTech's sustainable packaging solutions or request specific data sheets."
+            </div>
+<div class="flex gap-2">
+<input class="flex-1 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-xs py-2 focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Ask deep questions..." type="text"/>
+<button class="bg-primary text-white w-9 h-9 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Product Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col shrink-0 shadow-lg">
+<div class="p-3 bg-primary/10 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<span class="text-xs font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">stars</span>
+                                        FEATURED PRODUCT
+                                    </span>
+<span class="text-[10px] bg-white dark:bg-slate-800 px-2 py-0.5 rounded text-slate-500 border border-slate-200 dark:border-slate-700 uppercase font-bold tracking-tighter">New Release</span>
+</div>
+<div class="p-4 flex gap-4">
+<div class="w-24 h-24 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden border border-slate-200 dark:border-slate-700" data-alt="EcoPack-200 machinery close-up">
+<img alt="Product" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBd79zq26zPF3McGpreOKawfgwLGmeXOj5YgKmTjLLQhP_JGJiH-BudtpdKLwCuSxLqopaPA5Zr8RY5G8aqRnh2ZBLlLzjxUfL2dtHSIB3e8lZDtQj8RnZgR34owkTvHJO0ruVDtUuWGKHVe3ZpEDzzC-mljuULzjGG1Xu5ijMuI6NNCoWas0tFVbbGvJldRERUqKsID88HZ7_wYZk6L7yTKGMoAOZoRliCVvGx5r6aHs9oY3uJ8S_ShKYaMTahNsJg_g0vEqRElc0"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-bold text-base truncate">EcoPack-200 Series</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Automated Bio-Degradable Wrapping System</p>
+<div class="flex items-center gap-2 mb-3">
+<span class="text-lg font-bold text-primary">$4,250</span>
+<span class="text-[10px] text-slate-400">Unit Price (FOB)</span>
+</div>
+</div>
+</div>
+<div class="px-4 pb-4 space-y-2">
+<button class="w-full bg-primary text-white py-2.5 rounded-lg font-bold text-sm shadow-md shadow-primary/20 hover:bg-primary/90 transition-all">
+                                        Request Quote
+                                    </button>
+<button class="w-full border border-slate-200 dark:border-slate-700 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                                        View Specifications
+                                    </button>
+</div>
+</div>
+<!-- Live Chat -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col flex-1 min-h-0 shadow-lg overflow-hidden max-h-[400px]">
+<div class="px-4 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h4 class="font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-green-500 fill-primary">forum</span>
+                                        Live Chat
+                                    </h4>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg text-slate-400 cursor-pointer hover:text-slate-600 transition-colors">tune</span>
+<span class="material-symbols-outlined text-lg text-slate-400 cursor-pointer hover:text-slate-600 transition-colors">close</span>
+</div>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-4 space-y-4">
+<!-- Pinned Message -->
+<div class="bg-primary/10 border-l-4 border-primary p-3 rounded-r-lg">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-sm text-primary">push_pin</span>
+<span class="text-[10px] font-bold text-primary uppercase">Pinned by GreenTech</span>
+</div>
+<p class="text-xs font-medium dark:text-slate-300">Welcome to our weekly demo! Download our sustainable material compatibility sheet <a class="text-primary underline" href="#">here</a>.</p>
+</div>
+<!-- Message List -->
+<div class="space-y-4">
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex-shrink-0" data-alt="User Avatar">
+<img alt="" class="w-full h-full rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgJBGZVt91YUMLGYRx_jSsW9lW7Az06JgIFl28zzIAez6VKvOAiRwyPRfszLOAbcCNLVgAVlBEAYVZj-kwgEt7m8xikX901SimRNG_9bWWjRqY9kb1BdGUaggnT-3FdMhTsPKAZ5HV1ot39M2hhfB7jCxvJDQSrK-ZOAteLj6mq7M5BGMwCdiDnVyvEy--CJDNS37P7cXXt3siqSnGGzLeep8m6GZRkaaMobb1AEDbHNh-Y3mUYhUULXxMXtmtZQdfbF4dXEK0Lpg"/>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-bold text-xs">James Wilson</span>
+<span class="text-[10px] text-slate-500">2:45 PM</span>
+</div>
+<p class="text-xs mt-1 text-slate-700 dark:text-slate-300">What is the maximum cycle speed for the 200 series?</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex-shrink-0" data-alt="User Avatar">
+<img alt="" class="w-full h-full rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy8fc2JOwno-XGBx_2xlbxnAGouOJdeY8HGD9Jn5JF21XYZKjQbrCmPzwkDacEsOx4395MAFZGqQNjf64ZnBOPZhH59qMOYOEE3dPaSyg2Mf78NWvih0ByDAexdNe040zYfRzoy1j7-BgRjfT1YDy4zevlz9A9-G5R01pqXvFCBginFwDzxu7Y-DPJ2dw952JgTH8McuU5O_NoR-38XZZMd5TyJWBG7cxgfmrdixa-6XWcCoqPHKGIbWY9IOSAhS21RdmT-GfM35M"/>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-bold text-xs">Sarah Chen</span>
+<span class="text-[10px] text-slate-500">2:46 PM</span>
+</div>
+<p class="text-xs mt-1 text-slate-700 dark:text-slate-300">Does this support starch-based bioplastics?</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary text-sm">support_agent</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-bold text-xs text-primary">GreenTech (Support)</span>
+<span class="text-[10px] text-slate-500">2:46 PM</span>
+</div>
+<p class="text-xs mt-1 text-slate-700 dark:text-slate-300 font-medium italic">Yes Sarah! It supports all starch-based films up to 80 microns thickness.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex-shrink-0" data-alt="User Avatar">
+<img alt="" class="w-full h-full rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJQl9f4xV8hxzjc8odQX_tEFZVLypWoHxudVbjlO2rJv3VWXJq5x6YHaeaqZGpuIvotbDDuGpQqwW2b-d0gy2itwL6DarI33kteJKrbWSbUBAYeBheJSAlIIzQDMZQ6OuBNT-dpZSy8Kt_OmwVNIhzKt0udMD5qi5NYOCC3f7dVB9hoQwQZDSvaAIVPrcyouy4-SFX_0VEiOW2i344EXGNM4Uqw-PQvQFllQRGZ_RrqBL6cLzxkpPFpBQbd9tRq6PwJ0ZZgjoibqo"/>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-bold text-xs">Robert Miller</span>
+<span class="text-[10px] text-slate-500">2:47 PM</span>
+</div>
+<p class="text-xs mt-1 text-slate-700 dark:text-slate-300">Requesting a private demo for my team in Hamburg.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Input -->
+<div class="p-4 bg-slate-50 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2 bg-white dark:bg-slate-800 rounded-lg p-1 pr-2 border border-slate-200 dark:border-slate-700 focus-within:ring-2 focus-within:ring-primary transition-all">
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-xs py-2 px-3" placeholder="Say something..." type="text"/>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">mood</span>
+</button>
+<button class="bg-primary text-white w-8 h-8 rounded-md flex items-center justify-center hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+<p class="text-[10px] text-slate-400 mt-2 px-1 text-center">Be respectful. Trade Centre rules apply.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

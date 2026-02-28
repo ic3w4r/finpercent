@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trade Centre Timeline | Fintech Trade Centre</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#72df48", "background-light": "#f6f8f6", "background-dark": "#162012", "surface-dark": "#1a1d24", "border-dark": "#2d3544"}, fontFamily: {display: "Manrope"}, borderRadius: {DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px"}}}};</script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #2d3544 10%, #2d3544 90%, transparent);
+            z-index: 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex flex-col h-screen">
+<!-- Top Navigation -->
+<header class="h-16 border-b border-slate-200 dark:border-border-dark flex items-center justify-between px-6 bg-white dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg">
+<span class="material-symbols-outlined text-white text-xl">account_balance_wallet</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight">Trade Centre</h1>
+</div>
+<div class="relative w-96 hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-slate-100 dark:bg-surface-dark border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/50" placeholder="Search events, experts, or companies..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary hover:bg-primary/20 transition-colors rounded-lg text-sm font-semibold">
+<span class="material-symbols-outlined text-sm">event_repeat</span>
+                    Sync Calendar
+                </button>
+<div class="h-8 w-px bg-slate-200 dark:bg-border-dark mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-semibold">Alex Rivers</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Pro Trader</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary/20 border-2 border-primary/30 flex items-center justify-center overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Professional user profile headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaIOmRYPp_o1IzKyF5PooEBySQqwk_WIKfX3VNgJ7-k4zdCb6a7f0w0O3DAgX8Agwc3iIN24QyAaTLmsGA8QhYcwToHo_eQFYf5zt0O35C_GBF7gvqdQoB_2UlPVFaGnyEIi_cj1DwHDbROPSQlYnDYO6LOMRMmZkUPI2z9inyoWcnpThNGQVPrMBewtom8ObccqhsbEwtcWNmeB5Q6p8vBJnvG9UcqZL5KJYk3XH2nKcFxAWTvGwgAjvHIF1ik6nGDB-6uxQs5tk"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Sidebar -->
+<aside class="w-72 border-r border-slate-200 dark:border-border-dark hidden lg:flex flex-col p-6 overflow-y-auto">
+<div class="mb-8">
+<h2 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Categories</h2>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white font-medium" href="#">
+<span class="material-symbols-outlined">rocket_launch</span>
+                            Product Launches
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">school</span>
+                            Business Workshops
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">factory</span>
+                            Manufacturing Expos
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">groups</span>
+                            Networking
+                        </a>
+</nav>
+</div>
+<div class="mb-8">
+<h2 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Quick Calendar</h2>
+<div class="bg-slate-100 dark:bg-surface-dark p-4 rounded-xl">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold">October 2024</span>
+<div class="flex gap-1">
+<button class="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-y-2 text-center text-[10px] font-bold text-slate-400 mb-2">
+<span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+</div>
+<div class="grid grid-cols-7 gap-y-1 text-center text-xs font-medium">
+<span class="p-1.5 text-slate-300 dark:text-slate-600">28</span>
+<span class="p-1.5 text-slate-300 dark:text-slate-600">29</span>
+<span class="p-1.5 text-slate-300 dark:text-slate-600">30</span>
+<span class="p-1.5">1</span><span class="p-1.5">2</span><span class="p-1.5">3</span><span class="p-1.5">4</span>
+<span class="p-1.5 bg-primary text-white rounded-full">5</span><span class="p-1.5">6</span><span class="p-1.5">7</span><span class="p-1.5">8</span><span class="p-1.5">9</span><span class="p-1.5">10</span><span class="p-1.5">11</span>
+<span class="p-1.5">12</span><span class="p-1.5">13</span><span class="p-1.5">14</span><span class="p-1.5">15</span><span class="p-1.5">16</span><span class="p-1.5">17</span><span class="p-1.5">18</span>
+</div>
+</div>
+</div>
+<div class="mt-auto">
+<div class="p-4 bg-primary/5 border border-primary/20 rounded-xl">
+<p class="text-xs font-bold text-primary mb-1">Upgrade to Premium</p>
+<p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3">Get early access to exclusive workshops.</p>
+<button class="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90">View Plans</button>
+</div>
+</div>
+</aside>
+<!-- Main Timeline Area -->
+<main class="flex-1 overflow-y-auto bg-slate-50 dark:bg-background-dark/50">
+<div class="max-w-4xl mx-auto p-8">
+<div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+<div>
+<h2 class="text-3xl font-black tracking-tight mb-2">SME Business Growth Timeline</h2>
+<p class="text-slate-500 dark:text-slate-400 max-w-md">Chronological feed of manufacturing expos, business scaling workshops, and international trade demonstrations for SME owners.</p>
+</div>
+<div class="flex items-center bg-white dark:bg-surface-dark p-1 rounded-lg border border-slate-200 dark:border-border-dark">
+<button class="px-4 py-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-xs font-bold">List</button>
+<button class="px-4 py-1.5 text-slate-500 dark:text-slate-400 text-xs font-bold">Grid</button>
+</div>
+</div>
+<div class="space-y-12 relative timeline-line">
+<!-- Timeline Section: Today -->
+<div class="relative z-10">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white border-4 border-background-light dark:border-background-dark shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">today</span>
+</div>
+<h3 class="text-xl font-bold">Today, Oct 24</h3>
+</div>
+<div class="space-y-4 ml-5 pl-10 border-l-0">
+<!-- Event Card 1 -->
+<div class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/40 transition-all flex flex-col md:flex-row">
+<div class="md:w-64 h-48 md:h-auto overflow-hidden relative">
+<img alt="Workshop Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Eco-friendly packaging and shipping boxes for small businesses" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&amp;w=2070&amp;auto=format&amp;fit=crop"/>
+<span class="absolute top-3 left-3 px-2 py-1 bg-red-500 text-white text-[10px] font-black uppercase tracking-widest rounded-sm flex items-center gap-1 shadow-lg">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> Live Now
+                                        </span>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded">Live Stream</span>
+<span class="text-xs text-slate-500 font-medium">10:00 AM - 12:30 PM</span>
+</div>
+<h4 class="text-lg font-bold mb-1 group-hover:text-primary transition-colors">Sustainable Packaging Solutions for SMEs</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">Expert session covering cost-effective biodegradable materials and automating your small-scale packaging line.</p>
+<div class="flex items-center gap-2 mb-6">
+<div class="w-6 h-6 rounded-full bg-slate-300 overflow-hidden">
+<img alt="Expert" class="w-full h-full object-cover" data-alt="Male expert speaker headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbE8RwCixEzMhTA0OyQxDZI45xsH1W0lBmRfyANGUQQPctubEz4Wm3cvdpwt3e2MvZ_MZ-e_NqFdxGW5HKwjjPq-DmsQRaiT856AimGGzeYPUdzTBLZeUHX-g11YNjwTODK_6acUsMHNWDHOFjWEPOs0Os_7uDJA57vGOJeVnnIFOgBjwAyXNnw2uXYH8YRho7j49rHZZCXIgxa_U9PoRm_3FXiNHiRZ7MNujyR7MG-NwgD3Mgp_DpVGB_Rre15tk0LsAIgdPbWGk"/>
+</div>
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Marcus Thorne • Sustainability Consultant</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border-2 border-white dark:border-surface-dark" data-alt="Attendee avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhAfp3dGH11962IkJrrZxQ77dNm8-5fmXnVc4H_S3HdGBKYI7MxLd-CfHBtr3RcLPEnIrFemdGhfZoqLSPVD_u_qlwZj2ncfZ5SbZN0tUXKplJ8NUpPSTFPElYhoInRSxiS9tcfhS0pMrcPyUSFGzTSowQ0vrn_Qd0Kej_LKBA5Q1EIiCaTBtuU1urDBEMjMXMT8jKIzjI-r-Pdg8DJZLPIDv5enSS617V6mwuhAaezc-p86PdfunRwx7JiIS8Gg-qwlaPlny7HGA"/>
+<img class="w-6 h-6 rounded-full border-2 border-white dark:border-surface-dark" data-alt="Attendee avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqhs48zqWRFHQiS8WIhb7TGhxV2v-uvUTYConIFnKwAfiE3PkLxBlj_2o6gmxY8FxbXTIdXqaRJHmW_p8IPKphb2lRlp5HCFAKiVl0So78OLSLCRfgFLTtiifJUC27Obsh3qsD7ENylXdEUjbiRBT2exNenGGpe0-8VowxQEzIxwxDHlmR4kUXNtjYhClwst9XKSWAQz-4VYSQDhlaK2mpjjyNGQ9oW0JVjrBtvcQBIZYctY8ClAoX8gBpezioEvPkemA0GqMuL78"/>
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 border-2 border-white dark:border-surface-dark flex items-center justify-center text-[8px] font-bold">+1.2k</div>
+</div>
+<button class="px-6 py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow">Join Stream</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Section: Tomorrow -->
+<div class="relative z-10">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-surface-dark border-2 border-slate-300 dark:border-border-dark flex items-center justify-center text-slate-500 border-4 border-background-light dark:border-background-dark">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+</div>
+<h3 class="text-xl font-bold">Tomorrow, Oct 25</h3>
+</div>
+<div class="space-y-6 ml-5 pl-10">
+<!-- Event Card 2 -->
+<div class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/40 transition-all flex flex-col md:flex-row">
+<div class="md:w-64 h-48 md:h-auto overflow-hidden relative">
+<img alt="Exhibition Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Grand tech exhibition hall with company booths" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgk6ce7Pe8YkPZuGHghw1Pi0YJH8ibwdb3eZOByx9yeJ0jWOVqIkrHr3WaLNEF1ckmk78eRXNoGhfNW12EahMGmuwu5_LVL71Sr-_PPlD3P38vnt1rR2G4ATJDEeNbi8qixwiqzLRR_J6rdPaygazQyhPCZMHiJnbSqIXeJ2kc1mYLXBaNnsLj2NXtysfmtVZOpVMv8Bgc4fg_T4O2gPQ1tppu4zt-tSKDZkcZRiOcz5eFcS9JPVX9j8KpDgQ15LsexUza3Fkf6Ww"/>
+<span class="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur dark:bg-black/50 text-slate-900 dark:text-white text-[10px] font-black uppercase tracking-widest rounded-sm shadow-md">
+                                            Main Event
+                                        </span>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">Exhibition</span>
+<span class="text-xs text-slate-500 font-medium">9:00 AM - 5:00 PM</span>
+</div>
+<h4 class="text-lg font-bold mb-1 group-hover:text-primary transition-colors">Sustainable Packaging Solutions for SMEs</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">Expert session covering cost-effective biodegradable materials and automating your small-scale packaging line.</p>
+<div class="flex items-center gap-2 mb-6">
+<div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-xs text-slate-400">business</span>
+</div>
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Marcus Thorne • Sustainability Consultant</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                                Convention Hall A
+                                            </div>
+<button class="px-6 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">Register Now</button>
+</div>
+</div>
+</div>
+<!-- Event Card 3 -->
+<div class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/40 transition-all flex flex-col md:flex-row">
+<div class="md:w-64 h-48 md:h-auto overflow-hidden relative">
+<img alt="Expert Talk" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close up of a professional giving a presentation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaCVkh4XfuXUTE5vexfRqOJDoLjMnBNWF6UkO7_Dve8yHy4Ru8VQievLTOeO89sAmPMZnVS1xYS5Q5FTX7RppITCShFsVhwyJRl4rEPL0a9tgCD1XuHtxuxp0z-vq8oiOFCM5-KO9xzI6BrIIw0UnF6GN12OlbNxBMmKeZQvZsLUgm1YseHz5QdEahpyqDUJb_qVg0NRiiZawXWEEXOHDwGnJAMWuIGjoXwV2KkyVQzuTVzuTYQxy0YGmyjNtfoIw5Sq-XiLs8740"/>
+<span class="absolute top-3 left-3 px-2 py-1 bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest rounded-sm shadow-md">
+                                            Workshop
+                                        </span>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-black uppercase tracking-widest text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded">Technical</span>
+<span class="text-xs text-slate-500 font-medium">1:30 PM - 3:00 PM</span>
+</div>
+<h4 class="text-lg font-bold mb-1 group-hover:text-primary transition-colors">SME Manufacturing &amp; Export Expo 2025</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">Discover the latest in automated production lines, global logistics for small exporters, and scalable manufacturing tech.</p>
+<div class="flex items-center gap-2 mb-6">
+<div class="w-6 h-6 rounded-full bg-slate-300 overflow-hidden">
+<img alt="Expert" class="w-full h-full object-cover" data-alt="Female legal expert headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw8WIuSaTIkjjcP8raSI129jdnN6jDrHz00Asvs8li8mYxzfJJAq3z-nNYvfCLQVb9PRrtq9h237EdlxwEC-slgO4kxFZ8U78h9IHSROq9REB6IcZkn1L_ilId91e_G4hLX6YxfoQqlYw6v0UEpeKJ1qcnnP5q3LD_ZHeOAkl5qzsw6NUOz71SC7M2TMxKy4brzBkRvf8Ufn3jYu_9sYpXol6nImxJCZxoxdQxPNzBHDKhdV7ttWUN_2dOyxBhmn369Efw2OQZIRY"/>
+</div>
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Presented by Global Trade Alliances</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-amber-500"></div>
+<span class="text-[10px] font-bold text-amber-600 uppercase">Limited Seats</span>
+</div>
+<button class="px-6 py-2 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg text-sm font-bold transition-all">Claim Seat</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Section: Later this Week -->
+<div class="relative z-10">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-surface-dark border-2 border-slate-300 dark:border-border-dark flex items-center justify-center text-slate-500 border-4 border-background-light dark:border-background-dark">
+<span class="material-symbols-outlined text-sm">update</span>
+</div>
+<h3 class="text-xl font-bold">Next Week</h3>
+</div>
+<div class="space-y-4 ml-5 pl-10">
+<div class="p-8 border-2 border-dashed border-slate-200 dark:border-border-dark rounded-xl flex flex-col items-center justify-center text-center">
+<div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-surface-dark flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-slate-400">add</span>
+</div>
+<p class="text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">More events being added</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Chronological feed of manufacturing expos, business scaling workshops, and international trade demonstrations for SME owners.</p>
+<button class="mt-4 text-xs font-black text-primary uppercase tracking-widest hover:underline">Enable Alerts</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "ui-ux-pro-max": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "computedHash": "d8e1cbc119ea771b4f537a92f8b67eba51a2becdb4de0c7a0e265d101986372e"
+    }
+  }
+}
