@@ -28,6 +28,14 @@ import FinningCircleDiscovery from './pages/finning-circle/FinningCircleDiscover
 import FinningCircleTimeline from './pages/finning-circle/FinningCircleTimeline';
 import FinningCircleVenue from './pages/finning-circle/FinningCircleVenue';
 import FinningCircleWorkshops from './pages/finning-circle/FinningCircleWorkshops';
+
+// Finning Biz Routes
+import AgentAuthorizationHierarchyPage from './pages/finning-biz/AgentAuthorizationHierarchyPage';
+import AIAgentMarketplacePage from './pages/finning-biz/AIAgentMarketplacePage';
+import JointAgentFlowVisualizationPage from './pages/finning-biz/JointAgentFlowVisualizationPage';
+import AuditorAgentWorkflowPage from './pages/finning-biz/AuditorAgentWorkflowPage';
+import JointMultiAgentReportPage from './pages/finning-biz/JointMultiAgentReportPage';
+
 import MethodDetails from './components/details/MethodDetails';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { DebtProvider } from './contexts/DebtContext';
@@ -63,6 +71,14 @@ function App() {
                 <Route path="/finning-circle/timeline" element={<FinningCircleTimeline />} />
                 <Route path="/finning-circle/venue" element={<FinningCircleVenue />} />
                 <Route path="/finning-circle/workshops" element={<FinningCircleWorkshops />} />
+
+                {/* Finning Biz Routes */}
+                <Route path="/finning-biz" element={<Navigate to="/finning-biz/authorization" replace />} />
+                <Route path="/finning-biz/authorization" element={<AgentAuthorizationHierarchyPage />} />
+                <Route path="/finning-biz/marketplace" element={<AIAgentMarketplacePage />} />
+                <Route path="/finning-biz/flow" element={<JointAgentFlowVisualizationPage />} />
+                <Route path="/finning-biz/auditor" element={<AuditorAgentWorkflowPage />} />
+                <Route path="/finning-biz/report" element={<JointMultiAgentReportPage />} />
 
                 <Route path="/methods/stop" element={<STOPMethodPage />} />
                 <Route path="/methods/nws" element={<NWSMethodPage />} />
