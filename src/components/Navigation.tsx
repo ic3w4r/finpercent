@@ -19,7 +19,8 @@ import {
   Target,
   PiggyBank,
   BookOpen,
-  Globe
+  Globe,
+  Briefcase
 } from 'lucide-react';
 // import ThemeToggle from './ThemeToggle';
 
@@ -55,6 +56,7 @@ export default function Navigation({ }: NavigationProps) {
   const finningItems = [
     { name: 'Finning Hub', href: '/finning', icon: FinningIcon },
     { name: 'Finning Circle', href: '/finning-circle', icon: Globe },
+    { name: 'Finning Biz', href: '/finning-biz/authorization', icon: Briefcase },
     { name: 'Investment Pooling', href: '/investment-pooling', icon: InvestmentIcon },
   ];
 

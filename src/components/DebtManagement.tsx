@@ -583,7 +583,7 @@ export default function DebtManagement() {
     </div>
     </div>
   );
-};
+}
 
 // Helper component for EMI tool inputs
 const EmiInputField: React.FC<{ label: string; value: number; onChange: (v: number) => void }> = ({
