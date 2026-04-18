@@ -7,225 +7,448 @@ export default function AIAgentMarketplacePage() {
       <FinningBizNav />
       <div className="flex-1 overflow-auto">
         
+<div className="flex h-full min-h-screen flex-col">
 
-        <main className="flex h-[calc(100vh-65px)] overflow-hidden">
-          <aside className="w-80 flex flex-col border-r border-primary/10 bg-white dark:bg-background-dark/50 overflow-y-auto">
-            <div className="p-6 border-b border-primary/10">
-              <h3 className="text-lg font-bold flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">forum</span>
-                Collaboration Feed
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-wider font-semibold">Multi-Agent Interactions</p>
-            </div>
-            <div className="flex-1 p-4 space-y-4">
-              <div className="p-3 rounded-xl bg-primary/5 border-l-4 border-primary space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="size-6 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[14px] text-primary">security</span>
-                  </div>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase">Auditor Agent</span>
-                  <span className="text-[10px] text-slate-400 ml-auto">2m ago</span>
-                </div>
-                <p className="text-xs leading-relaxed italic">"Flagged anomaly in Q3 Supply Chain overhead. Disbursement mismatch detected."</p>
-                <div className="flex items-center gap-1 text-[10px] text-primary font-bold">
-                  <span className="material-symbols-outlined text-[12px]">trending_up</span>
-                  Forecasting Agent responded...
-                </div>
-              </div>
+<header className="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-primary/20 bg-background-light dark:bg-background-dark px-6 py-3 sticky top-0 z-50">
+<div className="flex items-center gap-8">
+<div className="flex items-center gap-3 text-primary">
+<div className="size-8 bg-primary rounded flex items-center justify-center text-white">
+<span className="material-symbols-outlined">analytics</span>
+</div>
+<h2 className="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">FinAudit AI</h2>
+</div>
+<nav className="hidden lg:flex items-center gap-6">
+<a className="text-primary text-sm font-semibold leading-normal border-b-2 border-primary pb-1" href="#">Marketplace</a>
+<a className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Reports</a>
+<a className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div className="flex flex-1 justify-end gap-4 items-center">
+<label className="hidden md:flex flex-col min-w-40 !h-10 max-w-xs">
+<div className="flex w-full flex-1 items-stretch rounded-xl h-full border border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/5">
+<div className="text-slate-400 dark:text-primary/60 flex items-center justify-center pl-4 rounded-l-xl">
+<span className="material-symbols-outlined text-xl">search</span>
+</div>
+<input className="form-input flex w-full min-w-0 flex-1 rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-slate-400 dark:placeholder:text-primary/40 px-4 pl-2 text-sm font-normal" placeholder="Search agents or domains..." />
+</div>
+</label>
+<div className="flex gap-2">
+<button className="flex items-center justify-center rounded-xl h-10 w-10 bg-slate-100 dark:bg-primary/10 text-slate-600 dark:text-primary hover:bg-primary/20 transition-all">
+<span className="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button className="flex items-center justify-center rounded-xl h-10 w-10 bg-slate-100 dark:bg-primary/10 text-slate-600 dark:text-primary hover:bg-primary/20 transition-all">
+<span className="material-symbols-outlined text-xl">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<div className="flex flex-1 overflow-hidden">
+<main className="flex-1 overflow-y-auto px-6 py-8">
+<div className="mb-10">
+<div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-6">
+<div>
+<h1 className="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-tight">Agent Marketplace</h1>
+<p className="text-slate-500 dark:text-slate-400 text-lg">Deploy specialized AI agents to optimize your financial performance.</p>
+</div>
+</div>
+<div className="bg-gradient-to-r from-primary/10 to-transparent border border-primary/30 rounded-2xl p-6 relative overflow-hidden">
+<div className="absolute top-0 right-0 p-4 opacity-10">
+<span className="material-symbols-outlined text-8xl text-primary">psychology</span>
+</div>
+<div className="relative z-10">
+<p className="text-slate-600 dark:text-slate-300 max-w-2xl mb-4">
+                                Based on your Q3 balance sheet, we've identified a 14% drift in working capital. Activating the 
+                                <span className="text-primary font-bold">Working Capital Diagnostic Agent</span> could unlock $240k in cash flow.
+                            </p>
+<button className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-primary/20">
+<span className="material-symbols-outlined text-lg">bolt</span>
+                                Activate Recommended Agent
+                            </button>
+</div>
+</div>
+</div>
 
-              <div className="p-3 rounded-xl bg-slate-100 dark:bg-primary/5 border-l-4 border-slate-400 dark:border-primary/30 space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="size-6 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[14px] text-blue-500">monitoring</span>
-                  </div>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase">Forecasting Agent</span>
-                  <span className="text-[10px] text-slate-400 ml-auto">5m ago</span>
-                </div>
-                <p className="text-xs leading-relaxed italic">"Adjusted H2 projections based on Audit anomaly. Revenue forecast lowered by 2.4%."</p>
-              </div>
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 
-              <div className="p-3 rounded-xl bg-slate-100 dark:bg-primary/5 border-l-4 border-red-500 space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="size-6 rounded-full bg-red-500/20 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[14px] text-red-500">warning</span>
-                  </div>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase">Profit Leakage Agent</span>
-                  <span className="text-[10px] text-slate-400 ml-auto">12m ago</span>
-                </div>
-                <p className="text-xs leading-relaxed italic">"Identified 15% spike in unallocated printing costs. Recommendation: Renegotiate Q4 vendor contracts."</p>
-              </div>
 
-              <div className="p-3 rounded-xl bg-slate-100 dark:bg-primary/5 border-l-4 border-green-500 space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="size-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[14px] text-green-500">account_balance_wallet</span>
-                  </div>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase">Working Capital Agent</span>
-                  <span className="text-[10px] text-slate-400 ml-auto">22m ago</span>
-                </div>
-                <p className="text-xs leading-relaxed italic">"Liquidity ratio optimal. Current Assets cover 1.8x immediate liabilities."</p>
-              </div>
-            </div>
-            <div className="p-4 mt-auto">
-              <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20">
-                <span className="material-symbols-outlined">add_comment</span>
-                Add Annotation
-              </button>
-            </div>
-          </aside>
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">analytics</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 uppercase">Active</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Working Capital Diagnostic Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Identifies inefficiencies in receivables and payables cycles.</p>
+</div>
+<button className="w-full py-2 bg-slate-100 dark:bg-primary/10 text-slate-900 dark:text-white text-xs font-bold rounded-lg group-hover:bg-primary group-hover:text-white transition-all">Configure</button>
+</div>
 
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <div className="p-8 pb-4 flex flex-col gap-4">
-              <div className="flex justify-between items-start">
-                <div className="flex flex-col gap-1">
-                  <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">Joint Report: Multi-Agent Synthesis</h1>
-                  <p className="text-slate-500 dark:text-slate-400 text-base">Real-time collaborative financial flow analysis for the calendar industry fiscal year 2024.</p>
-                </div>
-                <div className="flex flex-col items-end gap-3">
-                  <div className="flex items-center -space-x-3">
-                    <div className="size-10 rounded-full border-2 border-background-dark bg-primary flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-primary/20" title="Auditor Agent">A</div>
-                    <div className="size-10 rounded-full border-2 border-background-dark bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-blue-600/20" title="Forecasting Agent">F</div>
-                    <div className="size-10 rounded-full border-2 border-background-dark bg-red-600 flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-red-600/20" title="Leakage Agent">L</div>
-                    <div className="size-10 rounded-full border-2 border-background-dark bg-green-600 flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-green-600/20" title="Capital Agent">C</div>
-                    <div className="size-10 rounded-full border-2 border-background-dark bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-slate-700/20"> +2</div>
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">6 Active Collaborators</span>
-                </div>
-              </div>
-              <div className="flex border-b border-primary/10 gap-8">
-                <span className="flex items-center gap-2 border-b-2 border-primary text-primary pb-3 font-bold text-sm cursor-pointer">
-                  <span className="material-symbols-outlined text-sm">flowchart</span> Sankey Flow
-                </span>
-                <span className="flex items-center gap-2 text-slate-500 dark:text-slate-400 pb-3 font-medium text-sm hover:text-primary cursor-pointer">
-                  <span className="material-symbols-outlined text-sm">bar_chart</span> Revenue Breakdown
-                </span>
-                <span className="flex items-center gap-2 text-slate-500 dark:text-slate-400 pb-3 font-medium text-sm hover:text-primary cursor-pointer">
-                  <span className="material-symbols-outlined text-sm">account_balance</span> Liability Analysis
-                </span>
-              </div>
-            </div>
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">payments</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Cash Flow Stress Test Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Simulates market volatility impacts on runway and cash reserves.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
 
-            <div className="flex-1 overflow-auto p-8 pt-0 relative">
-              <div className="min-h-[500px] w-full bg-white dark:bg-primary/5 rounded-2xl border border-primary/10 p-12 relative flex items-center justify-center overflow-hidden">
-                <svg className="w-full h-full max-w-5xl" preserveAspectRatio="none" viewBox="0 0 1000 500">
-                  <path d="M 0 100 Q 250 100 500 150 L 500 350 Q 250 400 0 400 Z" fill="url(#grad1)" fillOpacity="0.3"></path>
-                  <path d="M 500 250 Q 750 250 1000 50 L 1000 150 Q 750 350 500 350 Z" fill="url(#grad2)" fillOpacity="0.2"></path>
-                  <path d="M 500 150 Q 750 150 1000 300 L 1000 450 Q 750 300 500 250 Z" fill="url(#grad3)" fillOpacity="0.3"></path>
-                  <defs>
-                    <linearGradient id="grad1" x1="0%" x2="100%" y1="0%" y2="0%">
-                      <stop offset="0%" style={{ stopColor: '#ec5b13', stopOpacity: '1' }}></stop>
-                      <stop offset="100%" style={{ stopColor: '#ec5b13', stopOpacity: '0.5' }}></stop>
-                    </linearGradient>
-                    <linearGradient id="grad2" x1="0%" x2="100%" y1="0%" y2="0%">
-                      <stop offset="0%" style={{ stopColor: '#ef4444', stopOpacity: '1' }}></stop>
-                      <stop offset="100%" style={{ stopColor: '#ef4444', stopOpacity: '0.5' }}></stop>
-                    </linearGradient>
-                    <linearGradient id="grad3" x1="0%" x2="100%" y1="0%" y2="0%">
-                      <stop offset="0%" style={{ stopColor: '#10b981', stopOpacity: '1' }}></stop>
-                      <stop offset="100%" style={{ stopColor: '#10b981', stopOpacity: '0.5' }}></stop>
-                    </linearGradient>
-                  </defs>
-                </svg>
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">account_balance</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Loan Eligibility Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Evaluates creditworthiness against various banking standards.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
 
-                <div className="absolute inset-0 p-12 pointer-events-none">
-                  <div className="h-full flex flex-col justify-between items-start text-xs font-bold uppercase tracking-widest text-slate-400">
-                    <div>Source: Core Revenue ($4.2M)</div>
-                    <div>Source: Partnerships ($0.8M)</div>
-                  </div>
-                </div>
-                <div className="absolute inset-0 p-12 pointer-events-none flex justify-end">
-                  <div className="h-full flex flex-col justify-between items-end text-xs font-bold uppercase tracking-widest text-slate-400">
-                    <div className="text-red-500">Operating Expenses ($2.1M)</div>
-                    <div className="text-green-500">Net Retained Earnings ($1.9M)</div>
-                  </div>
-                </div>
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">trending_down</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Profit Leakage Detector Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Finds hidden costs and operational inefficiencies eating margins.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
 
-                <div className="absolute top-1/4 left-1/4 pointer-events-auto">
-                  <div className="flex flex-col items-center">
-                    <div className="bg-primary text-white p-3 rounded-xl shadow-xl border border-white/20 max-w-[200px] text-xs">
-                      <div className="flex items-center gap-1 mb-1 opacity-80">
-                        <span className="material-symbols-outlined text-[10px]">account_balance_wallet</span>
-                        <span className="font-bold">Working Capital Agent</span>
-                      </div>
-                      Liquidity leak detected in raw material advance payments.
-                    </div>
-                    <div className="h-8 w-px bg-primary"></div>
-                    <div className="size-2 bg-primary rounded-full"></div>
-                  </div>
-                </div>
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">precision_manufacturing</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Capex Decision Intelligence</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">ROI analysis for large capital expenditure projects.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
 
-                <div className="absolute bottom-1/3 right-1/4 pointer-events-auto">
-                  <div className="flex flex-col items-center">
-                    <div className="size-2 bg-red-500 rounded-full"></div>
-                    <div className="h-8 w-px bg-red-500"></div>
-                    <div className="bg-red-500 text-white p-3 rounded-xl shadow-xl border border-white/20 max-w-[200px] text-xs">
-                      <div className="flex items-center gap-1 mb-1 opacity-80">
-                        <span className="material-symbols-outlined text-[10px]">warning</span>
-                        <span className="font-bold">Profit Leakage Agent</span>
-                      </div>
-                      12% spike in un-reconciled digital distribution fees.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">hub</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Scenario Modeling Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Create complex financial 'what-if' scenarios instantly.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
 
-            <div className="p-8 border-t border-primary/10 bg-white/50 dark:bg-background-dark/30">
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Composite Health</span>
-                  <div className="flex items-end gap-2">
-                    <span className="text-3xl font-black text-slate-900 dark:text-white">84/100</span>
-                    <span className="text-green-500 text-xs font-bold mb-1 flex items-center">
-                      <span className="material-symbols-outlined text-sm">arrow_upward</span> 4%
-                    </span>
-                  </div>
-                  <div className="w-full h-1.5 bg-slate-200 dark:bg-primary/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-green-500 w-[84%]"></div>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Risk Level</span>
-                  <div className="flex items-end gap-2">
-                    <span className="text-3xl font-black text-slate-900 dark:text-white">Moderate</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-slate-200 dark:bg-primary/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-500 w-[45%]"></div>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Burn Efficiency</span>
-                  <div className="flex items-end gap-2">
-                    <span className="text-3xl font-black text-slate-900 dark:text-white">1.4x</span>
-                    <span className="text-red-500 text-xs font-bold mb-1 flex items-center">
-                      <span className="material-symbols-outlined text-sm">arrow_downward</span> 0.2
-                    </span>
-                  </div>
-                  <div className="w-full h-1.5 bg-slate-200 dark:bg-primary/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-primary w-[70%]"></div>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Growth Runway</span>
-                  <div className="flex items-end gap-2">
-                    <span className="text-3xl font-black text-slate-900 dark:text-white">22 mo</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-slate-200 dark:bg-primary/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-500 w-[90%]"></div>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Multi-Agent Consensus</span>
-                  <div className="flex items-center gap-1 mt-1">
-                    <span className="material-symbols-outlined text-green-500 text-xl">verified</span>
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">High Trust</span>
-                  </div>
-                  <span className="text-[10px] text-slate-400 italic">Validated by 4/4 agents</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">inventory_2</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 uppercase">Active</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Inventory Efficiency Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Balances stock levels against sales demand and liquidity.</p>
+</div>
+<button className="w-full py-2 bg-slate-100 dark:bg-primary/10 text-slate-900 dark:text-white text-xs font-bold rounded-lg group-hover:bg-primary group-hover:text-white transition-all">Configure</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">health_and_safety</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 uppercase">Active</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Business Health Score Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Aggregates all KPIs into a single vital health metric.</p>
+</div>
+<button className="w-full py-2 bg-slate-100 dark:bg-primary/10 text-slate-900 dark:text-white text-xs font-bold rounded-lg group-hover:bg-primary group-hover:text-white transition-all">Configure</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">verified_user</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Fraud &amp; Anomaly Detection</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Real-time monitoring for irregular transaction patterns.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">monetization_on</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Valuation Snapshot Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Dynamic company valuation based on current performance.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">sell</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Price Optimization Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Analyzes price elasticity to maximize gross margin.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">gavel</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Compliance Risk Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Ensures reporting follows regional financial regulations.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group border-primary/50 ring-1 ring-primary/30">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-primary/20 text-primary">
+<span className="material-symbols-outlined filled-icon">savings</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 uppercase">Active</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Cash Is King Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Aggressive liquidity preservation strategies.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg transition-all">Configure</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">groups</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Manager Impact Simulator</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Predicts financial outcome of management style changes.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">rocket_launch</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">ROCE Maximizer Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Optimizing Return on Capital Employed via asset efficiency.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">balance</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Break-even Intelligence</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Dynamic calculation of break-even points across products.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">query_stats</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Cost Behavior Analyzer</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Classifies costs into fixed/variable for better scaling.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">psychology_alt</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Working Capital Culture Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Tools to instill cash-flow awareness across teams.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">percent</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Sales Discount Impact Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Calculates how discounts affect the bottom line long-term.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">emergency_home</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Capital Structure Risk Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Monitoring debt-to-equity ratios and interest coverage.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">school</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Employee Literacy Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Training modules for non-finance managers on profit impact.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+
+<div className="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/10 rounded-2xl p-5 flex flex-col justify-between hover:border-primary/50 transition-colors group">
+<div>
+<div className="flex justify-between items-start mb-4">
+<div className="p-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-primary">
+<span className="material-symbols-outlined">fork_right</span>
+</div>
+<span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
+</div>
+<h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Decision Consequence Agent</h3>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Maps 2nd and 3rd order effects of strategic shifts.</p>
+</div>
+<button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
+</div>
+</div>
+</main>
+
+<aside className="w-80 border-l border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/5 flex flex-col hidden xl:flex">
+<div className="p-6 border-b border-slate-200 dark:border-primary/20">
+<h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Active Agents</h2>
+<p className="text-sm text-slate-500 dark:text-slate-400">Real-time optimization engine</p>
+</div>
+<div className="p-6">
+<div className="bg-background-light dark:bg-background-dark rounded-2xl p-4 mb-6 text-center border border-slate-200 dark:border-primary/30">
+<span className="text-xs uppercase font-bold text-slate-500 dark:text-primary/70 tracking-wider">Health Score</span>
+<div className="text-4xl font-black text-slate-900 dark:text-white mt-1">84<span className="text-primary text-xl">.2</span></div>
+<div className="flex items-center justify-center gap-1 text-green-500 text-sm mt-1">
+<span className="material-symbols-outlined text-sm">trending_up</span>
+<span>+4.2 pts this week</span>
+</div>
+</div>
+<div className="space-y-4">
+<div className="flex items-center gap-3">
+<div className="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<div className="flex-1">
+<p className="text-xs font-bold text-slate-900 dark:text-white">Business Health Score Agent</p>
+<div className="w-full bg-slate-200 dark:bg-primary/10 h-1 mt-1 rounded-full overflow-hidden">
+<div className="bg-primary h-full w-[85%]"></div>
+</div>
+</div>
+<div className="text-[10px] text-primary font-bold">+12%</div>
+</div>
+<div className="flex items-center gap-3">
+<div className="size-2 rounded-full bg-green-500"></div>
+<div className="flex-1">
+<p className="text-xs font-bold text-slate-900 dark:text-white">Inventory Efficiency</p>
+<div className="w-full bg-slate-200 dark:bg-primary/10 h-1 mt-1 rounded-full overflow-hidden">
+<div className="bg-primary h-full w-[62%]"></div>
+</div>
+</div>
+<div className="text-[10px] text-primary font-bold">+$45k</div>
+</div>
+<div className="flex items-center gap-3">
+<div className="size-2 rounded-full bg-green-500"></div>
+<div className="flex-1">
+<p className="text-xs font-bold text-slate-900 dark:text-white">Cash Is King</p>
+<div className="w-full bg-slate-200 dark:bg-primary/10 h-1 mt-1 rounded-full overflow-hidden">
+<div className="bg-primary h-full w-[41%]"></div>
+</div>
+</div>
+<div className="text-[10px] text-primary font-bold">+2.1x</div>
+</div>
+<div className="flex items-center gap-3">
+<div className="size-2 rounded-full bg-green-500"></div>
+<div className="flex-1">
+<p className="text-xs font-bold text-slate-900 dark:text-white">Working Capital Diag.</p>
+<div className="w-full bg-slate-200 dark:bg-primary/10 h-1 mt-1 rounded-full overflow-hidden">
+<div className="bg-primary h-full w-[94%]"></div>
+</div>
+</div>
+<div className="text-[10px] text-primary font-bold">-2.1d</div>
+</div>
+</div>
+</div>
+<div className="mt-auto p-6">
+<div className="bg-primary text-white rounded-xl p-4">
+<p className="text-xs font-bold opacity-80 uppercase mb-2">System Impact</p>
+<p className="text-sm font-medium">All active agents are operating within 98% efficiency thresholds.</p>
+<button className="w-full mt-3 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-bold transition-all">View Audit Trail</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
 
       </div>
     </div>
