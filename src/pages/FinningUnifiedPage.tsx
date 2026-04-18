@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { ChevronLeft, Building2, Factory, Target, Eye, EyeOff, X, Info, Map, Video, Search, History, GraduationCap } from 'lucide-react';
+import { ChevronLeft, Building2, Factory, Target, Eye, EyeOff, X, Info, Map, Video, Search, History, GraduationCap, Cpu, Network, Camera, Activity, Bot, Zap, Database } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import InvestmentPools from '../components/InvestmentPools';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
 
 export default function FinningUnifiedPage() {
-  const [activeTab, setActiveTab] = useState<'circle' | 'pool' | 'flowchart'>('circle');
+  const [activeTab, setActiveTab] = useState<'circle' | 'pool' | 'flowchart' | 'fbai'>('circle');
   const [showFlowchart, setShowFlowchart] = useState(false);
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
 
@@ -109,10 +109,13 @@ export default function FinningUnifiedPage() {
             <h1 className="text-3xl font-bold text-primary-900">Finning Hub</h1>
           </div>
           <div className="flex items-center space-x-2">
-            <button onClick={() => setActiveTab('circle')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'circle' ? 'ring-2 ring-offset-1' : ''}`}>Finning Circle</button>
-            <button onClick={() => setActiveTab('pool')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'pool' ? 'ring-2 ring-offset-1' : ''}`}>Finning Pool</button>
-            <button onClick={() => setActiveTab('flowchart')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'flowchart' ? 'ring-2 ring-offset-1' : ''}`}>Journey Map</button>
-            <Link to="/trade-centre" className="neo-button glass-action px-4 py-2 rounded flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700 transition">
+            <button onClick={() => setActiveTab('circle')} className={`neo-button glass-action px-4 py-2 rounded font-medium ${activeTab === 'circle' ? 'ring-2 ring-primary ring-offset-1 bg-primary/10' : ''}`}>Finning Circle</button>
+            <button onClick={() => setActiveTab('pool')} className={`neo-button glass-action px-4 py-2 rounded font-medium ${activeTab === 'pool' ? 'ring-2 ring-primary ring-offset-1 bg-primary/10' : ''}`}>Finning Pool</button>
+            <button onClick={() => setActiveTab('flowchart')} className={`neo-button glass-action px-4 py-2 rounded font-medium ${activeTab === 'flowchart' ? 'ring-2 ring-primary ring-offset-1 bg-primary/10' : ''}`}>Journey Map</button>
+            <button onClick={() => setActiveTab('fbai')} className={`neo-button glass-action px-4 py-2 rounded font-bold bg-gradient-to-r from-green-500 to-emerald-600 text-white border-0 hover:from-green-600 hover:to-emerald-700 shadow-md ${activeTab === 'fbai' ? 'ring-2 ring-emerald-400 ring-offset-2' : ''}`}>
+              <span className="flex items-center gap-1.5"><Cpu className="w-4 h-4" /> FBAI</span>
+            </button>
+            <Link to="/trade-centre" className="neo-button glass-action px-4 py-2 rounded flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700 transition shadow-md">
               <span className="mr-1">🏪</span> Trade Centre
             </Link>
           </div>
@@ -428,6 +431,174 @@ export default function FinningUnifiedPage() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === 'fbai' && (
+          <div className="space-y-6 animate-[fadeIn_0.5s_ease-out]">
+            <div className="neo-card p-8 bg-white/12 dark:bg-gray-800/20 backdrop-blur-md border border-white/8 dark:border-gray-700/20 rounded-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <Network className="w-48 h-48 text-primary" />
+              </div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-3 bg-gradient-to-br from-green-400 to-emerald-600 rounded-xl text-white shadow-lg shadow-green-500/20">
+                    <Cpu className="w-8 h-8" />
+                  </div>
+                  <h2 className="text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300">
+                    FBAI <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600 font-bold">Advanced Intelligence</span>
+                  </h2>
+                </div>
+                <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl leading-relaxed">
+                  Finning Biz Advanced Intelligence bridges the gap between physical factory operations and high-level 
+                  financial strategy. FBAI is an ecosystem where IoT motion tracking, Vision Intelligence, and ERP integration 
+                  <strong className="text-green-600 dark:text-green-400"> boil down to understanding finance at the root level</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="neo-card p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 border border-blue-100 dark:border-blue-800/30 hover:shadow-xl transition-all group">
+                <div className="w-12 h-12 bg-blue-500 text-white rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/30">
+                  <Network className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">NATS ERP Integration</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Seamlessly connects legacy systems and cloud ERPs through the high-performance NATS decentralized nervous system. Infinite scalability with zero latency.
+                </p>
+              </div>
+
+              <div className="neo-card p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/10 dark:to-teal-900/10 border border-emerald-100 dark:border-emerald-800/30 hover:shadow-xl transition-all group">
+                <div className="w-12 h-12 bg-emerald-500 text-white rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-emerald-500/30">
+                  <Camera className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Vision Intelligence</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Fuses CCTV infrastructure with deep-learning vision models. We monitor assembly lines, detect anomalies, and link physical bottlenecks to financial leaks.
+                </p>
+              </div>
+
+              <div className="neo-card p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-fuchsia-50 dark:from-purple-900/10 dark:to-fuchsia-900/10 border border-purple-100 dark:border-purple-800/30 hover:shadow-xl transition-all group">
+                <div className="w-12 h-12 bg-purple-500 text-white rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/30">
+                  <Activity className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">IoT Machine Tracking</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Sensors track the motion of raw materials, robotic arms, and final elements across the factory floor to optimize the exact energetic cost of production.
+                </p>
+              </div>
+
+              <div className="neo-card p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-amber-900/10 border border-orange-100 dark:border-orange-800/30 hover:shadow-xl transition-all group">
+                <div className="w-12 h-12 bg-orange-500 text-white rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-orange-500/30">
+                  <Bot className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Agentic Performance</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Systemic operations are automated effortlessly by Finpercent AI agents resulting in a zero-friction, highly elastic, and deeply unified business trajectory.
+                </p>
+              </div>
+            </div>
+
+            <div className="neo-card p-8 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 relative overflow-hidden">
+              <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-widest mb-6 border border-green-200 dark:border-green-800/50">
+                    <Zap className="w-3 h-3" /> System Integration
+                  </div>
+                  <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-6">
+                    How FBAI Elevates Your Business
+                  </h3>
+                  <div className="space-y-6">
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black">1</div>
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Total Systemic Operations</h4>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">By utilizing the NATS messaging protocol, disjointed factory systems, outdated ERPs, and new IoT sensor arrays now talk to each other in micro-seconds, managed continuously by Finpercent AI.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center font-black">2</div>
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Finance at the Root Level</h4>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">Instead of waiting for quarterly reports to understand operational costs, FBAI translates the real-time physical motion on your factory floor directly into live financial data, revealing exactly where profitability leaks occur.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-black">3</div>
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Seamless Automation via Agents</h4>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">The combination of real-time multi-modal data (Vision + IoT + ERP) enables our autonomous agents to execute complex systemic optimizations instantaneously, driving down costs without requiring human micro-management.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="relative">
+                  <div className="aspect-square rounded-full border border-dashed border-gray-300 dark:border-gray-700 absolute -inset-8 animate-[spin_60s_linear_infinite]" />
+                  <div className="aspect-square rounded-full border border-dashed border-primary/30 absolute -inset-4 animate-[spin_40s_linear_infinite_reverse]" />
+                  
+                  <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-700 shadow-2xl relative z-10 flex flex-col gap-4">
+                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Live Operations Feed</span>
+                      </div>
+                      <Network className="w-5 h-5 text-gray-400" />
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="bg-gray-100 dark:bg-gray-800/50 rounded-xl p-3 flex items-center gap-4 border border-gray-200 dark:border-gray-700/50">
+                        <Camera className="w-6 h-6 text-emerald-500 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs font-bold text-gray-900 dark:text-white">CCTV: Sector 4 Assembly</span>
+                            <span className="text-[10px] text-gray-500 font-mono">14ms ping</span>
+                          </div>
+                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1.5">
+                            <div className="bg-emerald-500 h-1 rounded-full w-[95%]" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-100 dark:bg-gray-800/50 rounded-xl p-3 flex items-center gap-4 border border-gray-200 dark:border-gray-700/50">
+                        <Activity className="w-6 h-6 text-purple-500 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs font-bold text-gray-900 dark:text-white">IoT: Arm Motion Tracking</span>
+                            <span className="text-[10px] text-gray-500 font-mono">Synced</span>
+                          </div>
+                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1.5">
+                            <div className="bg-purple-500 h-1 rounded-full w-[88%]" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-100 dark:bg-gray-800/50 rounded-xl p-3 flex items-center gap-4 border border-gray-200 dark:border-gray-700/50">
+                        <Database className="w-6 h-6 text-blue-500 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs font-bold text-gray-900 dark:text-white">ERP: Legacy SAP Sync</span>
+                            <span className="text-[10px] text-gray-500 font-mono">via NATS</span>
+                          </div>
+                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1.5">
+                            <div className="bg-blue-500 h-1 rounded-full w-[100%]" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-2 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/50 rounded-xl flex items-start gap-3">
+                      <Bot className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-xs font-bold text-green-800 dark:text-green-300">Agent Action Executed</p>
+                        <p className="text-[10px] text-green-600 dark:text-green-400 font-medium leading-relaxed mt-1">Micro-stoppage detected via Vision AI. Re-routed supply flow to Conveyor B avoiding <strong className="text-green-700 dark:text-green-300">$14k</strong> bottleneck cost.</p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
