@@ -3,9 +3,10 @@ import { ChevronLeft, Building2, Factory, Target, Eye, EyeOff, X, Info, Map, Vid
 import { Link } from 'react-router-dom';
 import InvestmentPools from '../components/InvestmentPools';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
+import AssetDossierStack from '../components/AssetDossierStack';
 
 export default function FinningUnifiedPage() {
-  const [activeTab, setActiveTab] = useState<'circle' | 'pool' | 'flowchart'>('circle');
+  const [activeTab, setActiveTab] = useState<'circle' | 'pool' | 'flowchart' | 'dossier'>('circle');
   const [showFlowchart, setShowFlowchart] = useState(false);
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
 
@@ -112,6 +113,7 @@ export default function FinningUnifiedPage() {
             <button onClick={() => setActiveTab('circle')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'circle' ? 'ring-2 ring-offset-1' : ''}`}>Finning Circle</button>
             <button onClick={() => setActiveTab('pool')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'pool' ? 'ring-2 ring-offset-1' : ''}`}>Finning Pool</button>
             <button onClick={() => setActiveTab('flowchart')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'flowchart' ? 'ring-2 ring-offset-1' : ''}`}>Journey Map</button>
+            <button onClick={() => setActiveTab('dossier')} className={`neo-button glass-action px-4 py-2 rounded ${activeTab === 'dossier' ? 'ring-2 ring-offset-1' : ''}`}>Asset Dossier</button>
             <Link to="/trade-centre" className="neo-button glass-action px-4 py-2 rounded flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 hover:from-blue-700 hover:to-purple-700 transition">
               <span className="mr-1">🏪</span> Trade Centre
             </Link>
@@ -429,6 +431,10 @@ export default function FinningUnifiedPage() {
               </div>
             )}
           </div>
+        )}
+
+        {activeTab === 'dossier' && (
+          <AssetDossierStack />
         )}
       </div>
     </div>

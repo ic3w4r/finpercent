@@ -97,45 +97,86 @@ A comprehensive React-based financial management application with advanced featu
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- Yarn package manager
+- **Frontend**: Node.js 18+ (npm or Yarn)
+- **Backend (Optional)**: Python 3.9+ and pip3
 
-### Installation
+---
+
+### Quick Start (Recommended)
+
+After cloning the repository, you can set up and run the entire application using the automated scripts:
 
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone <repository-url>
 cd finpercent
 
-# Install dependencies
-yarn install
+# 2. Run the auto-setup script (installs frontend packages & creates Python virtual environment)
+./setup.sh
 
-# Start development server
-yarn dev
-
-# Build for production
-yarn build
-
-# Preview production build
-yarn preview
+# 3. Launch the application
+./run.sh
 ```
 
-### Development
+The `./run.sh` script will prompt you with the following choices:
+- `[1]` Run Frontend Client Only (`npm run dev` / `yarn dev`)
+- `[2]` Run Backend API Server Only (FastAPI)
+- `[3]` Run Frontend & Backend Concurrently (starts the backend in the background and runs the frontend in the foreground)
+- `[4]` Exit
+
+---
+
+### Manual Installation & Run
+
+If you prefer to configure the environments manually, follow the steps below:
+
+#### 1. Frontend Setup (Vite + React)
 ```bash
-# Start development with hot reload
-yarn dev --host 0.0.0.0 --port 3000
+# Install Node dependencies
+npm install   # or: yarn install
 
-# Access at http://localhost:3000
+# Start development server with hot reload
+npm run dev   # or: yarn dev
+
+# Open browser at http://localhost:3000
 ```
 
-### Production
+#### 2. Backend Setup (FastAPI)
 ```bash
-# Build optimized production version
-yarn build
+# Create and activate a Python virtual environment (recommended)
+python3 -m venv .venv
+source .venv/bin/activate
 
-# Serve production build
-npx serve dist -l 3000
+# Install Python requirements
+pip install -r requirements.txt
+
+# Start the backend FastAPI server
+python3 backend/server.py
+
+# The backend will start on http://localhost:8001
 ```
+
+#### 3. Running Backend Tests
+Ensure the backend server is running, then execute the test scripts:
+```bash
+# Run basic backend tests
+python3 backend_test.py
+
+# Run comprehensive API tests
+python3 backend_comprehensive_test.py
+```
+
+---
+
+### Production Build
+```bash
+# Build optimized production bundle
+npm run build   # or: yarn build
+
+# Preview/Serve production build locally
+npm run serve   # or: yarn serve (serves dist/ on port 3000)
+```
+
 
 ## 📁 Project Structure
 

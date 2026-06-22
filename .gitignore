@@ -22,11 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
--e 
+
 # Environment files
 *.env
 *.env.*
--e 
-# Environment files
-*.env
-*.env.*
+
+# Python virtual environments & caches
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
