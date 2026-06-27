@@ -54,7 +54,7 @@ export default function Navigation({ }: NavigationProps) {
   ];
 
   const finningItems = [
-    { name: 'Finning Hub', href: '/finning', icon: FinningIcon },
+    { name: 'AI CXO Suite', href: '/ai-cxo', icon: FinningIcon },
     { name: 'Finning Circle', href: '/finning-circle', icon: Globe },
     { name: 'Finning Biz', href: '/finning-biz/authorization', icon: Briefcase },
     { name: 'Investment Pooling', href: '/investment-pooling', icon: InvestmentIcon },
@@ -224,7 +224,7 @@ export default function Navigation({ }: NavigationProps) {
                     >
                       <div className="flex items-center">
                         <FinningIcon className="w-5 h-5 mr-3" />
-                        <span>Finning</span>
+                        <span>AI Operations</span>
                       </div>
                       {isExpanded('finning') ? (
                         <ChevronDown className="w-4 h-4" />
