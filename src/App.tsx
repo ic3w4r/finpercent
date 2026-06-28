@@ -9,6 +9,7 @@ import StockMarketPage from './pages/StockMarketPage';
 import InvestmentPoolingPage from './pages/InvestmentPoolingPage';
 import FinningUnifiedPage from './pages/FinningUnifiedPage';
 import AICXOSuitePage from './pages/AICXOSuitePage';
+import AutomatedBankingPage from './pages/AutomatedBankingPage';
 import TradeCentrePage from './pages/TradeCentrePage';
 import SimulationToolPage from './pages/SimulationToolPage';
 import ProfilePage from './pages/ProfilePage';
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/stock-market" element={<StockMarketPage />} />
                 <Route path="/finning" element={<AICXOSuitePage />} />
                 <Route path="/ai-cxo" element={<AICXOSuitePage />} />
+                <Route path="/automated-banking" element={<AutomatedBankingPage />} />
                 <Route path="/investment-pooling" element={<Navigate to="/investment-pooling/asset" replace />} />
                 <Route path="/investment-pooling/asset" element={<InvestmentPoolingPage initialTab="asset" />} />
                 <Route path="/investment-pooling/operations" element={<InvestmentPoolingPage initialTab="operations" />} />

@@ -55,6 +55,7 @@ export default function Navigation({ }: NavigationProps) {
 
   const finningItems = [
     { name: 'AI CXO Suite', href: '/ai-cxo', icon: FinningIcon },
+    { name: 'Automated Banking', href: '/automated-banking', icon: Zap },
     { name: 'Finning Circle', href: '/finning-circle', icon: Globe },
     { name: 'Finning Biz', href: '/finning-biz/authorization', icon: Briefcase },
     { name: 'Investment Pooling', href: '/investment-pooling', icon: InvestmentIcon },
