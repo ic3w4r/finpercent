@@ -11,13 +11,13 @@ import {
 
 export default function FinningCircleNav() {
     const tabs = [
-        { name: 'Dashboard', path: '/finning-circle/dashboard', icon: Map },
-        { name: 'Live Streams', path: '/finning-circle/live', icon: Video },
-        { name: 'Discovery', path: '/finning-circle/discovery', icon: Search },
-        { name: 'Timeline', path: '/finning-circle/timeline', icon: History },
-        { name: 'Products', path: '/finning-circle/product', icon: Box },
-        { name: 'Venues', path: '/finning-circle/venue', icon: Building2 },
-        { name: 'Workshops', path: '/finning-circle/workshops', icon: GraduationCap },
+        { name: 'Dashboard', path: '/network/msme-community/dashboard', icon: Map },
+        { name: 'Live Streams', path: '/network/msme-community/live', icon: Video },
+        { name: 'Discovery', path: '/network/msme-community/discovery', icon: Search },
+        { name: 'Timeline', path: '/network/msme-community/timeline', icon: History },
+        { name: 'Products', path: '/network/msme-community/product', icon: Box },
+        { name: 'Venues', path: '/network/msme-community/venue', icon: Building2 },
+        { name: 'Workshops', path: '/network/workshops', icon: GraduationCap },
     ];
 
     return (
@@ -28,7 +28,7 @@ export default function FinningCircleNav() {
                         <div className="bg-primary/10 p-2 rounded-lg">
                             <Building2 className="w-6 h-6 text-primary" />
                         </div>
-                        <span className="text-xl font-bold dark:text-white">Finning Circle</span>
+                        <span className="text-xl font-bold dark:text-white">MSME Community</span>
                     </div>
 
                     <div className="hidden lg:block relative w-96">

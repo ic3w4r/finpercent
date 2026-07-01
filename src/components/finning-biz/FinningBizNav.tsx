@@ -12,11 +12,11 @@ export default function FinningBizNav() {
     const location = useLocation();
 
     const navItems = [
-        { path: '/finning-biz/authorization', label: 'Authorization', icon: Users },
-        { path: '/finning-biz/marketplace', label: 'Marketplace', icon: Store },
-        { path: '/finning-biz/flow', label: 'Flow Visualization', icon: Workflow },
-        { path: '/finning-biz/auditor', label: 'Auditor Workflow', icon: ShieldCheck },
-        { path: '/finning-biz/report', label: 'Multi-Agent Report', icon: FileText },
+        { path: '/ai-cxo/operations-officer/authorization', label: 'Authorization', icon: Users },
+        { path: '/ai-cxo/operations-officer/marketplace', label: 'Marketplace', icon: Store },
+        { path: '/ai-cxo/operations-officer/flow', label: 'Flow Visualization', icon: Workflow },
+        { path: '/ai-cxo/operations-officer/auditor', label: 'Auditor Workflow', icon: ShieldCheck },
+        { path: '/ai-cxo/operations-officer/report', label: 'Multi-Agent Report', icon: FileText },
     ];
 
     return (

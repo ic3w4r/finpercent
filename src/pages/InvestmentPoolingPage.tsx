@@ -7,6 +7,8 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
+import AssetDossierStack from '../components/AssetDossierStack';
+
 interface FinningPointPageProps {
   initialTab?: 'asset' | 'operations';
 }
@@ -17,9 +19,9 @@ export default function FinningPointPage({ initialTab }: FinningPointPageProps) 
 
   useEffect(() => {
     const path = location.pathname.toLowerCase();
-    if (path.includes('/investment-pooling/asset') || path.endsWith('/asset')) {
+    if (path.includes('/capital-access-intelligence/asset') || path.endsWith('/asset')) {
       setActiveTab('asset');
-    } else if (path.includes('/investment-pooling/operations') || path.endsWith('/operations')) {
+    } else if (path.includes('/capital-access-intelligence/operations') || path.endsWith('/operations')) {
       setActiveTab('operations');
     }
   }, [location.pathname]);
@@ -29,140 +31,44 @@ export default function FinningPointPage({ initialTab }: FinningPointPageProps) 
       <div className="max-w-6xl mx-auto">
         {/* Back Button */}
         <div className="flex items-center justify-between mb-8">
-          <Link to="/explore" className="flex items-center text-primary-600 hover:text-primary-700">
+          <Link to="/overview" className="flex items-center text-primary-600 hover:text-primary-700">
             <ChevronLeft className="w-5 h-5" />
-            <span className="ml-2">Back to Explore</span>
+            <span className="ml-2">Back to Command Center</span>
           </Link>
-          <h1 className="text-3xl font-bold text-primary-900 tracking-tight">Finning Point</h1>
+          <h1 className="text-3xl font-bold text-primary-900 tracking-tight">Capital Access Intelligence</h1>
         </div>
 
         {/* Main Tabs */}
         <div className="flex justify-center mb-10">
           <div className="bg-white rounded-xl p-2 shadow-lg border border-primary-200 flex gap-2">
             <Link
-              to="/investment-pooling/asset"
+              to="/capital-access-intelligence/asset"
               className={`neo-button glass-action px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
                 activeTab === 'asset' ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg' : 'text-primary-600 hover:bg-primary-50'
               }`}
             >
-              Asset Pooling
+              Asset Access Intelligence
             </Link>
             <Link
-              to="/investment-pooling/operations"
+              to="/capital-access-intelligence/operations"
               className={`neo-button glass-action px-8 py-3 rounded-lg font-semibold transition-all duration-300 ${
                 activeTab === 'operations' ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg' : 'text-primary-600 hover:bg-primary-50'
               }`}
             >
-              Operations Pooling
+              Operations Access Intelligence
             </Link>
           </div>
         </div>
 
         {/* Asset Pooling Section */}
         {activeTab === 'asset' && (
-          <div className="space-y-10">
-            {/* Asset Overview */}
-            <div className="glass-card rounded-2xl p-8">
-              <div className="flex items-center gap-4 mb-6">
-                <Building2 className="w-8 h-8 text-primary-600" />
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-800">Asset Pooling</h2>
-                  <p className="text-primary-600 font-medium">Fractional Investment for High-Value Asset Building</p>
-                </div>
+          <div className="space-y-6">
+            <div className="bg-white/30 dark:bg-gray-900/30 rounded-2xl border border-white/10 p-5 space-y-4">
+              <div className="text-left">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Legal Dossiers & Collateral Assets</h3>
+                <p className="text-xs text-gray-500 mt-0.5">CA digital signature challenge status on mutating properties</p>
               </div>
-              
-              <div className="grid lg:grid-cols-2 gap-8 mb-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-4">Investment Structure</h3>
-                  <p className="text-gray-600 mb-4">
-                    Asset Gained Pooling enables companies and investors to collaboratively invest in high-value assets 
-                    such as real estate, land, commercial properties, and other tangible assets through a fractional 
-                    investment model with endowment-like returns.
-                  </p>
-                  <div className="space-y-3">
-                    <div className="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
-                      <Coins className="w-5 h-5 text-green-600 mr-3" />
-                      <span className="text-green-800 font-medium">High Endowment Pay Structure</span>
-                    </div>
-                    <div className="flex items-center p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                      <TrendingUp className="w-5 h-5 text-blue-600 mr-3" />
-                      <span className="text-blue-800 font-medium">Higher Return Percentage for FinPercent</span>
-                    </div>
-                    <div className="flex items-center p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                      <Users className="w-5 h-5 text-purple-600 mr-3" />
-                      <span className="text-purple-800 font-medium">Collaborative Asset Acquisition</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-xl p-6 text-white">
-                  <h4 className="text-xl font-bold mb-4">Asset Pool Performance</h4>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span>Total Assets Under Management</span>
-                      <span className="font-bold">$24.7M</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Average Annual Return</span>
-                      <span className="font-bold text-green-300">18.5%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Active Asset Pools</span>
-                      <span className="font-bold">47</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>FinPercent Commission</span>
-                      <span className="font-bold text-yellow-300">3.2%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Asset Types */}
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="glass-card p-6 rounded-xl hover:shadow-lg transition-shadow">
-                  <Building2 className="w-8 h-8 text-blue-600 mb-4" />
-                  <h4 className="font-bold text-gray-800 mb-2">Commercial Real Estate</h4>
-                  <p className="text-gray-600 text-sm mb-3">Office buildings, retail spaces, and commercial complexes</p>
-                  <div className="text-sm text-blue-600 font-medium">ROI: 15-22%</div>
-                </div>
-                <div className="glass-card p-6 rounded-xl hover:shadow-lg transition-shadow">
-                  <Factory className="w-8 h-8 text-green-600 mb-4" />
-                  <h4 className="font-bold text-gray-800 mb-2">Industrial Assets</h4>
-                  <p className="text-gray-600 text-sm mb-3">Manufacturing facilities, warehouses, and logistics centers</p>
-                  <div className="text-sm text-green-600 font-medium">ROI: 12-18%</div>
-                </div>
-                <div className="glass-card p-6 rounded-xl hover:shadow-lg transition-shadow">
-                  <Target className="w-8 h-8 text-purple-600 mb-4" />
-                  <h4 className="font-bold text-gray-800 mb-2">Development Land</h4>
-                  <p className="text-gray-600 text-sm mb-3">Strategic land acquisition for future development projects</p>
-                  <div className="text-sm text-purple-600 font-medium">ROI: 20-35%</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Investment Process */}
-            <div className="glass-card rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Asset Investment Process</h3>
-              <div className="grid md:grid-cols-4 gap-6">
-                {[
-                  { step: 1, title: "Asset Identification", desc: "Market research and due diligence on high-value assets", icon: Eye },
-                  { step: 2, title: "Pool Formation", desc: "Companies collaborate to form investment consortium", icon: Users },
-                  { step: 3, title: "Capital Allocation", desc: "Fractional ownership based on contribution amounts", icon: PieChart },
-                  { step: 4, title: "Returns Distribution", desc: "Endowment-style returns with FinPercent commission", icon: Banknote }
-                ].map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.step} className="text-center">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary-600 to-primary-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Icon className="w-8 h-8 text-white" />
-                      </div>
-                      <h4 className="font-bold text-gray-800 mb-2">{item.title}</h4>
-                      <p className="text-gray-600 text-sm">{item.desc}</p>
-                    </div>
-                  );
-                })}
-              </div>
+              <AssetDossierStack />
             </div>
           </div>
         )}
@@ -332,20 +238,20 @@ export default function FinningPointPage({ initialTab }: FinningPointPageProps) 
         {/* Call to Action */}
         <div className="flex flex-col items-center mt-16">
           <div className="glass-card rounded-2xl p-8 w-full max-w-2xl">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Ready to Start Pooling?</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Ready to Start Accessing Capital?</h3>
             <p className="text-gray-600 mb-6">
-              Join our advanced investment pooling platform with comprehensive risk assessment and professional fund management systems.
+              Join our advanced capital access intelligence platform with comprehensive risk assessment and professional underwriting checks.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-2">
-              <Link to="/investment-pooling/asset" className="neo-button glass-action px-8 py-3 rounded-lg font-semibold bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg hover:from-primary-700 hover:to-primary-800 transition-all inline-block text-center">
-                Start Asset Pooling
+              <Link to="/capital-access-intelligence/asset" className="neo-button glass-action px-8 py-3 rounded-lg font-semibold bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg hover:from-primary-700 hover:to-primary-800 transition-all inline-block text-center">
+                Start Asset Analysis
               </Link>
-              <Link to="/investment-pooling/operations" className="neo-button glass-action px-8 py-3 rounded-lg font-semibold bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-lg hover:from-orange-700 hover:to-red-700 transition-all inline-block text-center">
-                Apply for Operations Fund
+              <Link to="/capital-access-intelligence/operations" className="neo-button glass-action px-8 py-3 rounded-lg font-semibold bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-lg hover:from-orange-700 hover:to-red-700 transition-all inline-block text-center">
+                Apply for Operations Capital
               </Link>
             </div>
             <p className="text-sm text-gray-600 mt-2">
-              Need more information? <Link to="/contact" className="text-primary-600 hover:text-primary-700 font-medium">Contact our investment specialists</Link>
+              Need more information? <Link to="/support" className="text-primary-600 hover:text-primary-700 font-medium">Contact our credit specialists</Link>
             </p>
           </div>
         </div>

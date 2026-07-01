@@ -3,12 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Building2, Shield, FileText, Key, Users, CheckCircle2, AlertTriangle, 
   TrendingUp, Calendar, Lock, Upload, Download, RefreshCw, Plus, Trash2, 
-  Eye, Edit, Coins, Scale, Search, Sparkles, UserCheck, Check, ArrowRight,
+  Eye, Edit, Coins, Scale, Search, Sparkles, UserCheck, Check, ArrowRight, Target,
   Info, FileSpreadsheet, Fingerprint, ShieldCheck, Activity, HelpCircle,
   Play, Send, Zap, Award, Film, MessageSquare, Video, History, GraduationCap,
-  ChevronRight, Map, Cpu, X
+  ChevronRight, Map, Cpu, X, Workflow
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
 import AssetDossierStack from '../components/AssetDossierStack';
 import InvestmentPools from '../components/InvestmentPools';
@@ -23,8 +23,31 @@ interface AgentTask {
   progress: number;
 }
 
-export default function AICXOSuitePage() {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'cfo' | 'coo' | 'clo' | 'cmo'>('dashboard');
+interface AICXOSuitePageProps {
+  initialTab?: 'dashboard' | 'cfo' | 'credit' | 'operations' | 'growth';
+}
+
+export default function AICXOSuitePage({ initialTab }: AICXOSuitePageProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'console' | 'cfo' | 'credit' | 'operations' | 'growth'>(initialTab ?? 'dashboard');
+
+  useEffect(() => {
+    const path = location.pathname.toLowerCase();
+    if (path.endsWith('/cfo')) {
+      setActiveTab('cfo');
+    } else if (path.endsWith('/credit')) {
+      setActiveTab('credit');
+    } else if (path.endsWith('/operations')) {
+      setActiveTab('operations');
+    } else if (path.endsWith('/growth')) {
+      setActiveTab('growth');
+    } else if (path.endsWith('/console')) {
+      setActiveTab('console');
+    } else {
+      setActiveTab('dashboard');
+    }
+  }, [location.pathname]);
   
   // Executive AI Command Console states
   const [commandInput, setCommandInput] = useState('');
@@ -186,7 +209,7 @@ export default function AICXOSuitePage() {
 
       // Auto open video generator if marketing or video mentioned
       if (cmd.toLowerCase().includes('video') || cmd.toLowerCase().includes('marketing') || cmd.toLowerCase().includes('content')) {
-        setActiveTab('cmo');
+        setActiveTab('growth');
       }
     };
 
@@ -309,11 +332,12 @@ export default function AICXOSuitePage() {
         {/* TAB NAVIGATION */}
         <div className="flex space-x-2 overflow-x-auto pb-4 mb-6">
           {[
-            { id: 'dashboard', label: 'Command Cockpit', icon: Cpu },
-            { id: 'cfo', label: 'CFO Office (Finpercent)', icon: Coins },
-            { id: 'coo', label: 'COO Center (FinningBiz)', icon: Building2 },
-            { id: 'clo', label: 'CLO Vault (Asset Dossier)', icon: Shield },
-            { id: 'cmo', label: 'CMO Studio (FinningCircle)', icon: Video }
+            { id: 'dashboard', label: 'Steward Overview', icon: Cpu },
+            { id: 'console', label: 'Interactive Console', icon: Workflow },
+            { id: 'cfo', label: 'AI CFO', icon: Coins },
+            { id: 'credit', label: 'AI Credit Officer', icon: Target },
+            { id: 'operations', label: 'AI Operations Officer', icon: Building2 },
+            { id: 'growth', label: 'AI Growth Officer', icon: TrendingUp }
           ].map(tab => {
             const Icon = tab.icon;
             const active = activeTab === tab.id;
@@ -337,7 +361,7 @@ export default function AICXOSuitePage() {
         {/* TAB CONTENTS */}
         <AnimatePresence mode="wait">
           
-          {/* TAB 1: COMMAND COCKPIT */}
+          {/* TAB 1: STEWARD OVERVIEW */}
           {activeTab === 'dashboard' && (
             <motion.div
               key="dashboard"
@@ -346,47 +370,135 @@ export default function AICXOSuitePage() {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-6"
             >
-              {/* Enterprise Health Index and Quick Summary */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Mission Header */}
+              <div className="neo-card p-8 bg-gradient-to-br from-primary-950 via-gray-900 to-green-950 text-white rounded-3xl border border-white/10 text-left relative overflow-hidden shadow-2xl">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-green-500/10 rounded-full blur-3xl"></div>
                 
-                <div className="glass-card p-6 rounded-2xl flex flex-col justify-between border-l-4 border-green-500">
-                  <div>
-                    <h3 className="text-sm font-bold text-gray-500 uppercase">Enterprise Health Index</h3>
-                    <div className="text-5xl font-extrabold text-green-600 dark:text-green-400 mt-2">92%</div>
+                <div className="relative z-10 max-w-3xl space-y-4">
+                  <div className="inline-flex items-center space-x-2 bg-primary-500/20 text-primary-300 px-3.5 py-1 rounded-full text-xs font-semibold border border-primary-500/30">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>AI-CXO Goal & Mission Directive</span>
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-left">
-                    Excellent alignment. Cash flows balanced, legal risks low, and agent tasks proceeding normally.
+                  <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">The Executive Steward Co-Pilot</h2>
+                  <p className="text-sm md:text-md text-gray-300 leading-relaxed font-medium">
+                    Bridge scattered accounting ledgers, physical collateral deeds, risk checkers, and growth channels into a unified, bank-ready infrastructure.
                   </p>
-                </div>
-
-                <div className="glass-card p-6 rounded-2xl flex flex-col justify-between border-l-4 border-blue-500">
-                  <div>
-                    <h3 className="text-sm font-bold text-gray-500 uppercase">Operations & ERP status</h3>
-                    <div className="flex items-center space-x-2 mt-2">
-                      <Activity className="w-8 h-8 text-blue-500 animate-pulse" />
-                      <div className="text-2xl font-bold">4 Active Tasks</div>
-                    </div>
+                  <div className="pt-2 flex flex-wrap gap-3">
+                    <button onClick={() => setActiveTab('console')} className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-green-600 hover:from-primary-700 hover:to-green-700 text-white text-xs font-bold rounded-xl shadow-lg transition">
+                      Launch Interactive Console CLI
+                    </button>
+                    <a href="#how-it-works" className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold rounded-xl border border-white/20 transition">
+                      Read Process Details
+                    </a>
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-left">
-                    Sub-Agents verifying documents, running tax models, and batching marketing media.
-                  </p>
                 </div>
-
-                <div className="glass-card p-6 rounded-2xl flex flex-col justify-between border-l-4 border-purple-500">
-                  <div>
-                    <h3 className="text-sm font-bold text-gray-500 uppercase">Asset Mutation Tracker</h3>
-                    <div className="text-2xl font-bold mt-2">2 Completed, 1 Pending</div>
-                  </div>
-                  <button 
-                    onClick={() => setActiveTab('clo')} 
-                    className="mt-4 text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center hover:underline"
-                  >
-                    View Dossier Mutations <ArrowRight className="w-4 h-4 ml-1" />
-                  </button>
-                </div>
-
               </div>
 
+              {/* Goal Description and Strategy Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                <div className="glass-card p-6 rounded-2xl border border-white/10 space-y-3">
+                  <h3 className="font-bold text-lg text-gray-900 dark:text-white">Why the AI-CXO Stack Exists</h3>
+                  <p className="text-xs text-gray-650 dark:text-gray-400 leading-relaxed">
+                    Most MSMEs struggle to maintain dedicated chief executive roles. Financial bookkeeping, creditworthiness optimization, real estate title deeds validation, and digital marketing content generation are typically scattered or neglected.
+                  </p>
+                  <p className="text-xs text-gray-655 dark:text-gray-400 leading-relaxed">
+                    The AI-CXO Co-Pilot acts as your virtual management suite. By combining isolated micro-agents into a unified, secure stack, it automates executive operations, analyzes risks before underwriters see them, and schedules marketing tasks automatically.
+                  </p>
+                </div>
+
+                <div className="glass-card p-6 rounded-2xl border border-white/10 space-y-3">
+                  <h3 className="font-bold text-lg text-gray-900 dark:text-white">The Underwriting & Verification Loop</h3>
+                  <div className="space-y-3">
+                    {[
+                      { step: '01', title: 'Data Feed Processing', desc: 'Ingests Bank Statements, Invoices, and GST filings continuously.' },
+                      { step: '02', title: 'Stress & Risk Auditing', desc: 'CFO checks interest coverages; Credit evaluates safe EMI boundaries.' },
+                      { step: '03', title: 'DSC Cryptographic Lock', desc: 'Validates property mutations and registers title deeds with DSC keys.' },
+                      { step: '04', title: 'Credit Dossier Dispatch', desc: 'Compiles certified, tamper-proof audit sheets ready for lenders.' }
+                    ].map(item => (
+                      <div key={item.step} className="flex items-start space-x-3">
+                        <span className="text-xs font-extrabold text-primary-600 bg-primary-50 dark:bg-primary-950/40 px-2 py-0.5 rounded">{item.step}</span>
+                        <div>
+                          <h4 className="text-xs font-bold text-gray-800 dark:text-gray-200">{item.title}</h4>
+                          <p className="text-[10px] text-gray-500">{item.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Deep-Dive Agent Stack Details */}
+              <div className="space-y-4 text-left">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white" id="how-it-works">Detailed Steward Agent Capabilities</h3>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                  
+                  <div className="glass-card p-5 rounded-2xl border border-white/10 space-y-3 hover:shadow-lg transition">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                      <Coins className="w-5 h-5" />
+                    </div>
+                    <h4 className="font-bold text-sm text-gray-900 dark:text-white">AI CFO</h4>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                      Coordinates cash split allocation rules (Savings, Taxes, Operations, Profit) via the **Finning Box (BaaS Terminal)**. Simulates loan amortization schedules and identifies EBITDA leakage.
+                    </p>
+                    <button onClick={() => setActiveTab('cfo')} className="text-xs font-bold text-blue-600 hover:underline flex items-center">
+                      Configure CFO <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
+                    </button>
+                  </div>
+
+                  <div className="glass-card p-5 rounded-2xl border border-white/10 space-y-3 hover:shadow-lg transition">
+                    <div className="w-10 h-10 rounded-xl bg-green-50 dark:bg-green-950/30 flex items-center justify-center text-green-600 dark:text-green-400">
+                      <Target className="w-5 h-5" />
+                    </div>
+                    <h4 className="font-bold text-sm text-gray-900 dark:text-white">AI Credit Officer</h4>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                      Conducts readiness audits against banking guidelines. Standardizes credit files, flags balance sheet anomalies, and verifies compliance document checklists.
+                    </p>
+                    <button onClick={() => setActiveTab('credit')} className="text-xs font-bold text-green-600 hover:underline flex items-center">
+                      Configure Credit <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
+                    </button>
+                  </div>
+
+                  <div className="glass-card p-5 rounded-2xl border border-white/10 space-y-3 hover:shadow-lg transition">
+                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                      <Building2 className="w-5 h-5" />
+                    </div>
+                    <h4 className="font-bold text-sm text-gray-900 dark:text-white">AI Operations</h4>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                      Maintains the **Finpercent Asset Dossier Stack**. Runs optical character recognition (OCR) scans on property deeds and automatically audits SRO mutation updates.
+                    </p>
+                    <button onClick={() => setActiveTab('operations')} className="text-xs font-bold text-purple-600 hover:underline flex items-center">
+                      Configure Operations <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
+                    </button>
+                  </div>
+
+                  <div className="glass-card p-5 rounded-2xl border border-white/10 space-y-3 hover:shadow-lg transition">
+                    <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
+                      <TrendingUp className="w-5 h-5" />
+                    </div>
+                    <h4 className="font-bold text-sm text-gray-900 dark:text-white">AI Growth</h4>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                      Empowers short-form marketing script virality metrics via the CMO Studio. Schedules B2B trade center showcases and monitors the **Finning Circle** forum timeline.
+                    </p>
+                    <button onClick={() => setActiveTab('growth')} className="text-xs font-bold text-orange-600 hover:underline flex items-center">
+                      Configure Growth <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 2: INTERACTIVE CONSOLE */}
+          {activeTab === 'console' && (
+            <motion.div
+              key="console"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
               {/* Central Agent Console Panel */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
@@ -530,12 +642,12 @@ export default function AICXOSuitePage() {
             >
               <div className="neo-card p-6 bg-white/12 dark:bg-gray-800/20 backdrop-blur-sm border border-white/8 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4 text-left">
                 <div>
-                  <h2 className="text-2xl font-bold">CFO Operations Hub (Finpercent)</h2>
-                  <p className="text-gray-600 dark:text-gray-400">Analyze cash flow, debt repayment schedules, and investment pools.</p>
+                  <h2 className="text-2xl font-bold">AI CFO (Finning Box)</h2>
+                  <p className="text-gray-600 dark:text-gray-400">Directing automated ledger splits, net worth surplus validations, and cash flow constraints.</p>
                 </div>
                 <div className="flex space-x-2">
-                  <Link to="/automated-banking" className="neo-button glass-action px-4 py-2 text-sm">Automated Banking</Link>
-                  <Link to="/stock-market" className="neo-button glass-action px-4 py-2 text-sm bg-gradient-to-r from-blue-600 to-green-600 text-white">Stock Markets</Link>
+                  <Link to="/automated-banking" className="neo-button glass-action px-4 py-2 text-sm bg-gradient-to-r from-blue-600 to-green-600 text-white">Finning Box (BaaS Terminal)</Link>
+                  <Link to="/advanced/market-signals" className="neo-button glass-action px-4 py-2 text-sm">Market Signals</Link>
                 </div>
               </div>
 
@@ -637,8 +749,8 @@ export default function AICXOSuitePage() {
                     </div>
                   </div>
                   <div className="mt-6 flex gap-2">
-                    <Link to="/investment-pooling/asset" className="flex-1 neo-button glass-action text-xs py-2 text-center">Start Asset Pool</Link>
-                    <Link to="/investment-pooling/operations" className="flex-1 neo-button glass-action text-xs py-2 text-center bg-blue-600 text-white border-0 hover:bg-blue-700">Apply for Fund</Link>
+                    <Link to="/capital-access-intelligence/asset" className="flex-1 neo-button glass-action text-xs py-2 text-center">Asset Intelligence</Link>
+                    <Link to="/capital-access-intelligence/operations" className="flex-1 neo-button glass-action text-xs py-2 text-center bg-blue-600 text-white border-0 hover:bg-blue-700">Apply for Capital</Link>
                   </div>
                 </div>
               </div>
@@ -1031,10 +1143,10 @@ export default function AICXOSuitePage() {
             </motion.div>
           )}
 
-          {/* TAB 3: COO CENTER */}
-          {activeTab === 'coo' && (
+          {/* TAB 3: AI CREDIT OFFICER */}
+          {activeTab === 'credit' && (
             <motion.div
-              key="coo"
+              key="credit"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -1042,13 +1154,82 @@ export default function AICXOSuitePage() {
             >
               <div className="neo-card p-6 bg-white/12 dark:bg-gray-800/20 backdrop-blur-sm border border-white/8 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4 text-left">
                 <div>
-                  <h2 className="text-2xl font-bold">COO Operations Hub (FinningBiz)</h2>
-                  <p className="text-gray-600 dark:text-gray-400">Orchestrate and authorize multi-agent flows, examine logs, and audit business operations.</p>
+                  <h2 className="text-2xl font-bold">AI Credit Officer</h2>
+                  <p className="text-gray-600 dark:text-gray-400">Assess formal loan readiness, verify safe EMI capacity limits, and complete borrowing dossiers.</p>
                 </div>
                 <div className="flex space-x-2">
-                  <Link to="/finning-biz/flow" className="neo-button glass-action px-4 py-2 text-sm">Visualize Flows</Link>
-                  <Link to="/finning-biz/marketplace" className="neo-button glass-action px-4 py-2 text-sm bg-gradient-to-r from-green-600 to-emerald-600 text-white">Agent Marketplace</Link>
+                  <Link to="/credit/readiness-report" className="neo-button glass-action px-4 py-2 text-sm bg-gradient-to-r from-green-600 to-emerald-600 text-white">Full Credit Report</Link>
                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="glass-card p-6 rounded-2xl text-left space-y-4">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">Borrower Analysis Parameters</h3>
+                  <ul className="space-y-3 text-xs">
+                    <li className="flex justify-between py-1 border-b border-gray-100 dark:border-gray-800">
+                      <span className="text-gray-500">Debt-service Coverage Ratio</span>
+                      <span className="font-bold text-green-600">2.2x (Stable)</span>
+                    </li>
+                    <li className="flex justify-between py-1 border-b border-gray-100 dark:border-gray-800">
+                      <span className="text-gray-500">Outstanding Overdraft Utilization</span>
+                      <span className="font-bold text-gray-900 dark:text-white">40% Average</span>
+                    </li>
+                    <li className="flex justify-between py-1 border-b border-gray-100 dark:border-gray-800">
+                      <span className="text-gray-500">GST Compliance Filing Regularity</span>
+                      <span className="font-bold text-yellow-600">92% Consistency</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="glass-card p-6 rounded-2xl text-left space-y-4">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">Loan Limit Diagnostics</h3>
+                  <div className="p-4 bg-primary-50 dark:bg-primary-950/20 rounded-xl space-y-2 border border-primary-100/50">
+                    <span className="font-bold text-xs text-primary-950 dark:text-primary-300 block">Calculated Borrowing Capacity</span>
+                    <p className="text-[11px] text-primary-800 dark:text-primary-400">
+                      Based on audited EBITDA margins, your safe term borrowing limit stands at <strong>₹25,00,000</strong>.
+                    </p>
+                  </div>
+                  <button onClick={() => navigate('/credit/loan-capacity')} className="w-full py-2 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-650 border border-gray-200 dark:border-gray-600 text-xs font-semibold rounded-lg">
+                    Access Loan Calculator
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 4: AI OPERATIONS OFFICER */}
+          {activeTab === 'operations' && (
+            <motion.div
+              key="operations"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
+              <div className="neo-card p-6 bg-white/12 dark:bg-gray-800/20 backdrop-blur-sm border border-white/8 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4 text-left">
+                <div>
+                  <h2 className="text-2xl font-bold">AI Operations (Asset Dossier)</h2>
+                  <p className="text-gray-600 dark:text-gray-400">Orchestrate multi-agent flows, audit working capital (DSO/DPO), and verify the registered property mutation stack.</p>
+                </div>
+                <div className="flex space-x-2">
+                  <Link to="/ai-cxo/operations-officer/flow" className="neo-button glass-action px-4 py-2 text-sm bg-gradient-to-r from-green-600 to-emerald-600 text-white">Visualize Flows</Link>
+                  <Link to="/ai-cxo/operations-officer/marketplace" className="neo-button glass-action px-4 py-2 text-sm bg-white dark:bg-gray-800">Agent Marketplace</Link>
+                  <button
+                    onClick={() => setShowCaSignModal(true)}
+                    className="neo-button glass-action px-4 py-2 text-sm bg-purple-600 text-white border-0 hover:bg-purple-700 flex items-center space-x-2 rounded-xl"
+                  >
+                    <Fingerprint className="w-4 h-4" />
+                    <span>CA Sign-Off</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Collateral Dossier Stack */}
+              <div className="bg-white/30 dark:bg-gray-900/30 rounded-2xl border border-white/10 p-5 space-y-4">
+                <div className="text-left">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">Legal Dossiers & Collateral Assets</h3>
+                  <p className="text-xs text-gray-500 mt-0.5">CA digital signature challenge status on mutating properties</p>
+                </div>
+                <AssetDossierStack />
               </div>
 
               {/* Agent Authorization Hierarchy and Auditor Logs */}
@@ -1095,9 +1276,8 @@ export default function AICXOSuitePage() {
                       </div>
                     </div>
                   </div>
-
                   <div className="mt-6 flex justify-end">
-                    <Link to="/finning-biz/authorization" className="neo-button glass-action text-xs px-4 py-2">Manage Signing Weights</Link>
+                    <Link to="/ai-cxo/operations-officer/authorization" className="neo-button glass-action text-xs px-4 py-2">Manage Signing Weights</Link>
                   </div>
                 </div>
 
@@ -1116,22 +1296,20 @@ export default function AICXOSuitePage() {
                       <div>[09:16] [MONITOR] Watching next block height for digital validation...</div>
                     </div>
                   </div>
-
                   <div className="mt-6 flex gap-2">
-                    <Link to="/finning-biz/auditor" className="flex-1 neo-button glass-action text-xs py-2 text-center bg-blue-600 text-white border-0 hover:bg-blue-700">Open Full Audit Console</Link>
-                    <Link to="/finning-biz/report" className="flex-1 neo-button glass-action text-xs py-2 text-center">Export Multi-Agent Report</Link>
+                    <Link to="/ai-cxo/operations-officer/auditor" className="flex-1 neo-button glass-action text-xs py-2 text-center bg-blue-600 text-white border-0 hover:bg-blue-700">Open Full Audit Console</Link>
+                    <Link to="/ai-cxo/operations-officer/report" className="flex-1 neo-button glass-action text-xs py-2 text-center">Export Multi-Agent Report</Link>
                   </div>
                 </div>
 
               </div>
-
             </motion.div>
           )}
 
-          {/* TAB 4: CLO VAULT */}
-          {activeTab === 'clo' && (
+          {/* TAB 5: AI GROWTH OFFICER */}
+          {activeTab === 'growth' && (
             <motion.div
-              key="clo"
+              key="growth"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -1139,42 +1317,13 @@ export default function AICXOSuitePage() {
             >
               <div className="neo-card p-6 bg-white/12 dark:bg-gray-800/20 backdrop-blur-sm border border-white/8 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4 text-left">
                 <div>
-                  <h2 className="text-2xl font-bold">CLO Legal Vault & Dossiers</h2>
-                  <p className="text-gray-600 dark:text-gray-400">Assessing properties in legal forms using Chartered Accountant sign-offs & security keys.</p>
-                </div>
-                <button
-                  onClick={() => setShowCaSignModal(true)}
-                  className="neo-button glass-action px-4 py-2 text-sm bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 flex items-center space-x-2"
-                >
-                  <Fingerprint className="w-4 h-4" />
-                  <span>CA Sign-Off Challenge</span>
-                </button>
-              </div>
-
-              {/* Embed the beautiful AssetDossierStack */}
-              <div className="bg-white/30 dark:bg-gray-900/30 rounded-2xl border border-white/10 p-4">
-                <AssetDossierStack />
-              </div>
-            </motion.div>
-          )}
-
-          {/* TAB 5: CMO STUDIO */}
-          {activeTab === 'cmo' && (
-            <motion.div
-              key="cmo"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-6"
-            >
-              <div className="neo-card p-6 bg-white/12 dark:bg-gray-800/20 backdrop-blur-sm border border-white/8 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4 text-left">
-                <div>
-                  <h2 className="text-2xl font-bold">CMO Marketing Studio (FinningCircle)</h2>
-                  <p className="text-gray-600 dark:text-gray-400">Generate real short-form marketing content, explore live streams, expo venues, and expo events.</p>
+                  <h2 className="text-2xl font-bold">AI Growth (CMO & Community)</h2>
+                  <p className="text-gray-600 dark:text-gray-400">Generate B2B marketing content, simulate buyer engagement metrics, and discover scheduled trade expos.</p>
                 </div>
                 <div className="flex space-x-2">
-                  <Link to="/finning-circle/timeline" className="neo-button glass-action px-4 py-2 text-sm">Expos Timeline</Link>
-                  <Link to="/finning-circle/live" className="neo-button glass-action px-4 py-2 text-sm bg-red-600 text-white border-0 hover:bg-red-700">Live Streams</Link>
+                  <Link to="/network/msme-community/dashboard" className="neo-button glass-action px-4 py-2 text-sm bg-gradient-to-r from-blue-600 to-green-600 text-white">Finning Circle Dashboard</Link>
+                  <Link to="/network/msme-community/timeline" className="neo-button glass-action px-4 py-2 text-sm bg-white dark:bg-gray-800">Expos Timeline</Link>
+                  <Link to="/network/msme-community/live" className="neo-button glass-action px-4 py-2 text-sm bg-red-600 text-white border-0 hover:bg-red-700">Live Streams</Link>
                 </div>
               </div>
 
@@ -1296,8 +1445,8 @@ export default function AICXOSuitePage() {
                   </div>
 
                   <div className="mt-4 flex gap-2">
-                    <Link to="/finning-circle/venue" className="flex-1 neo-button glass-action text-xs py-2 text-center">Venue Profiles</Link>
-                    <Link to="/finning-circle/workshops" className="flex-1 neo-button glass-action text-xs py-2 text-center bg-indigo-600 text-white border-0 hover:bg-indigo-700">Masterclasses</Link>
+                    <Link to="/network/msme-community/venue" className="flex-1 neo-button glass-action text-xs py-2 text-center">Venue Profiles</Link>
+                    <Link to="/network/workshops" className="flex-1 neo-button glass-action text-xs py-2 text-center bg-indigo-600 text-white border-0 hover:bg-indigo-700">Masterclasses</Link>
                   </div>
                 </div>
 
