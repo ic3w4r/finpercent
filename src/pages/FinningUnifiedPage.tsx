@@ -200,8 +200,8 @@ export default function FinningUnifiedPage() {
                 <p className="text-gray-600">Advanced pooling solutions for asset building and operational funding with comprehensive risk assessment and monitoring systems.</p>
               </div>
               <div className="space-x-3">
-                <Link to="/investment-pooling/asset" className="neo-button glass-action px-4 py-2 inline-block text-center">Start Asset Pooling</Link>
-                <Link to="/investment-pooling/operations" className="neo-button glass-action px-4 py-2 inline-block text-center">Apply for Operations Fund</Link>
+                <Link to="/capital-access-intelligence/asset" className="neo-button glass-action px-4 py-2 inline-block text-center">Asset Access Intelligence</Link>
+                <Link to="/capital-access-intelligence/operations" className="neo-button glass-action px-4 py-2 inline-block text-center">Operations Capital</Link>
               </div>
             </div>
 
