@@ -5,19 +5,26 @@ import {
   Building2, Users, AlertTriangle, Map, Award, ChevronRight, Download, Filter 
 } from 'lucide-react';
 
+import { useReadiness } from '../../contexts/ReadinessContext';
+
 export default function InstitutionDashboardPage() {
   const navigate = useNavigate();
+  const { score, cohort } = useReadiness();
   const [selectedDistrict, setSelectedDistrict] = useState('All');
   const [selectedCluster, setSelectedCluster] = useState('All');
   const [selectedSector, setSelectedSector] = useState('All');
   const [isExporting, setIsExporting] = useState(false);
 
-  const portfolio = [
-    { name: 'Acme Corporation', district: 'Bengaluru Urban', cluster: 'Peenya', sector: 'Manufacturing', score: 82, risk: 'Low' },
-    { name: 'NeoPack Industries', district: 'Bengaluru Urban', cluster: 'Peenya', sector: 'Manufacturing', score: 58, risk: 'Medium' },
-    { name: 'AlphaTech Logistics', district: 'Dharwad', cluster: 'Hubli Industrial', sector: 'Logistics', score: 71, risk: 'Low' },
-    { name: 'GreenPlast Polymers', district: 'Bengaluru Rural', cluster: 'Bommasandra', sector: 'Chemicals', score: 38, risk: 'High' }
-  ];
+  const portfolio = cohort.map(c => {
+    if (c.name === 'Acme Corporation') {
+      return { 
+        ...c, 
+        score, 
+        risk: score >= 75 ? 'Low' : score >= 60 ? 'Medium' : 'High' 
+      };
+    }
+    return c;
+  });
 
   const filteredPortfolio = portfolio.filter(p => {
     return (selectedDistrict === 'All' || p.district === selectedDistrict) &&

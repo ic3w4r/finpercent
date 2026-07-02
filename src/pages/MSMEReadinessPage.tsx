@@ -11,11 +11,14 @@ import KPIBreakdown from '../components/status/KPIBreakdown';
 import RankingCriteria from '../components/status/RankingCriteria';
 import FileUploader from '../components/FileUploader';
 
+import { useReadiness } from '../contexts/ReadinessContext';
+
 export default function MSMEReadinessPage() {
   const [showBadge, setShowBadge] = useState(false);
   const [showUploader, setShowUploader] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const navigate = useNavigate();
+  const { score, band, subscores, uploadDocument, documents, penalties } = useReadiness();
 
   useEffect(() => {
     setShowBadge(true);
@@ -29,25 +32,23 @@ export default function MSMEReadinessPage() {
     }, 1500);
   };
 
-  const readinessScore = 82; // Bank Ready
-
-  const getScoreBand = (score: number) => {
-    if (score < 40) return { band: 'Not Ready', color: 'text-red-600 border-red-200 bg-red-50' };
-    if (score < 60) return { band: 'Needs Correction', color: 'text-orange-600 border-orange-200 bg-orange-50' };
-    if (score < 75) return { band: 'Partially Ready', color: 'text-yellow-600 border-yellow-200 bg-yellow-50' };
-    if (score < 90) return { band: 'Bank-Ready', color: 'text-green-600 border-green-200 bg-green-50' };
-    return { band: 'Strong Readiness', color: 'text-emerald-600 border-emerald-200 bg-emerald-50' };
+  const getScoreBand = (scoreValue: number) => {
+    if (scoreValue < 40) return { band: 'Not Ready', color: 'text-red-650 border-red-200 bg-red-50' };
+    if (scoreValue < 60) return { band: 'Needs Correction', color: 'text-orange-600 border-orange-200 bg-orange-50' };
+    if (scoreValue < 75) return { band: 'Partially Ready', color: 'text-yellow-600 border-yellow-200 bg-yellow-50' };
+    if (scoreValue < 90) return { band: 'Bank-Ready', color: 'text-green-600 border-green-200 bg-green-50' };
+    return { band: 'Strong Readiness', color: 'text-emerald-605 border-emerald-200 bg-emerald-50' };
   };
 
-  const bandDetails = getScoreBand(readinessScore);
+  const bandDetails = getScoreBand(score);
 
-  const subscores = [
-    { name: 'Financial Health Score', val: 88, desc: 'Revenue consistency & operating margin stability' },
-    { name: 'Cash Flow Score', val: 84, desc: 'Monthly inflows, surplus buffers, net positions' },
-    { name: 'Debt Pressure Score', val: 78, desc: 'EMI obligations & current leverage thresholds' },
-    { name: 'Working Capital Score', val: 80, desc: 'Receivable DSO, payables DPO, inventory locks' },
-    { name: 'Document Readiness Score', val: 92, desc: 'Key tax, entity, and ledger files completeness' },
-    { name: 'Compliance Consistency Score', val: 85, desc: 'Regular GST filing & tax audit records' }
+  const subscoresList = [
+    { name: 'Financial Health Score', val: subscores.cashFlow, desc: 'Revenue consistency & operating margin stability' },
+    { name: 'Cash Flow Score', val: subscores.cashFlow, desc: 'Monthly inflows, surplus buffers, net positions' },
+    { name: 'Debt Pressure Score', val: subscores.debtPressure, desc: 'EMI obligations & current leverage thresholds' },
+    { name: 'Working Capital Score', val: subscores.workingCapital, desc: 'Receivable DSO, payables DPO, inventory locks' },
+    { name: 'Document Readiness Score', val: subscores.documentReadiness, desc: 'Key tax, entity, and ledger files completeness' },
+    { name: 'Compliance Consistency Score', val: subscores.complianceConsistency, desc: 'Regular GST filing & tax audit records' }
   ];
 
   return (
@@ -85,10 +86,10 @@ export default function MSMEReadinessPage() {
           <div className="flex flex-col items-center justify-center space-y-3">
             <BadgeAnimation show={showBadge} ranking="Gold" companyName="Acme Corporation" />
             <div className={`px-4 py-2 border rounded-full text-xs font-bold ${bandDetails.color}`}>
-              {bandDetails.band} • Score: {readinessScore}/100
+              {bandDetails.band} • Score: {score}/100
             </div>
             <p className="text-xs text-gray-400 max-w-sm">
-              Reason: cash flow stable, debt pressure moderate, documents 92% complete, GST records consistent.
+              Reason: cash flow stable, debt pressure moderate, documents {subscores.documentReadiness}% complete, GST records consistent.
             </p>
           </div>
         </div>
@@ -97,7 +98,7 @@ export default function MSMEReadinessPage() {
         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm space-y-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">Readiness Parameter Breakdown</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {subscores.map((sub, i) => (
+            {subscoresList.map((sub, i) => (
               <div key={i} className="p-4 bg-primary-50/30 dark:bg-gray-900/30 rounded-xl border border-primary-100/50 dark:border-gray-800 space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-bold text-gray-800 dark:text-gray-200">{sub.name}</span>
@@ -203,7 +204,10 @@ export default function MSMEReadinessPage() {
                   <button onClick={() => setShowUploader(false)} className="text-xs text-gray-400 hover:text-gray-600">Cancel</button>
                 </div>
                 <FileUploader
-                  onFileUpload={() => setShowUploader(false)}
+                  onFileUpload={(file) => {
+                    uploadDocument('financials', file.name);
+                    setShowUploader(false);
+                  }}
                   acceptedFileTypes={['.pdf', '.xlsx', '.csv']}
                   maxFileSize={10 * 1024 * 1024}
                 />

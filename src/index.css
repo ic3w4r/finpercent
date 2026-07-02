@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap');
 @import './styles/glass.css';
 @import './styles/neomorphic.css';
 @tailwind base;
@@ -6,110 +6,108 @@
 @tailwind utilities;
 
 :root {
-  /* Vibrant green theme with bright accents */
-  --primary-50: #f0fdf4;
-  --primary-100: #dcfce7;
-  --primary-200: #bbf7d0;
-  --primary-300: #86efac;
-  --primary-400: #4ade80;
-  --primary-500: #22c55e;
-  --primary-600: #16a34a;
-  --primary-700: #15803d;
-  --primary-800: #166534;
-  --primary-900: #14532d;
-  --primary-950: #052e16;
+  /* Warm bone theme */
+  --primary-50: #f9f9f8;
+  --primary-100: #f1f1ef;
+  --primary-200: #e2e2df;
+  --primary-300: #c8c7c4;
+  --primary-400: #a8a7a3;
+  --primary-500: #787774;
+  --primary-600: #5f5e5b;
+  --primary-700: #4a4947;
+  --primary-800: #353433;
+  --primary-900: #222120;
+  --primary-950: #111111;
 
-  /* Bright white accents */
+  /* Accent warm neutrals */
   --accent-50: #ffffff;
-  --accent-100: #fafafa;
-  --accent-200: #f5f5f5;
-  --accent-300: #e5e5e5;
-  --accent-400: #d4d4d4;
-  --accent-500: #a3a3a3;
-  --accent-600: #737373;
-  --accent-700: #525252;
-  --accent-800: #404040;
-  --accent-900: #262626;
+  --accent-100: #fbfbfa;
+  --accent-200: #eaeaea;
+  --accent-300: #dfdfdf;
+  --accent-400: #c8c8c8;
+  --accent-500: #787774;
+  --accent-600: #555555;
+  --accent-700: #333333;
+  --accent-800: #222222;
+  --accent-900: #111111;
 }
 
 .dark {
-  /* Dark mode - luminous greens */
-  --primary-50: #052e16;
-  --primary-100: #14532d;
-  --primary-200: #166534;
-  --primary-300: #15803d;
-  --primary-400: #16a34a;
-  --primary-500: #22c55e;
-  --primary-600: #4ade80;
-  --primary-700: #86efac;
-  --primary-800: #bbf7d0;
-  --primary-900: #dcfce7;
-  --primary-950: #f0fdf4;
+  /* Dark warm neutrals */
+  --primary-50: #111111;
+  --primary-100: #222120;
+  --primary-200: #353433;
+  --primary-300: #4a4947;
+  --primary-400: #5f5e5b;
+  --primary-500: #787774;
+  --primary-600: #a8a7a3;
+  --primary-700: #c8c7c4;
+  --primary-800: #e2e2df;
+  --primary-900: #f1f1ef;
+  --primary-950: #ffffff;
 
-  /* Dark mode - bright contrasts */
-  --accent-50: #262626;
-  --accent-100: #404040;
-  --accent-200: #525252;
-  --accent-300: #737373;
-  --accent-400: #a3a3a3;
-  --accent-500: #d4d4d4;
-  --accent-600: #e5e5e5;
-  --accent-700: #f5f5f5;
-  --accent-800: #fafafa;
+  /* Accent dark neutrals */
+  --accent-50: #161616;
+  --accent-100: #0e0e0e;
+  --accent-200: #262626;
+  --accent-300: #383838;
+  --accent-400: #5a5a58;
+  --accent-500: #8a8a88;
+  --accent-600: #aaaaa8;
+  --accent-700: #cccccc;
+  --accent-800: #eaeaea;
   --accent-900: #ffffff;
 }
 
 @layer base {
   html {
-    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    font-family: 'Geist', system-ui, -apple-system, sans-serif;
   }
 }
 
 @layer components {
   .neo-container {
-    @apply bg-gradient-to-br from-accent-50 via-primary-300 to-primary-500;
+    @apply bg-accent-100 border border-accent-200;
   }
   
   .glass-container {
-    @apply bg-gradient-to-br from-accent-50 via-accent-50 to-primary-200 
-           bg-opacity-40 backdrop-blur-lg 
-           border border-primary-300 border-opacity-30;
-    box-shadow: 0 8px 32px rgba(34, 197, 94, 0.25);
+    @apply bg-accent-50 border border-accent-200 rounded-lg shadow-sm;
   }
   
   .button-primary {
-    @apply neo-button glass-button px-4 py-2 rounded-lg text-primary-600 dark:text-primary-300 font-medium 
-           hover:text-primary-700 dark:hover:text-primary-200
-           bg-gradient-to-r hover:from-accent-50 hover:to-primary-100
+    @apply px-4 py-2 rounded text-white dark:text-black font-medium 
+           bg-primary-950 dark:bg-primary-50
+           hover:bg-neutral-800 dark:hover:bg-neutral-200
+           active:scale-[0.98]
            transition-all duration-200;
   }
   
   .input-neo {
-    @apply neo-input w-full focus:outline-none focus:ring-2 focus:ring-primary-400 
-           bg-gradient-to-br from-accent-50 to-accent-100
-           dark:from-primary-900 dark:to-primary-800;
+    @apply w-full focus:outline-none focus:ring-1 focus:ring-neutral-400 
+           border border-accent-200 rounded px-3 py-2 text-sm
+           bg-accent-50 dark:bg-accent-50;
   }
   
   .card-container {
-    @apply p-6 rounded-xl transition-all duration-300 
-           bg-gradient-to-br from-accent-50 via-accent-100 to-primary-200
-           hover:from-accent-50 hover:via-primary-100 hover:to-primary-300
-           dark:from-primary-900 dark:via-primary-800 dark:to-primary-700;
+    @apply p-6 rounded-lg border border-accent-200 bg-accent-50 transition-all duration-300;
+  }
+  .card-container:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
   }
 
   .money-gradient {
-    @apply bg-gradient-to-r from-accent-50 via-primary-300 to-primary-500;
+    @apply bg-accent-50;
   }
 
   .value-card {
-    @apply bg-gradient-to-br from-accent-50 via-primary-100 to-primary-300
-           hover:from-accent-50 hover:via-primary-200 hover:to-primary-400
-           dark:from-primary-800 dark:via-primary-700 dark:to-primary-600
-           shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply bg-accent-50 border border-accent-200 p-6 rounded-lg transition-all duration-300;
+  }
+  .value-card:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
   }
 
   .finpercent-gradient {
-    @apply bg-gradient-to-r from-accent-50 via-[#4ade80] to-[#16a34a];
+    @apply bg-primary-950 text-white dark:bg-primary-50 dark:text-black;
   }
 
   /* Logo styling */
@@ -118,22 +116,20 @@
   }
 
   .dark .logo-container img {
-    filter: brightness(1.5) contrast(1.2);
+    filter: invert(1) brightness(2);
   }
 }
 
 body {
-  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
-  @apply bg-gradient-to-br from-accent-50 via-accent-50 to-primary-50 min-h-screen
-         text-primary-900 dark:bg-primary-900 dark:text-accent-50;
+  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  @apply bg-accent-100 text-primary-950 min-h-screen dark:bg-accent-100 dark:text-primary-50;
 }
 
 .glass-card {
-  @apply bg-gradient-to-br from-accent-50 via-accent-50 to-primary-200 
-         bg-opacity-30 backdrop-blur-lg border border-primary-300 border-opacity-20
-         hover:bg-opacity-40
-         transition-all duration-300;
-  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2);
+  @apply bg-accent-50 border border-accent-200 rounded-lg p-5 transition-all duration-300;
+}
+.glass-card:hover {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 /* Custom slider styles for simulation tool */

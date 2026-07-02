@@ -2,23 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ShieldCheck, HelpCircle } from 'lucide-react';
 
+import { useReadiness } from '../../contexts/ReadinessContext';
+
 export default function DataPermissionsPage() {
   const navigate = useNavigate();
-
-  const [consents, setConsents] = useState([
-    { id: '1', partner: 'Lender Partner 1 (State Bank)', scope: 'Bank statement read access, GST logs assessment', active: true },
-    { id: '2', partner: 'MSME Cluster Development Bureau', scope: 'District-level cluster readiness aggregates', active: true },
-    { id: '3', partner: 'Lender Partner 2 (NBFC Overdraft)', scope: 'Receivables invoice details verification', active: false }
-  ]);
-
-  const toggleConsent = (id: string) => {
-    setConsents(prev => prev.map(c => 
-      c.id === id ? { ...c, active: !c.active } : c
-    ));
-  };
+  const { consents, toggleConsent } = useReadiness();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-950 p-6 pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-950 p-6 pb-20 text-left">
       <div className="max-w-3xl mx-auto space-y-8">
         
         {/* Header */}
@@ -48,13 +39,13 @@ export default function DataPermissionsPage() {
 
           <div className="space-y-4 text-xs">
             {consents.map((item) => (
-              <div key={item.id} className="p-4 bg-gray-50/50 dark:bg-gray-900/30 border border-gray-100 dark:border-gray-800 rounded-xl flex items-center justify-between gap-4">
+              <div key={item.partnerId} className="p-4 bg-gray-50/50 dark:bg-gray-900/30 border border-gray-100 dark:border-gray-800 rounded-xl flex items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <span className="font-bold text-gray-800 dark:text-gray-200 block">{item.partner}</span>
-                  <span className="text-[10px] text-gray-400 block">{item.scope}</span>
+                  <span className="font-bold text-gray-800 dark:text-gray-200 block">{item.partnerName}</span>
+                  <span className="text-[10px] text-gray-400 block">Scopes: {item.scopes.join(', ')} • Expiry: {item.expiryDaysRemaining} days</span>
                 </div>
                 <button
-                  onClick={() => toggleConsent(item.id)}
+                  onClick={() => toggleConsent(item.partnerId)}
                   className={`px-3 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${
                     item.active 
                       ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100' 

@@ -8,54 +8,62 @@ import {
 import { useNavigate } from 'react-router-dom';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
 
+import { useReadiness } from '../contexts/ReadinessContext';
+
 export default function OverviewPage() {
   const navigate = useNavigate();
+  const { score, band, subscores, documents, penalties, actions } = useReadiness();
   const [activeSegment, setActiveSegment] = useState<'manufacturing' | 'retail' | 'services'>('manufacturing');
+
+  const docCompleteCount = documents.filter(d => d.status === 'Complete').length;
+  const docPct = Math.round((docCompleteCount / documents.length) * 100);
+  const activePenaltiesCount = penalties.filter(p => p.status === 'Active').length;
+  const criticalPenaltiesCount = penalties.filter(p => p.status === 'Active' && p.severity === 'Critical').length;
 
   const topCards = [
     { 
       title: 'MSME Readiness Score', 
-      value: '82/100', 
-      desc: 'Bank-Ready Band', 
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-50 dark:bg-green-950/20',
-      border: 'border-green-200 dark:border-green-900',
+      value: `${score}/100`, 
+      desc: `${band} Band`, 
+      color: score >= 75 ? 'text-green-600 dark:text-green-400' : score >= 60 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-650 dark:text-red-400',
+      bgColor: score >= 75 ? 'bg-green-50 dark:bg-green-950/20' : score >= 60 ? 'bg-yellow-50 dark:bg-yellow-950/20' : 'bg-red-50 dark:bg-red-950/20',
+      border: score >= 75 ? 'border-green-200 dark:border-green-900' : score >= 60 ? 'border-yellow-200 dark:border-yellow-900' : 'border-red-200 dark:border-red-900',
       path: '/msme-readiness'
     },
     { 
       title: 'Cash Flow Health', 
-      value: 'Healthy', 
-      desc: 'Stable Net Inflow', 
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-50 dark:bg-green-950/20',
-      border: 'border-green-200 dark:border-green-900',
+      value: subscores.cashFlow >= 75 ? 'Healthy' : subscores.cashFlow >= 60 ? 'Moderate' : 'Stressed', 
+      desc: subscores.cashFlow >= 75 ? 'Stable Net Inflow' : 'Buffer days warning', 
+      color: subscores.cashFlow >= 75 ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400',
+      bgColor: subscores.cashFlow >= 75 ? 'bg-green-50 dark:bg-green-950/20' : 'bg-yellow-50 dark:bg-yellow-950/20',
+      border: subscores.cashFlow >= 75 ? 'border-green-200 dark:border-green-900' : 'border-yellow-200 dark:border-yellow-900',
       path: '/financial/cash-flow'
     },
     { 
       title: 'Debt Pressure', 
-      value: 'Moderate', 
-      desc: 'EMI/Cashflow: 28%', 
-      color: 'text-yellow-600 dark:text-yellow-400',
-      bgColor: 'bg-yellow-50 dark:bg-yellow-950/20',
-      border: 'border-yellow-200 dark:border-yellow-900',
+      value: subscores.debtPressure >= 75 ? 'Safe Limit' : subscores.debtPressure >= 60 ? 'Moderate' : 'Critical', 
+      desc: `EMI/Cashflow: ${subscores.debtPressure >= 75 ? '28%' : '52%'}`, 
+      color: subscores.debtPressure >= 75 ? 'text-green-600 dark:text-green-400' : subscores.debtPressure >= 60 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-650 dark:text-red-400',
+      bgColor: subscores.debtPressure >= 75 ? 'bg-green-50 dark:bg-green-950/20' : subscores.debtPressure >= 60 ? 'bg-yellow-50 dark:bg-yellow-950/20' : 'bg-red-50 dark:bg-red-950/20',
+      border: subscores.debtPressure >= 75 ? 'border-green-200 dark:border-green-900' : subscores.debtPressure >= 60 ? 'border-yellow-200 dark:border-yellow-900' : 'border-red-200 dark:border-red-900',
       path: '/financial/debt-emi'
     },
     { 
       title: 'Document Completeness', 
-      value: '92%', 
-      desc: '11 of 12 Uploaded', 
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-50 dark:bg-green-950/20',
-      border: 'border-green-200 dark:border-green-900',
+      value: `${docPct}%`, 
+      desc: `${docCompleteCount} of ${documents.length} Verified`, 
+      color: docPct >= 85 ? 'text-green-600 dark:text-green-400' : docPct >= 60 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-650 dark:text-red-400',
+      bgColor: docPct >= 85 ? 'bg-green-50 dark:bg-green-950/20' : docPct >= 60 ? 'bg-yellow-50 dark:bg-yellow-950/20' : 'bg-red-50 dark:bg-red-950/20',
+      border: docPct >= 85 ? 'border-green-200 dark:border-green-900' : docPct >= 60 ? 'border-yellow-200 dark:border-yellow-900' : 'border-red-200 dark:border-red-900',
       path: '/credit/document-checklist'
     },
     { 
-      title: 'Risk Indicator', 
-      value: 'Low Risk', 
-      desc: '0 Critical Alerts', 
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-50 dark:bg-green-950/20',
-      border: 'border-green-200 dark:border-green-900',
+      title: 'Risk & Alerts', 
+      value: activePenaltiesCount === 0 ? 'Low Risk' : `${activePenaltiesCount} Warnings`, 
+      desc: criticalPenaltiesCount > 0 ? `${criticalPenaltiesCount} Critical Alerts` : '0 Critical Alerts', 
+      color: activePenaltiesCount === 0 ? 'text-green-600 dark:text-green-400' : activePenaltiesCount <= 2 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-650 dark:text-red-400',
+      bgColor: activePenaltiesCount === 0 ? 'bg-green-50 dark:bg-green-950/20' : activePenaltiesCount <= 2 ? 'bg-yellow-50 dark:bg-yellow-950/20' : 'bg-red-50 dark:bg-red-950/20',
+      border: activePenaltiesCount === 0 ? 'border-green-200 dark:border-green-900' : activePenaltiesCount <= 2 ? 'border-yellow-200 dark:border-yellow-900' : 'border-red-200 dark:border-red-900',
       path: '/credit/red-flags'
     }
   ];
@@ -196,23 +204,20 @@ export default function OverviewPage() {
               <span>Top Actions Required</span>
             </h3>
             <ul className="space-y-3 text-xs">
-              {[
-                { act: 'Upload Audited Balance Sheet (FY 2024-25)', days: 'Action plan: Day 15' },
-                { act: 'Consolidate short-term OCC overdraft loan details', days: 'Action plan: Day 30' },
-                { act: 'Verify vendor ledger linkages for GreenPlast Polymers', days: 'Action plan: Day 45' },
-                { act: 'Reduce DSO to 35 days using automated reminders', days: 'Action plan: Day 60' },
-                { act: 'Renew expired Udyam MSME Registration Certificate', days: 'Action plan: Immediate' }
-              ].map((act, i) => (
-                <li key={i} className="flex space-x-3 items-start">
+              {actions.filter(a => a.completion_status === 'Pending').slice(0, 5).map((act, i) => (
+                <li key={act.action_id} className="flex space-x-3 items-start cursor-pointer" onClick={() => navigate('/action-plan')}>
                   <span className="w-5 h-5 rounded-full bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 font-bold flex items-center justify-center flex-shrink-0 text-[10px]">
                     {i + 1}
                   </span>
                   <div>
-                    <span className="font-semibold text-gray-800 dark:text-gray-200 block">{act.act}</span>
-                    <span className="text-[10px] text-gray-400 block mt-0.5">{act.days}</span>
+                    <span className="font-semibold text-gray-800 dark:text-gray-200 block">{act.text}</span>
+                    <span className="text-[10px] text-gray-400 block mt-0.5">{act.due_date} • {act.priority} Priority</span>
                   </div>
                 </li>
               ))}
+              {actions.filter(a => a.completion_status === 'Pending').length === 0 && (
+                <div className="text-xs text-green-600 font-semibold p-2">🎉 All action plan items completed! Your score is optimized.</div>
+              )}
             </ul>
           </div>
 
@@ -223,24 +228,23 @@ export default function OverviewPage() {
               <span>Pending Documents</span>
             </h3>
             <div className="space-y-3">
-              {[
-                { name: 'Udyam Registration Certificate', type: 'MSME Identity', status: 'Expired', action: 'Renew' },
-                { name: 'Audited Financial Statements (Y2)', type: 'Financial Record', status: 'Missing', action: 'Upload' },
-                { name: 'GST Filing GSTR-3B (May 2026)', type: 'Tax Record', status: 'Missing', action: 'Upload' }
-              ].map((doc, i) => (
-                <div key={i} className="flex justify-between items-center py-2 border-b border-gray-50 dark:border-gray-700/40 last:border-0">
+              {documents.filter(d => d.status !== 'Complete').slice(0, 3).map((doc) => (
+                <div key={doc.id} className="flex justify-between items-center py-2 border-b border-gray-50 dark:border-gray-700/40 last:border-0">
                   <div>
                     <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 block">{doc.name}</span>
-                    <span className="text-[10px] text-gray-400 block">{doc.type}</span>
+                    <span className="text-[10px] text-gray-400 block">{doc.category} • {doc.status}</span>
                   </div>
                   <button 
                     onClick={() => navigate('/credit/document-checklist')}
                     className="px-2.5 py-1 bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-900 rounded-md text-[10px] font-bold transition-all"
                   >
-                    {doc.action}
+                    {doc.status === 'Expired' ? 'Renew' : 'Upload'}
                   </button>
                 </div>
               ))}
+              {documents.filter(d => d.status !== 'Complete').length === 0 && (
+                <div className="text-xs text-green-600 font-semibold p-2">🎉 Document locker is fully complete and audited!</div>
+              )}
             </div>
           </div>
 
@@ -251,19 +255,18 @@ export default function OverviewPage() {
               <span>Risk & Alert Logs</span>
             </h3>
             <div className="space-y-3">
-              {[
-                { alert: 'DSO increased by 5 days in Peenya cluster', cat: 'Operations', risk: 'Low Alert' },
-                { alert: 'Advance Tax payment due in 15 days', cat: 'Taxes', risk: 'Upcoming' },
-                { alert: 'EMI/Cashflow ratio approaching 30% safe ceiling', cat: 'Debt', risk: 'Info' }
-              ].map((log, i) => (
-                <div key={i} className="flex items-start space-x-3 py-1 border-b border-gray-50 dark:border-gray-700/40 last:border-0">
+              {penalties.filter(p => p.status === 'Active').slice(0, 3).map((log) => (
+                <div key={log.penalty_id} className="flex items-start space-x-3 py-1 border-b border-gray-50 dark:border-gray-700/40 last:border-0">
                   <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-1.5 flex-shrink-0"></div>
                   <div>
-                    <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 block leading-tight">{log.alert}</span>
-                    <span className="text-[9px] text-gray-400 block mt-0.5">{log.cat} • {log.risk}</span>
+                    <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 block leading-tight">{log.reason}</span>
+                    <span className="text-[9px] text-gray-400 block mt-0.5">{log.penalty_type} • Deduction: {log.penalty_points}</span>
                   </div>
                 </div>
               ))}
+              {penalties.filter(p => p.status === 'Active').length === 0 && (
+                <div className="text-xs text-green-600 font-semibold p-2">🎉 No active risk flags or penalties. business profile is clean.</div>
+              )}
             </div>
           </div>
 

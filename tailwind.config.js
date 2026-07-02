@@ -34,17 +34,20 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Manrope', 'sans-serif'],
+        sans: ['Geist', 'sans-serif'],
+        serif: ['Instrument Serif', 'serif'],
+        mono: ['Geist Mono', 'monospace'],
       },
       boxShadow: {
-        'neo': '8px 8px 16px rgba(34, 197, 94, 0.12), -8px -8px 16px rgba(255, 255, 255, 0.95)',
-        'neo-hover': '12px 12px 24px rgba(34, 197, 94, 0.15), -12px -12px 24px rgba(255, 255, 255, 1)',
-        'neo-active': '4px 4px 8px rgba(34, 197, 94, 0.12), -4px -4px 8px rgba(255, 255, 255, 0.95)',
-        'neo-inset': 'inset 4px 4px 8px rgba(34, 197, 94, 0.12), inset -4px -4px 8px rgba(255, 255, 255, 0.95)',
-        'neo-card': '8px 8px 16px rgba(34, 197, 94, 0.12), -8px -8px 16px rgba(255, 255, 255, 0.95)',
+        'neo': '0 1px 2px rgba(0, 0, 0, 0.04)',
+        'neo-hover': '0 4px 12px rgba(0, 0, 0, 0.05)',
+        'neo-active': '0 1px 1px rgba(0, 0, 0, 0.02)',
+        'neo-inset': 'inset 0 1px 2px rgba(0, 0, 0, 0.04)',
+        'neo-card': '0 2px 8px rgba(0, 0, 0, 0.02)',
+        'minimal': '0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04)',
       },
       borderRadius: {
-        'neo': '20px',
+        'neo': '8px',
       },
       transitionDuration: {
         'neo': '200ms',

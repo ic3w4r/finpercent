@@ -30,7 +30,7 @@ import AICXOSuitePage from './pages/AICXOSuitePage';
 
 // Network & Support
 import WorkshopsPage from './pages/network/WorkshopsPage';
-import TradeCentrePage from './pages/network/TradeCentrePage';
+import FinningCircleMarketplace from './pages/finning-circle/FinningCircleMarketplace';
 import SupportPage from './pages/SupportPage';
 
 // Account & Settings
@@ -51,6 +51,15 @@ import FinningCircleProduct from './pages/finning-circle/FinningCircleProduct';
 import FinningCircleDiscovery from './pages/finning-circle/FinningCircleDiscovery';
 import FinningCircleTimeline from './pages/finning-circle/FinningCircleTimeline';
 import FinningCircleVenue from './pages/finning-circle/FinningCircleVenue';
+import FinningCircleWorkshops from './pages/finning-circle/FinningCircleWorkshops';
+import FinningCircleGateway from './pages/finning-circle/FinningCircleGateway';
+import GSTOnboarding from './pages/finning-circle/GSTOnboarding';
+import ShowcaseBuilder from './pages/finning-circle/ShowcaseBuilder';
+import SMEPassport from './pages/finning-circle/SMEPassport';
+
+// Finpercent Core additions
+import WorkingCapitalDiagnostic from './pages/financial/WorkingCapitalDiagnostic';
+import CreditReadyFile from './pages/credit/CreditReadyFile';
 
 // AI Operations Officer Pages (Finning Biz)
 import AgentAuthorizationHierarchyPage from './pages/finning-biz/AgentAuthorizationHierarchyPage';
@@ -58,10 +67,18 @@ import AIAgentMarketplacePage from './pages/finning-biz/AIAgentMarketplacePage';
 import JointAgentFlowVisualizationPage from './pages/finning-biz/JointAgentFlowVisualizationPage';
 import AuditorAgentWorkflowPage from './pages/finning-biz/AuditorAgentWorkflowPage';
 import JointMultiAgentReportPage from './pages/finning-biz/JointMultiAgentReportPage';
+import AutomatedBankingPage from './pages/AutomatedBankingPage';
 
 // Contexts
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { DebtProvider } from './contexts/DebtContext';
+import { ReadinessProvider } from './contexts/ReadinessContext';
+import SimulationPanel from './components/dashboard/SimulationPanel';
+
+// Dashboards
+import AdvisorDashboardPage from './pages/advisor/AdvisorDashboardPage';
+import ProviderDashboardPage from './pages/provider/ProviderDashboardPage';
+
 import './App.css';
 
 function AppContent() {
@@ -71,6 +88,7 @@ function AppContent() {
   return (
     <div className="flex min-h-screen bg-primary-50 dark:bg-gray-900">
       <Navigation />
+      {!isLanding && <SimulationPanel />}
       <main className={`flex-1 transition-all duration-300 ${isLanding ? '' : 'md:ml-64'}`}>
         <Routes>
           {/* Landing Page */}
@@ -88,6 +106,7 @@ function AppContent() {
           <Route path="/financial/working-capital" element={<WorkingCapitalPage />} />
           <Route path="/financial/expense-leakage" element={<ExpenseLeakagePage />} />
           <Route path="/financial/stop-method" element={<STOPMethodPage />} />
+          <Route path="/financial/diagnostic" element={<WorkingCapitalDiagnostic />} />
 
           {/* Credit Readiness */}
           <Route path="/credit/readiness-report" element={<CreditReadinessReportPage />} />
@@ -95,10 +114,13 @@ function AppContent() {
           <Route path="/credit/loan-capacity" element={<LoanCapacityPage />} />
           <Route path="/credit/red-flags" element={<RedFlagsPage />} />
           <Route path="/credit/improvement-plan" element={<ImprovementPlanPage />} />
+          <Route path="/credit/ready-file" element={<CreditReadyFile />} />
 
           {/* Dashboards */}
           <Route path="/institution/portfolio" element={<InstitutionDashboardPage />} />
           <Route path="/bank/borrower-summary" element={<BankOfficerPage />} />
+          <Route path="/advisor/dashboard" element={<AdvisorDashboardPage />} />
+          <Route path="/provider/dashboard" element={<ProviderDashboardPage />} />
           
           {/* AI-CXO Suite / Agent Copilot Routes */}
           <Route path="/ai-cxo" element={<Navigate to="/ai-cxo/dashboard" replace />} />
@@ -108,6 +130,7 @@ function AppContent() {
           <Route path="/ai-cxo/credit" element={<AICXOSuitePage initialTab="credit" />} />
           <Route path="/ai-cxo/operations" element={<AICXOSuitePage initialTab="operations" />} />
           <Route path="/ai-cxo/growth" element={<AICXOSuitePage initialTab="growth" />} />
+          <Route path="/automated-banking" element={<AutomatedBankingPage />} />
 
           {/* AI Operations Officer Sub-routes */}
           <Route path="/ai-cxo/operations-officer" element={<Navigate to="/ai-cxo/operations-officer/flow" replace />} />
@@ -132,17 +155,32 @@ function AppContent() {
 
           {/* Network & Support */}
           <Route path="/network/workshops" element={<WorkshopsPage />} />
-          <Route path="/network/trade-centre" element={<TradeCentrePage />} />
+          <Route path="/network/trade-centre" element={<Navigate to="/finning-circle/marketplace" replace />} />
           <Route path="/support" element={<SupportPage />} />
 
-          {/* MSME Community (Finning Circle rebranding) */}
-          <Route path="/network/msme-community" element={<Navigate to="/network/msme-community/dashboard" replace />} />
-          <Route path="/network/msme-community/dashboard" element={<FinningCircleDashboard />} />
-          <Route path="/network/msme-community/live" element={<FinningCircleLive />} />
-          <Route path="/network/msme-community/product" element={<FinningCircleProduct />} />
-          <Route path="/network/msme-community/discovery" element={<FinningCircleDiscovery />} />
-          <Route path="/network/msme-community/timeline" element={<FinningCircleTimeline />} />
-          <Route path="/network/msme-community/venue" element={<FinningCircleVenue />} />
+          {/* Finning Circle (TradeStream) - Visibility & Credibility Product */}
+          <Route path="/finning-circle" element={<Navigate to="/finning-circle/gateway" replace />} />
+          <Route path="/finning-circle/gateway" element={<FinningCircleGateway />} />
+          <Route path="/finning-circle/onboard" element={<GSTOnboarding />} />
+          <Route path="/finning-circle/builder" element={<ShowcaseBuilder />} />
+          <Route path="/finning-circle/dashboard" element={<FinningCircleDashboard />} />
+          <Route path="/finning-circle/live" element={<FinningCircleLive />} />
+          <Route path="/finning-circle/product" element={<FinningCircleProduct />} />
+          <Route path="/finning-circle/discovery" element={<FinningCircleDiscovery />} />
+          <Route path="/finning-circle/timeline" element={<FinningCircleTimeline />} />
+          <Route path="/finning-circle/venue" element={<FinningCircleVenue />} />
+          <Route path="/finning-circle/workshops" element={<FinningCircleWorkshops />} />
+          <Route path="/finning-circle/passport" element={<SMEPassport />} />
+          <Route path="/finning-circle/marketplace" element={<FinningCircleMarketplace />} />
+
+          {/* Legacy redirects for old network/msme-community paths */}
+          <Route path="/network/msme-community" element={<Navigate to="/finning-circle/dashboard" replace />} />
+          <Route path="/network/msme-community/dashboard" element={<Navigate to="/finning-circle/dashboard" replace />} />
+          <Route path="/network/msme-community/live" element={<Navigate to="/finning-circle/live" replace />} />
+          <Route path="/network/msme-community/product" element={<Navigate to="/finning-circle/product" replace />} />
+          <Route path="/network/msme-community/discovery" element={<Navigate to="/finning-circle/discovery" replace />} />
+          <Route path="/network/msme-community/timeline" element={<Navigate to="/finning-circle/timeline" replace />} />
+          <Route path="/network/msme-community/venue" element={<Navigate to="/finning-circle/venue" replace />} />
 
           {/* Account Settings */}
           <Route path="/profile" element={<ProfilePage />} />
@@ -164,13 +202,15 @@ function AppContent() {
 
 function App() {
   return (
-    <DebtProvider>
-      <OnboardingProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </OnboardingProvider>
-    </DebtProvider>
+    <ReadinessProvider>
+      <DebtProvider>
+        <OnboardingProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </OnboardingProvider>
+      </DebtProvider>
+    </ReadinessProvider>
   );
 }
 

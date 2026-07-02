@@ -5,12 +5,17 @@
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FinPercent</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
     <style>
       body {
         margin: 0;
         padding: 0;
-        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-        font-family: 'Inter', system-ui, sans-serif;
+        background-color: #FBFBFA;
+        font-family: 'Geist', system-ui, sans-serif;
         min-height: 100vh;
       }
       #root {
@@ -21,27 +26,28 @@
         align-items: center;
         justify-content: center;
         min-height: 100vh;
-        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        background-color: #FBFBFA;
       }
       .loading-card {
-        background: white;
+        background: #ffffff;
         padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(34, 197, 94, 0.2);
+        border-radius: 8px;
+        border: 1px solid #EAEAEA;
         text-align: center;
         max-width: 400px;
       }
       .loading-logo {
-        width: 60px;
-        height: 60px;
-        background: #22c55e;
-        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        background: #111111;
+        border-radius: 4px;
         margin: 0 auto 20px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-size: 20px;
+        color: #ffffff;
+        font-family: 'Geist Mono', monospace;
+        font-size: 16px;
         font-weight: bold;
       }
     </style>
@@ -51,8 +57,8 @@
       <div class="loading-fallback">
         <div class="loading-card">
           <div class="loading-logo">FP</div>
-          <h2 style="color: #16a34a; margin: 0 0 10px;">FinPercent</h2>
-          <p style="color: #666; margin: 0;">Loading financial dashboard...</p>
+          <h2 style="color: #111111; font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: normal; margin: 0 0 10px; tracking: -0.02em;">FinPercent</h2>
+          <p style="color: #787774; font-size: 13px; margin: 0;">Loading financial cockpit...</p>
         </div>
       </div>
     </div>

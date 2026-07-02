@@ -30,13 +30,15 @@ import {
   Video,
   Store,
   Workflow,
-  Coins
+  Coins,
+  Sliders
 } from 'lucide-react';
 
 export default function Navigation() {
   const location = useLocation();
   const [expandedSections, setExpandedSections] = useState<string[]>([
     'command-center',
+    'finning-circle',
     'financial-intel',
     'credit-readiness',
     'capital-access',
@@ -69,10 +71,24 @@ export default function Navigation() {
     { name: 'Action Plan', href: '/action-plan', icon: Target },
   ];
 
+  const finningCircleItems = [
+    { name: 'Ecosystem Pathway', href: '/finning-circle/gateway', icon: Target },
+    { name: 'GST Verify & Onboard', href: '/finning-circle/onboard', icon: ShieldCheck },
+    { name: 'Product Showcase Builder', href: '/finning-circle/builder', icon: Sliders },
+    { name: 'TradeStream Marketplace', href: '/finning-circle/marketplace', icon: Store },
+    { name: 'Trade Dashboard', href: '/finning-circle/dashboard', icon: Globe },
+    { name: 'Short-Video Feed', href: '/finning-circle/discovery', icon: Video },
+    { name: 'Live Product Demos', href: '/finning-circle/live', icon: Video },
+    { name: 'Workshops', href: '/finning-circle/workshops', icon: GraduationCap },
+    { name: 'Trade Venues & Expos', href: '/finning-circle/venue', icon: CompanyIcon },
+    { name: 'Verified SME Passport', href: '/finning-circle/passport', icon: ShieldCheck },
+  ];
+
   const financialIntelligenceItems = [
     { name: 'Cash Flow', href: '/financial/cash-flow', icon: Activity },
     { name: 'Debt & EMI', href: '/financial/debt-emi', icon: PiggyBank },
     { name: 'Working Capital', href: '/financial/working-capital', icon: Briefcase },
+    { name: 'Working-Capital Diagnostic', href: '/financial/diagnostic', icon: Sliders },
     { name: 'Expense Leakage', href: '/financial/expense-leakage', icon: AlertTriangle },
     { name: 'STOP Method', href: '/financial/stop-method', icon: Target },
   ];
@@ -83,6 +99,7 @@ export default function Navigation() {
     { name: 'Loan Capacity', href: '/credit/loan-capacity', icon: PiggyBank },
     { name: 'Red Flags', href: '/credit/red-flags', icon: AlertTriangle },
     { name: 'Improvement Plan', href: '/credit/improvement-plan', icon: Target },
+    { name: 'Credit-Ready File', href: '/credit/ready-file', icon: FileText },
   ];
 
   const capitalAccessItems = [
@@ -102,12 +119,11 @@ export default function Navigation() {
   const partnerPortalItems = [
     { name: 'Institution Dashboard', href: '/institution/portfolio', icon: Users },
     { name: 'Bank & NBFC Console', href: '/bank/borrower-summary', icon: ShieldCheck },
+    { name: 'Advisor Portal', href: '/advisor/dashboard', icon: Briefcase },
+    { name: 'Provider Console', href: '/provider/dashboard', icon: Sliders },
   ];
 
   const networkSupportItems = [
-    { name: 'Workshops', href: '/network/workshops', icon: GraduationCap },
-    { name: 'Trade Centre', href: '/network/trade-centre', icon: Zap },
-    { name: 'MSME Community', href: '/network/msme-community', icon: Globe },
     { name: 'Support', href: '/support', icon: HelpCircle },
   ];
 
@@ -141,18 +157,18 @@ export default function Navigation() {
         to={item.href}
         onClick={() => setIsMobileMenuOpen(false)}
         className={`
-          flex items-center px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-200 group
+          flex items-center px-4 py-2 text-xs font-medium rounded transition-all duration-200 group
           ${isChild ? 'ml-4' : ''}
           ${active
-            ? 'bg-gradient-to-r from-primary-600 to-green-600 text-white shadow-md'
-            : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800'
+            ? 'bg-primary-950 text-white dark:bg-primary-50 dark:text-black font-semibold'
+            : 'text-neutral-700 hover:bg-neutral-200/50 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800/50'
           }
         `}
       >
-        <Icon className={`w-4 h-4 mr-2.5 transition-transform duration-200 ${active ? 'scale-110' : 'group-hover:scale-105'}`} />
+        <Icon className="w-4 h-4 mr-2.5" />
         <span>{item.name}</span>
         {active && (
-          <div className="ml-auto w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+          <div className="ml-auto w-1.5 h-1.5 bg-white dark:bg-black rounded-full" />
         )}
       </Link>
     );
@@ -164,7 +180,7 @@ export default function Navigation() {
       <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 rounded-lg bg-white dark:bg-gray-850 shadow-lg text-gray-700 dark:text-gray-300 border border-gray-100 dark:border-gray-800"
+          className="p-2 rounded bg-accent-50 text-neutral-700 border border-accent-200"
         >
           {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -172,19 +188,19 @@ export default function Navigation() {
 
       {/* Sidebar */}
       <nav className={`
-        fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 shadow-xl transition-transform duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-40 w-64 bg-accent-50 border-r border-accent-200 transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         <div className="flex flex-col h-full">
           
           {/* Branding Header */}
-          <div className="flex items-center space-x-3 p-5 border-b border-gray-100 dark:border-gray-800">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-green-600 rounded-xl flex items-center justify-center shadow-md">
-              <div className="text-white font-black text-sm">%</div>
+          <div className="flex items-center space-x-3 p-5 border-b border-accent-200">
+            <div className="w-8 h-8 bg-primary-950 dark:bg-primary-50 rounded flex items-center justify-center">
+              <div className="text-white dark:text-black font-black text-sm">%</div>
             </div>
             <div>
-              <h1 className="text-md font-black text-primary-950 dark:text-white tracking-tight">Finpercent</h1>
-              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">MSME Readistructure</p>
+              <h1 className="text-sm font-serif font-normal text-primary-950 dark:text-white tracking-tight">Finpercent</h1>
+              <p className="text-[9px] text-primary-400 font-bold uppercase tracking-wider font-mono">MSME Readistructure</p>
             </div>
           </div>
 
@@ -195,7 +211,7 @@ export default function Navigation() {
             <div>
               <button
                 onClick={() => toggleSection('command-center')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-wider hover:text-gray-600 dark:hover:text-gray-300"
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-primary-450 dark:text-primary-400 uppercase tracking-wider hover:text-primary-600 font-mono"
               >
                 <span>Command Center</span>
                 {isExpanded('command-center') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -209,11 +225,29 @@ export default function Navigation() {
               )}
             </div>
 
+            {/* Group: Finning Circle (TradeStream) */}
+            <div>
+              <button
+                onClick={() => toggleSection('finning-circle')}
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider hover:text-emerald-700 font-mono"
+              >
+                <span>Finning Circle (TradeStream)</span>
+                {isExpanded('finning-circle') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+              </button>
+              {isExpanded('finning-circle') && (
+                <div className="mt-1.5 space-y-1">
+                  {finningCircleItems.map(item => (
+                    <NavLink key={item.name} item={item} />
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Group 2: Financial Intelligence */}
             <div>
               <button
                 onClick={() => toggleSection('financial-intel')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-wider hover:text-gray-600 dark:hover:text-gray-300"
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-primary-455 dark:text-primary-400 uppercase tracking-wider hover:text-primary-600 font-mono"
               >
                 <span>Financial Intelligence</span>
                 {isExpanded('financial-intel') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -231,7 +265,7 @@ export default function Navigation() {
             <div>
               <button
                 onClick={() => toggleSection('credit-readiness')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-wider hover:text-gray-600 dark:hover:text-gray-300"
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-primary-460 dark:text-primary-400 uppercase tracking-wider hover:text-primary-600 font-mono"
               >
                 <span>Credit Readiness</span>
                 {isExpanded('credit-readiness') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -249,7 +283,7 @@ export default function Navigation() {
             <div>
               <button
                 onClick={() => toggleSection('capital-access')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-wider hover:text-gray-600 dark:hover:text-gray-300"
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-primary-465 dark:text-primary-400 uppercase tracking-wider hover:text-primary-600 font-mono"
               >
                 <span>Capital Access IQ</span>
                 {isExpanded('capital-access') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -267,7 +301,7 @@ export default function Navigation() {
             <div>
               <button
                 onClick={() => toggleSection('ai-cxo-suite')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-wider hover:text-gray-600 dark:hover:text-gray-300"
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-primary-470 dark:text-primary-400 uppercase tracking-wider hover:text-primary-600 font-mono"
               >
                 <span>AI-CXO Suite</span>
                 {isExpanded('ai-cxo-suite') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -285,7 +319,7 @@ export default function Navigation() {
             <div>
               <button
                 onClick={() => toggleSection('network-support')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-wider hover:text-gray-600 dark:hover:text-gray-300"
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-primary-475 dark:text-primary-400 uppercase tracking-wider hover:text-primary-600 font-mono"
               >
                 <span>Network & Support</span>
                 {isExpanded('network-support') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -303,7 +337,7 @@ export default function Navigation() {
             <div>
               <button
                 onClick={() => toggleSection('partner-portals')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-wider hover:text-gray-600 dark:hover:text-gray-300"
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-primary-480 dark:text-primary-400 uppercase tracking-wider hover:text-primary-600 font-mono"
               >
                 <span>Partner Portals</span>
                 {isExpanded('partner-portals') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -321,7 +355,7 @@ export default function Navigation() {
             <div>
               <button
                 onClick={() => toggleSection('account')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-wider hover:text-gray-600 dark:hover:text-gray-300"
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[9px] font-bold text-primary-485 dark:text-primary-400 uppercase tracking-wider hover:text-primary-600 font-mono"
               >
                 <span>Account settings</span>
                 {isExpanded('account') ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -338,7 +372,7 @@ export default function Navigation() {
           </div>
 
           {/* Footer */}
-          <div className="p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/40 text-center text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+          <div className="p-4 border-t border-accent-200 bg-accent-50 text-center text-[9px] text-primary-400 font-bold uppercase tracking-wider font-mono">
             Finpercent © 2026
           </div>
         </div>
@@ -347,7 +381,7 @@ export default function Navigation() {
       {/* Mobile overlay */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-xs"
+          className="md:hidden fixed inset-0 z-30 bg-black/10 backdrop-blur-[2px]"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}

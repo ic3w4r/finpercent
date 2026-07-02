@@ -277,53 +277,52 @@ export default function AICXOSuitePage({ initialTab }: AICXOSuitePageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-accent-100 to-primary-100 p-6 pb-20 dark:from-gray-950 dark:via-gray-900 dark:to-primary-950">
+    <div className="min-h-screen bg-accent-100 text-primary-950 p-6 pb-20 dark:bg-accent-100 dark:text-primary-50">
       <div className="max-w-7xl mx-auto">
         
         {/* EXECUTIVE HEADER */}
-        <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 border-b border-primary-200/50 pb-6 dark:border-gray-800">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 border-b border-accent-200 pb-6">
           <div>
-            <div className="flex items-center space-x-2 text-primary-600 dark:text-primary-400 mb-1">
-              <Cpu className="w-5 h-5 animate-pulse" />
-              <span className="text-sm font-bold tracking-wider uppercase">AI CXS Executive Suite</span>
+            <div className="flex items-center space-x-2 text-primary-550 dark:text-primary-400 mb-1">
+              <Cpu className="w-5 h-5" />
+              <span className="text-[10px] font-bold tracking-wider uppercase font-mono">AI CXS Executive Suite</span>
             </div>
-            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            <h1 className="text-4xl font-serif font-normal text-primary-950 dark:text-white tracking-tight">
               AI CXO Operations Cockpit
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-sm text-primary-500 mt-1">
               Unified enterprise intelligence directing CFO, COO, CLO, and CMO assets.
             </p>
           </div>
           
           <div className="flex flex-wrap items-center gap-3">
             {/* Luminous System Status Indicators */}
-            <div className="glass-card px-4 py-2 rounded-xl flex items-center space-x-2 border border-green-300/40">
-              <span className="relative flex h-3.5 w-3.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-green-500"></span>
+            <div className="bg-[#EDF3EC] dark:bg-[#1a2d1e] px-4 py-2 rounded border border-[#346538]/20 flex items-center space-x-2">
+              <span className="relative flex h-2 w-2">
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#346538]"></span>
               </span>
               <div className="text-left">
-                <div className="text-xs text-gray-500">AI Steward Mode</div>
-                <div className="text-xs font-bold text-green-600 dark:text-green-400">ACTIVE - STEWARDING</div>
+                <div className="text-[9px] text-[#346538]/80 font-mono uppercase tracking-wider">AI Steward Mode</div>
+                <div className="text-[10px] font-bold text-[#346538]">ACTIVE - STEWARDING</div>
               </div>
             </div>
 
-            <div className="glass-card px-4 py-2 rounded-xl flex items-center space-x-2 border border-blue-300/40">
-              <ShieldCheck className="w-5 h-5 text-blue-500" />
+            <div className="bg-[#E1F3FE] dark:bg-[#132735] px-4 py-2 rounded border border-[#1F6C9F]/20 flex items-center space-x-2">
+              <ShieldCheck className="w-4 h-4 text-[#1F6C9F]" />
               <div className="text-left">
-                <div className="text-xs text-gray-500">Vault Integrity</div>
-                <div className="text-xs font-bold text-blue-600 dark:text-blue-400">VERIFIED SECURE</div>
+                <div className="text-[9px] text-[#1F6C9F]/80 font-mono uppercase tracking-wider">Vault Integrity</div>
+                <div className="text-[10px] font-bold text-[#1F6C9F]">VERIFIED SECURE</div>
               </div>
             </div>
 
             <button 
               onClick={() => setShowCaSignModal(true)}
-              className="neo-button glass-action px-4 py-2 rounded-xl flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700"
+              className="bg-[#FDEBEC] dark:bg-[#351817] px-4 py-2 rounded border border-[#9F2F2D]/20 flex items-center space-x-2 hover:bg-[#fcdede] active:scale-[0.98] transition-all"
             >
-              <Fingerprint className="w-5 h-5" />
+              <Fingerprint className="w-4 h-4 text-[#9F2F2D]" />
               <div className="text-left">
-                <div className="text-xs text-purple-200">CA Validation</div>
-                <div className="text-xs font-bold text-white">SIGN-OFF REQUIRED</div>
+                <div className="text-[9px] text-[#9F2F2D]/85 font-mono uppercase tracking-wider">CA Validation</div>
+                <div className="text-[10px] font-bold text-[#9F2F2D]">SIGN-OFF REQUIRED</div>
               </div>
             </button>
           </div>
@@ -345,13 +344,13 @@ export default function AICXOSuitePage({ initialTab }: AICXOSuitePageProps) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`neo-button flex items-center space-x-2 px-5 py-3 rounded-xl font-bold transition-all ${
+                className={`flex items-center space-x-2 px-4 py-2.5 rounded text-xs font-semibold border transition-all ${
                   active 
-                    ? 'bg-gradient-to-r from-primary-600 to-green-600 text-white shadow-lg shadow-green-500/20' 
-                    : 'bg-white/40 dark:bg-gray-800/40 text-gray-700 dark:text-gray-300 hover:bg-white/80'
+                    ? 'bg-primary-950 text-white border-primary-950 dark:bg-primary-50 dark:text-black dark:border-primary-50' 
+                    : 'bg-accent-50 border-accent-200 text-neutral-700 hover:bg-neutral-250/50'
                 }`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4" />
                 <span>{tab.label}</span>
               </button>
             );

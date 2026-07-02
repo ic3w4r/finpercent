@@ -266,23 +266,23 @@ export default function AutomatedBankingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-accent-100 to-primary-100 p-6 pb-20 dark:from-gray-950 dark:via-gray-900 dark:to-primary-950 text-gray-850 dark:text-white">
+    <div className="min-h-screen bg-accent-100 text-primary-950 p-6 pb-20 dark:bg-accent-100 dark:text-primary-50">
       <div className="max-w-7xl mx-auto">
         
         {/* Navigation & Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-b border-primary-200/50 pb-6 dark:border-gray-800">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-b border-accent-200 pb-6">
           <div className="text-left">
-            <Link to="/ai-cxo" className="inline-flex items-center text-xs font-bold text-primary-600 dark:text-primary-400 mb-2 hover:underline">
+            <Link to="/ai-cxo" className="inline-flex items-center text-xs font-semibold text-neutral-800 dark:text-neutral-200 mb-2 hover:underline">
               <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Back to AI CXO Cockpit
             </Link>
-            <div className="flex items-center space-x-2 text-primary-600 dark:text-primary-400 mb-1">
-              <Zap className="w-5 h-5 text-yellow-500 animate-pulse" />
-              <span className="text-sm font-bold tracking-wider uppercase">BaaS Banking Gateway</span>
+            <div className="flex items-center space-x-2 text-primary-550 dark:text-primary-400 mb-1">
+              <Zap className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
+              <span className="text-[10px] font-bold tracking-wider uppercase font-mono">BaaS Banking Gateway</span>
             </div>
-            <h1 className="text-3xl font-extrabold tracking-tight">
+            <h1 className="text-3xl font-serif font-normal tracking-tight">
               Automated Banking (S.T.O.P Console)
             </h1>
-            <p className="text-sm text-gray-550 mt-1 font-['Manrope']">
+            <p className="text-sm text-primary-500 mt-1">
               Direct settlement of ERP Accounts Payable mapped to Savings, Taxes, Operations, and Profit pools.
             </p>
           </div>
@@ -290,17 +290,16 @@ export default function AutomatedBankingPage() {
           <div className="flex gap-2">
             <button 
               onClick={handleSyncERP}
-              className="neo-button glass-action px-4 py-2 text-xs font-bold flex items-center space-x-1.5"
+              className="px-4 py-2 text-xs font-bold border border-accent-200 bg-accent-50 rounded text-neutral-800 hover:bg-neutral-250/50 transition-all flex items-center space-x-1.5"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Resync ERP Data</span>
             </button>
-            <div className="glass-card px-4 py-2 rounded-xl flex items-center space-x-2 border border-green-300/40">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+            <div className="bg-[#EDF3EC] border border-[#346538]/20 px-4 py-2 rounded flex items-center space-x-2 text-[#346538] font-bold text-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#346538]"></span>
               </span>
-              <span className="text-xs font-bold text-green-600 dark:text-green-400">BaaS API CONNECTED</span>
+              <span>BaaS API CONNECTED</span>
             </div>
           </div>
         </div>
@@ -308,19 +307,19 @@ export default function AutomatedBankingPage() {
         {/* SECTION 1: S.T.O.P BALANCE POOLS (CORPORATE) */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 text-left">
           {[
-            { key: 'savings', label: 'S - Savings Pool (20%)', amount: stopBalances.savings, color: 'border-l-4 border-green-500', desc: 'Reserve cash and investment growth.' },
-            { key: 'taxes', label: 'T - Taxes Pool (15%)', amount: stopBalances.taxes, color: 'border-l-4 border-red-500', desc: 'GST, custom duties, and corporate tax reserves.' },
-            { key: 'operations', label: 'O - Operations Pool (45%)', amount: stopBalances.operations, color: 'border-l-4 border-blue-500', desc: 'Wages, raw materials, logistics, and rent.' },
-            { key: 'profit', label: 'P - Profit Pool (20%)', amount: stopBalances.profit, color: 'border-l-4 border-purple-500', desc: 'Dividends, capital reinvestment, and rewards.' }
+            { key: 'savings', label: 'S - Savings Pool (20%)', amount: stopBalances.savings, color: 'border-l-4 border-[#346538]', desc: 'Reserve cash and investment growth.' },
+            { key: 'taxes', label: 'T - Taxes Pool (15%)', amount: stopBalances.taxes, color: 'border-l-4 border-[#9F2F2D]', desc: 'GST, custom duties, and corporate tax reserves.' },
+            { key: 'operations', label: 'O - Operations Pool (45%)', amount: stopBalances.operations, color: 'border-l-4 border-[#1F6C9F]', desc: 'Wages, raw materials, logistics, and rent.' },
+            { key: 'profit', label: 'P - Profit Pool (20%)', amount: stopBalances.profit, color: 'border-l-4 border-[#956400]', desc: 'Dividends, capital reinvestment, and rewards.' }
           ].map(pool => (
-            <div key={pool.key} className={`glass-card p-5 rounded-2xl flex flex-col justify-between ${pool.color} border border-primary-250 dark:border-gray-800 shadow-sm`}>
+            <div key={pool.key} className={`border border-accent-200 bg-accent-50 p-5 rounded-lg flex flex-col justify-between ${pool.color} shadow-sm`}>
               <div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block">{pool.label}</span>
-                <div className="text-2xl font-black mt-2 text-gray-900 dark:text-white">
+                <span className="text-[10px] font-bold text-primary-400 uppercase tracking-wider block font-mono">{pool.label}</span>
+                <div className="text-2xl font-serif font-normal mt-2 text-primary-950 dark:text-white">
                   ₹{pool.amount.toLocaleString()}
                 </div>
               </div>
-              <p className="text-[11px] text-gray-500 mt-3 leading-relaxed">{pool.desc}</p>
+              <p className="text-[11px] text-primary-500 mt-3 leading-relaxed">{pool.desc}</p>
             </div>
           ))}
         </div>
@@ -332,38 +331,38 @@ export default function AutomatedBankingPage() {
           <div className="lg:col-span-2 space-y-8">
             
             {/* 1. REVENUE AUTO-SPLIT SIMULATOR */}
-            <div className="glass-card p-6 rounded-2xl border border-primary-200/40 dark:border-gray-800">
-              <div className="border-b border-primary-200/50 pb-3 mb-4 dark:border-gray-800">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center">
-                  <Sparkles className="w-5 h-5 mr-2 text-yellow-500 animate-spin" />
+            <div className="border border-accent-200 bg-accent-50 p-6 rounded-lg">
+              <div className="border-b border-accent-200 pb-3 mb-4">
+                <h3 className="text-lg font-serif font-normal text-primary-950 dark:text-white flex items-center">
+                  <Sparkles className="w-4 h-4 mr-2 text-[#956400]" />
                   Incoming Revenue S.T.O.P & Reinvestment Splitter
                 </h3>
-                <p className="text-xs text-gray-500">Simulate incoming invoice payments and auto-route profit allocations in real-time.</p>
+                <p className="text-xs text-primary-500">Simulate incoming invoice payments and auto-route profit allocations in real-time.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[11px] font-bold text-gray-500 uppercase mb-1">Incoming Payment Amount (₹)</label>
+                      <label className="block text-[9px] font-bold text-primary-400 uppercase mb-1 font-mono">Incoming Payment Amount (₹)</label>
                       <input 
                         type="number" 
                         value={simulateAmount}
                         onChange={e => setSimulateAmount(parseInt(e.target.value) || 0)}
-                        className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-2.5 text-xs font-bold"
+                        className="w-full bg-accent-50 border border-accent-200 rounded p-2 text-xs font-bold focus:ring-1 focus:ring-neutral-400 focus:outline-none"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-bold text-gray-500 uppercase mb-1.5">Profit Reinvestment Framework</label>
-                      <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl border border-gray-250 dark:border-gray-750">
+                      <label className="block text-[9px] font-bold text-primary-400 uppercase mb-1.5 font-mono">Profit Reinvestment Framework</label>
+                      <div className="flex bg-neutral-200/50 p-1 rounded border border-accent-200">
                         <button
                           type="button"
                           onClick={() => setSecondaryMethod('nws')}
-                          className={`flex-1 py-2 text-xs font-bold rounded-lg transition ${
+                          className={`flex-1 py-1.5 text-xs font-bold rounded transition ${
                             secondaryMethod === 'nws' 
-                              ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow' 
-                              : 'text-gray-600 dark:text-gray-400'
+                              ? 'bg-primary-950 text-white dark:bg-primary-50 dark:text-black font-semibold' 
+                              : 'text-neutral-700 hover:bg-neutral-250/50'
                           }`}
                         >
                           🏘️ N.W.S Method
@@ -371,16 +370,16 @@ export default function AutomatedBankingPage() {
                         <button
                           type="button"
                           onClick={() => setSecondaryMethod('kakeibo')}
-                          className={`flex-1 py-2 text-xs font-bold rounded-lg transition ${
+                          className={`flex-1 py-1.5 text-xs font-bold rounded transition ${
                             secondaryMethod === 'kakeibo' 
-                              ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow' 
-                              : 'text-gray-600 dark:text-gray-400'
+                              ? 'bg-primary-950 text-white dark:bg-primary-50 dark:text-black font-semibold' 
+                              : 'text-neutral-700 hover:bg-neutral-250/50'
                           }`}
                         >
                           🍜 Kakeibo Method
                         </button>
                       </div>
-                      <span className="text-[10px] text-gray-500 mt-1 block">
+                      <span className="text-[10px] text-primary-500 mt-1 block">
                         {secondaryMethod === 'nws' 
                           ? 'Wealth Split: 50% Real Estate, 30% Equities, 20% Debt reserves.' 
                           : 'Mindful Budget Split: 35% Needs, 25% Wants, 20% Culture, 20% Emergency.'}
@@ -390,7 +389,7 @@ export default function AutomatedBankingPage() {
                     <button
                       onClick={handleSimulateRevenueSplit}
                       disabled={isSplittingRevenue || simulateAmount <= 0}
-                      className="w-full py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-white font-bold rounded-xl text-xs hover:from-yellow-600 hover:to-amber-700 shadow-md transition disabled:opacity-50"
+                      className="w-full py-3 bg-primary-950 text-white hover:bg-neutral-850 dark:bg-primary-50 dark:text-black font-bold rounded text-xs transition disabled:opacity-50"
                     >
                       {isSplittingRevenue ? 'Processing Splits...' : 'Execute Straight-Through Revenue Split'}
                     </button>
@@ -398,32 +397,32 @@ export default function AutomatedBankingPage() {
                 </div>
 
                 {/* VISUAL CASCADING SCHEMATIC FLOW */}
-                <div className="p-4 bg-gray-50/50 dark:bg-gray-900/30 border border-gray-200/50 dark:border-gray-850 rounded-xl flex flex-col justify-between">
-                  <div className="text-[11px] font-bold text-gray-600 dark:text-gray-400 mb-2 text-center uppercase tracking-wider">
+                <div className="p-4 bg-accent-50 border border-accent-200 rounded-lg flex flex-col justify-between">
+                  <div className="text-[10px] font-bold text-primary-400 mb-2 text-center uppercase tracking-wider font-mono">
                     Automated Split Routing Flow
                   </div>
                   
                   <div className="space-y-3 relative text-[11px]">
-                    <div className="p-2 bg-yellow-100/50 border border-yellow-300 rounded-lg text-center font-bold text-yellow-800 dark:bg-yellow-950/20 dark:text-yellow-400 dark:border-yellow-900">
+                    <div className="p-2 bg-[#FBF3DB] border border-[#956400]/20 text-[#956400] rounded text-center font-bold">
                       Incoming: ₹{simulateAmount.toLocaleString()}
                     </div>
                     
-                    <div className="flex justify-center text-gray-400">
+                    <div className="flex justify-center text-neutral-400">
                       <ArrowRight className="w-4 h-4 transform rotate-90" />
                     </div>
 
-                    <div className="grid grid-cols-4 gap-1 text-center font-bold">
-                      <div className="p-1 bg-green-50 text-green-700 rounded border border-green-200">S (20%)</div>
-                      <div className="p-1 bg-red-50 text-red-700 rounded border border-red-200">T (15%)</div>
-                      <div className="p-1 bg-blue-50 text-blue-700 rounded border border-blue-200">O (45%)</div>
-                      <div className="p-1 bg-purple-50 text-purple-700 rounded border border-purple-250">P (20%)</div>
+                    <div className="grid grid-cols-4 gap-1 text-center font-bold text-[9px] font-mono">
+                      <div className="p-1 bg-[#EDF3EC] text-[#346538] rounded border border-[#346538]/20">S (20%)</div>
+                      <div className="p-1 bg-[#FDEBEC] text-[#9F2F2D] rounded border border-[#9F2F2D]/20">T (15%)</div>
+                      <div className="p-1 bg-[#E1F3FE] text-[#1F6C9F] rounded border border-[#1F6C9F]/20">O (45%)</div>
+                      <div className="p-1 bg-[#FBF3DB] text-[#956400] rounded border border-[#956400]/20">P (20%)</div>
                     </div>
 
-                    <div className="flex justify-center text-purple-400">
+                    <div className="flex justify-center text-neutral-400">
                       <ArrowRight className="w-4 h-4 transform rotate-90" />
                     </div>
 
-                    <div className="p-2 bg-purple-100/50 border border-purple-300 rounded-lg text-center font-bold text-purple-800 dark:bg-purple-950/20 dark:text-purple-400 dark:border-purple-900">
+                    <div className="p-2 bg-[#E1F3FE] border border-[#1F6C9F]/20 text-[#1F6C9F] rounded text-center font-bold">
                       Profit Cascaded Split via {secondaryMethod.toUpperCase()}
                     </div>
                   </div>
@@ -513,20 +512,20 @@ export default function AutomatedBankingPage() {
                 </table>
               </div>
 
-              <div className="mt-6 p-4 bg-gray-50/50 dark:bg-gray-900/30 border border-gray-200/50 dark:border-gray-800/80 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
+              <div className="mt-6 p-4 bg-accent-50 border border-accent-200 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="text-sm">
-                  <span className="text-gray-550">Selected Payables: </span>
-                  <span className="font-extrabold text-primary-700 dark:text-primary-400">{selectedBills.length} Bills</span>
-                  <span className="mx-2 text-gray-300">|</span>
-                  <span className="text-gray-550">Total Amount: </span>
-                  <span className="font-extrabold text-gray-900 dark:text-white">
+                  <span className="text-primary-500">Selected Payables: </span>
+                  <span className="font-extrabold text-neutral-800 dark:text-neutral-200">{selectedBills.length} Bills</span>
+                  <span className="mx-2 text-neutral-300">|</span>
+                  <span className="text-primary-500">Total Amount: </span>
+                  <span className="font-extrabold text-primary-950 dark:text-white">
                     ₹{payables.filter(p => selectedBills.includes(p.id)).reduce((acc, curr) => acc + curr.amount, 0).toLocaleString()}
                   </span>
                 </div>
                 <button
                   onClick={executeBaaSPayout}
                   disabled={selectedBills.length === 0 || isProcessing}
-                  className="neo-button bg-gradient-to-r from-primary-600 to-green-600 hover:from-primary-700 hover:to-green-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs flex items-center space-x-2 shadow-lg disabled:opacity-50 transition-all"
+                  className="bg-primary-950 hover:bg-neutral-850 dark:bg-primary-50 dark:text-black text-white font-bold px-6 py-2.5 rounded text-xs flex items-center space-x-2 transition-all disabled:opacity-50 border-0"
                 >
                   <span>Execute Instant BaaS Pay (S.T.O.P Settlement)</span>
                   <ArrowRight className="w-3.5 h-3.5" />

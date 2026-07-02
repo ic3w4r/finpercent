@@ -16,20 +16,16 @@ interface DocItem {
   fileName?: string;
 }
 
+import { useReadiness } from '../../contexts/ReadinessContext';
+
 export default function DocumentChecklistPage() {
   const navigate = useNavigate();
+  const { documents, uploadDocument } = useReadiness();
   const [showUploader, setShowUploader] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [activeUploadId, setActiveUploadId] = useState<string | null>(null);
   
-  const [docs, setDocs] = useState<DocItem[]>([
-    { id: '1', name: 'Business Registration (Udyam)', category: 'Registration', status: 'Expired', expiry: '2026-05-15', fileName: 'udyam_cert_2022.pdf' },
-    { id: '2', name: 'GST Certificate (Form REG-06)', category: 'Registration', status: 'Complete', fileName: 'gst_reg_06.pdf' },
-    { id: '3', name: 'GST Returns (GSTR-3B) May 2026', category: 'Tax', status: 'Missing' },
-    { id: '4', name: 'GST Returns (GSTR-1) Q4', category: 'Tax', status: 'Complete', fileName: 'gstr1_q4.pdf' },
-    { id: '5', name: 'Bank Statement (Latest 6 Months)', category: 'Bank', status: 'Complete', fileName: 'bank_statement_h1.pdf' },
-    { id: '6', name: 'Audited Financial Statements (FY25)', category: 'Financial', status: 'Missing' },
-    { id: '7', name: 'Income Tax Returns (ITR-6) FY24', category: 'Tax', status: 'Complete', fileName: 'itr_6_fy24.pdf' }
-  ]);
+  const docs = documents;
 
   const filteredDocs = selectedCategory === 'All' 
     ? docs 
@@ -39,14 +35,13 @@ export default function DocumentChecklistPage() {
   const completenessRate = Math.round((completeCount / docs.length) * 100);
 
   const handleUploadComplete = (file: File) => {
-    // Add uploaded file to list dynamically (mock update)
-    setDocs(prev => prev.map(d => 
-      d.status === 'Missing' && d.category === 'Financial'
-        ? { ...d, status: 'Complete', fileName: file.name }
-        : d
-    ));
+    if (activeUploadId) {
+      uploadDocument(activeUploadId, file.name);
+    } else {
+      uploadDocument('financials', file.name);
+    }
     setShowUploader(false);
-    alert(`🎉 Successfully uploaded file: ${file.name}`);
+    setActiveUploadId(null);
   };
 
   return (
@@ -147,15 +142,21 @@ export default function DocumentChecklistPage() {
                   <div className="flex space-x-2">
                     {doc.fileName && (
                       <>
-                        <button className="p-1.5 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-white transition-all">
+                        <button className="p-1.5 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-white transition-all" onClick={() => alert(`Previewing ${doc.fileName}...`)}>
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button className="p-1.5 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-white transition-all">
+                        <button className="p-1.5 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-white transition-all" onClick={() => alert(`Downloading ${doc.fileName}...`)}>
                           <Download className="w-4 h-4" />
                         </button>
                       </>
                     )}
-                    <button className="p-1.5 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-white transition-all">
+                    <button 
+                      onClick={() => {
+                        setActiveUploadId(doc.id);
+                        setShowUploader(true);
+                      }}
+                      className="p-1.5 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-500 dark:text-white transition-all"
+                    >
                       <Upload className="w-4 h-4" />
                     </button>
                   </div>

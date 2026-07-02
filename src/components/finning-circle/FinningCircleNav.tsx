@@ -11,13 +11,14 @@ import {
 
 export default function FinningCircleNav() {
     const tabs = [
-        { name: 'Dashboard', path: '/network/msme-community/dashboard', icon: Map },
-        { name: 'Live Streams', path: '/network/msme-community/live', icon: Video },
-        { name: 'Discovery', path: '/network/msme-community/discovery', icon: Search },
-        { name: 'Timeline', path: '/network/msme-community/timeline', icon: History },
-        { name: 'Products', path: '/network/msme-community/product', icon: Box },
-        { name: 'Venues', path: '/network/msme-community/venue', icon: Building2 },
-        { name: 'Workshops', path: '/network/workshops', icon: GraduationCap },
+        { name: 'Pathway Gateway', path: '/finning-circle/gateway', icon: Map },
+        { name: 'Trade Dashboard', path: '/finning-circle/dashboard', icon: Map },
+        { name: 'Live Streams', path: '/finning-circle/live', icon: Video },
+        { name: 'Discovery Feed', path: '/finning-circle/discovery', icon: Search },
+        { name: 'Timeline', path: '/finning-circle/timeline', icon: History },
+        { name: 'Marketplace', path: '/finning-circle/marketplace', icon: Box },
+        { name: 'Venues', path: '/finning-circle/venue', icon: Building2 },
+        { name: 'Workshops', path: '/finning-circle/workshops', icon: GraduationCap },
     ];
 
     return (
