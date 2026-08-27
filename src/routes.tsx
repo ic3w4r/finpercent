@@ -54,77 +54,77 @@ export default function AppRoutes({ viewMode }: AppRoutesProps) {
 
   return (
     <Routes>
-      <Route 
-        path="/" 
+      <Route
+        path="/"
         element={
           <PageTransition>
             <DashboardPage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/stock-market" 
+      <Route
+        path="/stock-market"
         element={
           <PageTransition>
             <StockMarketPage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/explore" 
+      <Route
+        path="/explore"
         element={
           <PageTransition>
             <ExplorePage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/stats" 
+      <Route
+        path="/stats"
         element={
           <PageTransition>
             <StatsPage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/profile" 
+      <Route
+        path="/profile"
         element={
           <PageTransition>
             <ProfilePage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/settings" 
+      <Route
+        path="/settings"
         element={
           <PageTransition>
             <SettingsPage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/company-status" 
+      <Route
+        path="/company-status"
         element={
           <PageTransition>
             <CompanyStatusPage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finring" 
+      <Route
+        path="/finring"
         element={
           <PageTransition>
             <FinringPage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/debt-repayment" 
+      <Route
+        path="/debt-repayment"
         element={
           <PageTransition>
             <DebtRepaymentPage />
           </PageTransition>
-        } 
+        }
       />
       <Route
         path="/debt/occ"
@@ -150,13 +150,13 @@ export default function AppRoutes({ viewMode }: AppRoutesProps) {
           </PageTransition>
         }
       />
-      <Route 
-        path="/investment-pooling" 
+      <Route
+        path="/investment-pooling"
         element={
           <PageTransition>
             <FinringPage />
           </PageTransition>
-        } 
+        }
       />
       <Route
         path="/investment-pooling/asset"
@@ -174,176 +174,176 @@ export default function AppRoutes({ viewMode }: AppRoutesProps) {
           </PageTransition>
         }
       />
-      <Route 
-        path="/automated-banking" 
+      <Route
+        path="/automated-banking"
         element={
           <PageTransition>
             <AutomatedBankingPage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/super-features" 
+      <Route
+        path="/super-features"
         element={
           <PageTransition>
             <SuperFeaturesPage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/methods/nws" 
+      <Route
+        path="/methods/nws"
         element={
           <PageTransition>
             <NWSMethodGuidePage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/methods/stop" 
+      <Route
+        path="/methods/stop"
         element={
           <PageTransition>
             <STOPMethodGuidePage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/method/:method/:category" 
+      <Route
+        path="/method/:method/:category"
         element={
           <PageTransition>
             <MethodDetails />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/methods/kakeibo" 
+      <Route
+        path="/methods/kakeibo"
         element={
           <PageTransition>
             <KakeiboMethodGuidePage />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/methods/kakeibo/dashboard" 
+      <Route
+        path="/methods/kakeibo/dashboard"
         element={
           <PageTransition>
             <KakeiboMethodPage />
           </PageTransition>
-        } 
+        }
       />
       {/* Finning Circle (TradeStream) Routes */}
-      <Route 
-        path="/finning-circle/gateway" 
+      <Route
+        path="/finning-circle/gateway"
         element={
           <PageTransition>
             <FinningCircleGateway />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/onboard" 
+      <Route
+        path="/finning-circle/onboard"
         element={
           <PageTransition>
             <GSTOnboarding />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/builder" 
+      <Route
+        path="/finning-circle/builder"
         element={
           <PageTransition>
             <ShowcaseBuilder />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/dashboard" 
+      <Route
+        path="/finning-circle/dashboard"
         element={
           <PageTransition>
             <FinningCircleDashboard />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/live" 
+      <Route
+        path="/finning-circle/live"
         element={
           <PageTransition>
             <FinningCircleLive />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/product" 
+      <Route
+        path="/finning-circle/product"
         element={
           <PageTransition>
             <FinningCircleProduct />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/discovery" 
+      <Route
+        path="/finning-circle/discovery"
         element={
           <PageTransition>
             <FinningCircleDiscovery />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/timeline" 
+      <Route
+        path="/finning-circle/timeline"
         element={
           <PageTransition>
             <FinningCircleTimeline />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/venue" 
+      <Route
+        path="/finning-circle/venue"
         element={
           <PageTransition>
             <FinningCircleVenue />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/workshops" 
+      <Route
+        path="/finning-circle/workshops"
         element={
           <PageTransition>
             <FinningCircleWorkshops />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/passport" 
+      <Route
+        path="/finning-circle/passport"
         element={
           <PageTransition>
             <SMEPassport />
           </PageTransition>
-        } 
+        }
       />
-      
+
       {/* Finpercent Core Additions */}
-      <Route 
-        path="/financial/diagnostic" 
+      <Route
+        path="/financial/diagnostic"
         element={
           <PageTransition>
             <WorkingCapitalDiagnostic />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/credit/ready-file" 
+      <Route
+        path="/credit/ready-file"
         element={
           <PageTransition>
             <CreditReadyFile />
           </PageTransition>
-        } 
+        }
       />
-      <Route 
-        path="/finning-circle/marketplace" 
+      <Route
+        path="/finning-circle/marketplace"
         element={
           <PageTransition>
             <FinningCircleMarketplace />
           </PageTransition>
-        } 
+        }
       />
     </Routes>
   );

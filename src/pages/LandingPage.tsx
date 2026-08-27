@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  ArrowRight, Shield, Activity, FileText, CheckCircle2, TrendingUp, Users, 
+import {
+  ArrowRight, Shield, Activity, FileText, CheckCircle2, TrendingUp, Users,
   Map, FileSpreadsheet, Building2, HelpCircle, Briefcase, ChevronRight, Award
 } from 'lucide-react';
 
@@ -18,9 +18,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-950 p-6 pb-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto space-y-20">
-        
+
         {/* SECTION 1: HERO */}
-        <motion.div 
+        <motion.div
           className="text-center pt-10 pb-6 max-w-4xl mx-auto space-y-6"
           initial="initial"
           animate="animate"
@@ -48,6 +48,13 @@ export default function LandingPage() {
               <ArrowRight className="w-5 h-5" />
             </button>
             <button
+              onClick={() => navigate('/ai-scenario-landing')}
+              className="px-8 py-4 bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 flex items-center justify-center space-x-2"
+            >
+              <span>Try AI Onboarding Storyteller</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+            <button
               onClick={() => navigate('/institution/portfolio')}
               className="px-8 py-4 bg-white dark:bg-gray-800 text-primary-900 dark:text-white font-semibold rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-md transition-all duration-200 flex items-center justify-center space-x-2"
             >
@@ -71,7 +78,7 @@ export default function LandingPage() {
               { title: 'Delayed Receivables', desc: 'Cash locked up in pending client payments with no structured working capital gap financing.' },
               { title: 'Low Growth Readiness', desc: 'Owners struggle to identify debt thresholds, safe EMI capacities, and operational efficiency leaks.' }
             ].map((prob, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 whileHover={{ y: -5 }}
                 className="bg-white dark:bg-gray-800/50 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-md hover:shadow-xl transition-all"
@@ -172,7 +179,7 @@ export default function LandingPage() {
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Interactive Readiness Diagnostics</h3>
               <p className="text-sm text-gray-500 mt-1">Real-time status simulation for a standard MSME (manufacturing firm)</p>
             </div>
-            <button 
+            <button
               onClick={() => navigate('/overview')}
               className="mt-4 md:mt-0 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm font-semibold flex items-center space-x-2 self-start"
             >

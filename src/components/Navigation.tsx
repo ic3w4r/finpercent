@@ -109,6 +109,7 @@ export default function Navigation() {
 
   const aiCxoSuiteItems = [
     { name: 'AI-CXO Cockpit (Overview)', href: '/ai-cxo/dashboard', icon: Cpu },
+    { name: 'Decision Engine (CGT-DBE)', href: '/ai-cxo/decision-engine', icon: Sliders },
     { name: 'Interactive Console', href: '/ai-cxo/console', icon: Workflow },
     { name: 'AI CFO (Finning Box)', href: '/ai-cxo/cfo', icon: Coins },
     { name: 'AI Credit Officer', href: '/ai-cxo/credit', icon: Target },
@@ -192,7 +193,7 @@ export default function Navigation() {
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         <div className="flex flex-col h-full">
-          
+
           {/* Branding Header */}
           <div className="flex items-center space-x-3 p-5 border-b border-accent-200">
             <div className="w-8 h-8 bg-primary-950 dark:bg-primary-50 rounded flex items-center justify-center">
@@ -206,7 +207,7 @@ export default function Navigation() {
 
           {/* Navigation Items */}
           <div className="flex-1 px-3 py-4 overflow-y-auto space-y-4">
-            
+
             {/* Group 1: Command Center */}
             <div>
               <button

@@ -6,7 +6,7 @@ import {
   Eye, Edit, Coins, Scale, Search, Sparkles, UserCheck, Check, ArrowRight, Target,
   Info, FileSpreadsheet, Fingerprint, ShieldCheck, Activity, HelpCircle,
   Play, Send, Zap, Award, Film, MessageSquare, Video, History, GraduationCap,
-  ChevronRight, Map, Cpu, X, Workflow
+  ChevronRight, Map, Cpu, X, Workflow, Sliders
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
@@ -24,13 +24,13 @@ interface AgentTask {
 }
 
 interface AICXOSuitePageProps {
-  initialTab?: 'dashboard' | 'cfo' | 'credit' | 'operations' | 'growth';
+  initialTab?: 'dashboard' | 'console' | 'cfo' | 'credit' | 'operations' | 'growth' | 'decision-engine';
 }
 
 export default function AICXOSuitePage({ initialTab }: AICXOSuitePageProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'console' | 'cfo' | 'credit' | 'operations' | 'growth'>(initialTab ?? 'dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'console' | 'cfo' | 'credit' | 'operations' | 'growth' | 'decision-engine'>(initialTab ?? 'dashboard');
 
   useEffect(() => {
     const path = location.pathname.toLowerCase();
@@ -44,10 +44,40 @@ export default function AICXOSuitePage({ initialTab }: AICXOSuitePageProps) {
       setActiveTab('growth');
     } else if (path.endsWith('/console')) {
       setActiveTab('console');
+    } else if (path.endsWith('/decision-engine')) {
+      setActiveTab('decision-engine');
     } else {
       setActiveTab('dashboard');
     }
   }, [location.pathname]);
+
+  // Load Onboarding Storyteller Scenario if present
+  useEffect(() => {
+    let scenario = location.state as any;
+    
+    if (!scenario) {
+      const stored = localStorage.getItem('onboarding_scenario');
+      if (stored) {
+        try {
+          scenario = JSON.parse(stored);
+        } catch (e) {
+          console.error("Error parsing stored scenario:", e);
+        }
+      }
+    }
+    
+    if (scenario) {
+      if (scenario.odpGrowth !== undefined) setOdpGrowth(scenario.odpGrowth);
+      if (scenario.odpLiquidity !== undefined) setOdpLiquidity(scenario.odpLiquidity);
+      if (scenario.bizCashRunway !== undefined) setBizCashRunway(scenario.bizCashRunway);
+      if (scenario.bizDso !== undefined) setBizDso(scenario.bizDso);
+      if (scenario.bizDebtUtil !== undefined) setBizDebtUtil(scenario.bizDebtUtil);
+      if (scenario.envInterestRate !== undefined) setEnvInterestRate(scenario.envInterestRate);
+      
+      localStorage.removeItem('onboarding_scenario');
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [location.state]);
   
   // Executive AI Command Console states
   const [commandInput, setCommandInput] = useState('');
@@ -105,6 +135,200 @@ export default function AICXOSuitePage({ initialTab }: AICXOSuitePageProps) {
   const [selectedUseCase, setSelectedUseCase] = useState('Raw Material Purchase');
   const [allocationAlert, setAllocationAlert] = useState<{ type: 'success' | 'error' | '', message: string }>({ type: '', message: '' });
   const [activeSchematicStep, setActiveSchematicStep] = useState(0);
+
+  // --- Finpercent Decision Infrastructure (CGT-DBE & 30-Day Trial) States ---
+  const [trialPhase, setTrialPhase] = useState<'setup' | 'shadow' | 'reveal' | 'assisted' | 'normal' | 'paid'>('assisted');
+  
+  // Owner Decision Profile (ODP)
+  const [odpGrowth, setOdpGrowth] = useState(82);
+  const [odpRisk, setOdpRisk] = useState(61);
+  const [odpLiquidity, setOdpLiquidity] = useState(88);
+  const [odpDebt, setOdpDebt] = useState(32);
+  const [odpControl, setOdpControl] = useState(74);
+  const [odpHorizon, setOdpHorizon] = useState(68);
+  const [odpLoss, setOdpLoss] = useState(77);
+  const [observedDecisionsCount, setObservedDecisionsCount] = useState(6);
+  
+  // Onboarding Scenario Answers
+  const [scenario1, setScenario1] = useState<string | null>(null);
+  const [scenario2, setScenario2] = useState<string | null>(null);
+  const [selectedObjectives, setSelectedObjectives] = useState<string[]>(['working_capital', 'receivables', 'order_acceptance']);
+  const [isBaselineVerified, setIsBaselineVerified] = useState(false);
+  const [isDataTrustApproved, setIsDataTrustApproved] = useState(false);
+  
+  // Environment State
+  const [envCreditRisk, setEnvCreditRisk] = useState('deteriorating');
+  const [envInterestRate, setEnvInterestRate] = useState('rising');
+  const [envMarketDemand, setEnvMarketDemand] = useState('stable');
+
+  // Business State Metrics
+  const [bizCashRunway, setBizCashRunway] = useState(42);
+  const [bizDso, setBizDso] = useState(81);
+  const [bizDebtUtil, setBizDebtUtil] = useState(78);
+  const [bizMargin, setBizMargin] = useState(22);
+  const [bizSupplierCredit, setBizSupplierCredit] = useState(45);
+  
+  // Execution Permissions
+  const [permissionLevel, setPermissionLevel] = useState<0 | 1 | 2 | 3>(1); // 0=Shadow, 1=Recommend, 2=Prepare, 3=Execute within Policy
+  
+  // --- CGT-DBE Strategic Policy Engine Calculations ---
+  // Positive Force: represents growth appetite, risk tolerance, and market demand
+  const positiveForceScore = Math.round(
+    (odpGrowth * 0.6) + 
+    (odpRisk * 0.2) + 
+    (envMarketDemand === 'stable' ? 20 : 5)
+  );
+
+  // Negative Pressure: representing cash runway, DSO, debt utilization, interest rates, credit risk
+  const negativePressureScore = Math.round(
+    ((100 - bizCashRunway) * 0.3) + 
+    (bizDso * 0.3) + 
+    (bizDebtUtil * 0.2) + 
+    (envCreditRisk === 'deteriorating' ? 15 : 5) + 
+    (envInterestRate === 'rising' ? 10 : 0)
+  );
+
+  // Raw Score: Positive Force Score - Negative Pressure Score
+  const rawScore = positiveForceScore - negativePressureScore;
+
+  // Raw Posture
+  const rawPosture: 'BUILD' | 'STABILIZE' | 'DEFEND' = 
+    rawScore >= 15 ? 'BUILD' : 
+    rawScore >= -10 ? 'STABILIZE' : 'DEFEND';
+
+  // Hard Safety Constraints Downgrade Check (triggerDowngraded / activeTriggers)
+  const activeTriggers: string[] = [];
+  if (bizCashRunway < 45) {
+    activeTriggers.push('Low Cash Runway');
+  }
+  if (bizDebtUtil > 70) {
+    activeTriggers.push('High Debt Utilization');
+  }
+  if (bizDso > 80) {
+    activeTriggers.push('High DSO Days');
+  }
+
+  const triggerDowngraded = activeTriggers.length > 0;
+
+  // calculatedPosture: If triggerDowngraded and rawPosture is 'BUILD', downgrade to 'STABILIZE'. Or if rawPosture is 'STABILIZE' and triggers are very severe, downgrade to 'DEFEND'.
+  const calculatedPosture = triggerDowngraded 
+    ? (rawPosture === 'BUILD' ? 'STABILIZE' : (rawPosture === 'STABILIZE' && bizCashRunway < 30 ? 'DEFEND' : rawPosture))
+    : rawPosture;
+
+  // Active Cases & Decisions Inbox
+  const [selectedCaseId, setSelectedCaseId] = useState<string>('case-1');
+  const [casesData, setCasesData] = useState([
+    {
+      id: 'case-1',
+      title: 'Sales Order: ₹22,00,000 (NeoPack)',
+      type: 'order',
+      amount: 2200000,
+      recAction: 'Accept conditionally: Require ≥15% advance payment (₹3.3L)',
+      altAction: 'Option A: Accept normally (Risk: Cash shortage in 38 days). Option B: 15% Advance (Risk: Negligible).',
+      rawPosture: 'BUILD',
+      finalPosture: 'STABILIZE',
+      trigger: 'DSO / Working Capital Pressure',
+      confidence: 86,
+      status: 'pending', // pending, accepted, modified, rejected
+      ownerAction: '',
+      outcome: 'Pending Outcome Verification',
+      invoices: ['INV-2026-089: ₹12L (DSO 85 days)', 'INV-2026-092: ₹10L (DSO 78 days)'],
+      whyTrace: 'Growth force is strong (+76/100) but Cash Runway is critically low (42 days) and Debt Utilization is high (78%). Initial score suggested BUILD, but working capital safety triggers capped posture at STABILIZE.',
+      cashDeficitWithout: '₹4.8L deficit in 38 days',
+      cashDeficitWith: 'No deficit (₹1.5L surplus)'
+    },
+    {
+      id: 'case-2',
+      title: 'Purchase Order: ₹8,40,000 (Materials)',
+      type: 'purchase',
+      amount: 840000,
+      recAction: 'Delay procurement by 14 days or negotiate 60 days supplier credit',
+      altAction: 'Option A: Purchase immediately (Deters runway to 28 days). Option B: Delay 14 days (Saves runway cash).',
+      rawPosture: 'STABILIZE',
+      finalPosture: 'DEFEND',
+      trigger: 'Critical Liquidity Risk',
+      confidence: 72,
+      status: 'pending',
+      ownerAction: '',
+      outcome: 'Pending Outcome Verification',
+      invoices: ['PO-2026-112: ₹8.4L raw polymer stock'],
+      whyTrace: 'Free cash is ₹15L vs outstanding statutory payables of ₹9L. High inventory levels exist (1.8x turnover cycle). Liquidity constraint limits purchasing capability.',
+      cashDeficitWithout: '₹6.1L deficit in 25 days',
+      cashDeficitWith: '₹1.1L deficit'
+    },
+    {
+      id: 'case-3',
+      title: 'Overdue Invoice: ₹6,20,000 (AlphaTech)',
+      type: 'receivables',
+      amount: 620000,
+      recAction: 'Prioritize collection immediately. Send automated demand letter.',
+      altAction: 'Option A: Normal reminder. Option B: High-priority legal notice.',
+      rawPosture: 'STABILIZE',
+      finalPosture: 'STABILIZE',
+      trigger: 'None',
+      confidence: 94,
+      status: 'pending',
+      ownerAction: '',
+      outcome: 'Pending Outcome Verification',
+      invoices: ['INV-2026-044: ₹6.2L (92 days overdue)'],
+      whyTrace: 'DSO increased from 72 to 81 days. Customer concentration risk is elevated. Improving collections is primary posture mandate.',
+      cashDeficitWithout: '₹3.4L deficit',
+      cashDeficitWith: 'Collections realized immediately'
+    }
+  ]);
+
+  const [disagreementModalOpen, setDisagreementModalOpen] = useState(false);
+  const [tempCaseId, setTempCaseId] = useState<string | null>(null);
+  const [tempActionType, setTempActionType] = useState<'accept' | 'modify' | 'reject'>('accept');
+  const [disagreementText, setDisagreementText] = useState('');
+  const [selectedDisagreementReason, setSelectedDisagreementReason] = useState('Customer Relationship');
+
+  const selectedCase = casesData.find(c => c.id === selectedCaseId) || casesData[0];
+
+  const handleCaseAction = (id: string, action: 'accept' | 'modify' | 'reject') => {
+    if (action === 'accept') {
+      setCasesData(prev => prev.map(c => {
+        if (c.id === id) {
+          return { ...c, status: 'accepted' };
+        }
+        return c;
+      }));
+    } else {
+      setTempCaseId(id);
+      setTempActionType(action);
+      setDisagreementText('');
+      setDisagreementModalOpen(true);
+    }
+  };
+
+  const handleDisagreementSubmit = () => {
+    if (!tempCaseId) return;
+    
+    setCasesData(prev => prev.map(c => {
+      if (c.id === tempCaseId) {
+        return { 
+          ...c, 
+          status: tempActionType === 'modify' ? 'modified' : 'rejected' 
+        };
+      }
+      return c;
+    }));
+
+    // Dynamic ODP adjustment to simulate learning
+    setObservedDecisionsCount(prev => prev + 1);
+    if (selectedDisagreementReason === 'Customer Relationship' || selectedDisagreementReason === 'Strategic Reason') {
+      setOdpGrowth(prev => Math.min(100, prev + 4));
+      setOdpRisk(prev => Math.min(100, prev + 3));
+    } else if (selectedDisagreementReason === 'Risk Acceptable' || selectedDisagreementReason === 'Owner Intuition') {
+      setOdpRisk(prev => Math.min(100, prev + 5));
+      setOdpLiquidity(prev => Math.max(0, prev - 4));
+    } else if (selectedDisagreementReason === 'Supplier Flexibility') {
+      setOdpLiquidity(prev => Math.min(100, prev + 4));
+    }
+
+    setDisagreementModalOpen(false);
+    setTempCaseId(null);
+  };
 
   const handleRunProofAudit = () => {
     setIsCheckingProofs(true);
@@ -332,6 +556,7 @@ export default function AICXOSuitePage({ initialTab }: AICXOSuitePageProps) {
         <div className="flex space-x-2 overflow-x-auto pb-4 mb-6">
           {[
             { id: 'dashboard', label: 'Steward Overview', icon: Cpu },
+            { id: 'decision-engine', label: 'Decision Engine (CGT-DBE)', icon: Sliders },
             { id: 'console', label: 'Interactive Console', icon: Workflow },
             { id: 'cfo', label: 'AI CFO', icon: Coins },
             { id: 'credit', label: 'AI Credit Officer', icon: Target },
@@ -489,6 +714,961 @@ export default function AICXOSuitePage({ initialTab }: AICXOSuitePageProps) {
             </motion.div>
           )}
 
+          {/* TAB 1.5: DECISION ENGINE (CGT-DBE & 30-DAY TRIAL) */}
+          {activeTab === 'decision-engine' && (
+            <motion.div
+              key="decision-engine"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-8 text-left text-neutral-900 dark:text-neutral-100"
+            >
+              {/* TRIAL STATE MACHINE STEPPER */}
+              <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 shadow-sm">
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+                  <div>
+                    <h3 className="text-xl font-bold tracking-tight font-serif text-neutral-900 dark:text-white">30-Day Decision Proof Programme</h3>
+                    <p className="text-xs text-neutral-500 mt-1">
+                      Finpercent demonstrates decision relevance dynamically. Select a trial phase below to experience the system workflow.
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-2 bg-neutral-50 dark:bg-gray-800 px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-gray-700 text-xs">
+                    <span className="text-neutral-500 font-medium">Trial State:</span>
+                    <span className="font-bold text-green-700 uppercase font-mono tracking-wider bg-[#EDF3EC] dark:bg-green-950/20 px-2 py-0.5 rounded">
+                      {trialPhase}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+                  {[
+                    { id: 'setup', label: '01. Setup', desc: 'Days 0-3: Data Linkage' },
+                    { id: 'shadow', label: '02. Shadow', desc: 'Days 4-10: Background Log' },
+                    { id: 'reveal', label: '03. Reveal', desc: 'Days 11-17: Reveal & Compare' },
+                    { id: 'assisted', label: '04. Advise', desc: 'Days 18-24: Assisted Mode' },
+                    { id: 'normal', label: '05. Act', desc: 'Days 25-30: Level 2 Prepare' },
+                    { id: 'paid', label: '06. Report', desc: 'Day 30+: Evidence Report' }
+                  ].map(step => (
+                    <button
+                      key={step.id}
+                      onClick={() => setTrialPhase(step.id as any)}
+                      className={`text-left p-3 rounded-lg border transition-all ${
+                        trialPhase === step.id
+                          ? 'bg-neutral-950 text-white border-neutral-950 dark:bg-neutral-50 dark:text-neutral-950 dark:border-neutral-50 shadow-md scale-102 font-semibold'
+                          : 'bg-white dark:bg-gray-900 border-neutral-200 dark:border-gray-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50'
+                      }`}
+                    >
+                      <div className="text-xs font-bold">{step.label}</div>
+                      <div className="text-[10px] mt-1 opacity-90 leading-tight">{step.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* SETUP PHASE SCREEN */}
+              {trialPhase === 'setup' && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Left columns: Onboarding flow & Checklist */}
+                  <div className="lg:col-span-2 space-y-6">
+                    {/* Visual reference schema */}
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800">
+                      <h4 className="text-sm font-bold text-neutral-850 dark:text-neutral-200 mb-4 uppercase tracking-wider font-mono">
+                        Data Ingestion & Normalization Flowchart
+                      </h4>
+                      <p className="text-xs text-neutral-500 mb-6">
+                        Systemic architecture mapping raw, fragmented SME data into the Canonical Business Data Model and the Decision Engine.
+                      </p>
+                      
+                      {/* SVG Flowchart */}
+                      <div className="w-full flex items-center justify-center p-4 bg-[#FBFBFA] dark:bg-gray-950 rounded-lg border border-[#EAEAEA] dark:border-gray-800">
+                        <svg className="w-full max-w-2xl h-auto" viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="100%" height="100%" fill="none" />
+                          <path d="M 0 30 L 600 30" stroke="#EAEAEA" strokeWidth="0.5" />
+                          <path d="M 0 100 L 600 100" stroke="#EAEAEA" strokeWidth="0.5" />
+                          <path d="M 0 170 L 600 170" stroke="#EAEAEA" strokeWidth="0.5" />
+                          <path d="M 0 240 L 600 240" stroke="#EAEAEA" strokeWidth="0.5" />
+                          
+                          {/* Box 1: Sources */}
+                          <rect x="15" y="60" width="115" height="180" rx="8" fill="#FFFFFF" stroke="#EAEAEA" strokeWidth="1.5" />
+                          <text x="25" y="85" fill="#111111" fontSize="10" fontWeight="bold" fontFamily="monospace">DATA SOURCES</text>
+                          <rect x="25" y="105" width="95" height="22" rx="4" fill="#EDF3EC" stroke="#346538" strokeWidth="0.5" />
+                          <text x="33" y="119" fill="#346538" fontSize="9" fontWeight="bold" fontFamily="sans-serif">Tally ERP</text>
+                          <rect x="25" y="137" width="95" height="22" rx="4" fill="#E1F3FE" stroke="#1F6C9F" strokeWidth="0.5" />
+                          <text x="33" y="151" fill="#1F6C9F" fontSize="9" fontWeight="bold" fontFamily="sans-serif">Zoho Books</text>
+                          <rect x="25" y="169" width="95" height="22" rx="4" fill="#FBF3DB" stroke="#956400" strokeWidth="0.5" />
+                          <text x="33" y="183" fill="#956400" fontSize="9" fontWeight="bold" fontFamily="sans-serif">Bank Statements</text>
+                          <rect x="25" y="201" width="95" height="22" rx="4" fill="#FDEBEC" stroke="#9F2F2D" strokeWidth="0.5" />
+                          <text x="33" y="215" fill="#9F2F2D" fontSize="9" fontWeight="bold" fontFamily="sans-serif">GST Invoices</text>
+                          
+                          {/* Connecting lines */}
+                          <path d="M 130 150 L 175 150" stroke="#111111" strokeWidth="1.5" strokeDasharray="3 3" />
+                          <polygon points="175,150 167,146 167,154" fill="#111111" />
+                          
+                          {/* Box 2: Canonical Model */}
+                          <rect x="180" y="85" width="130" height="130" rx="8" fill="#FFFFFF" stroke="#EAEAEA" strokeWidth="1.5" />
+                          <text x="195" y="110" fill="#111111" fontSize="9" fontWeight="bold" fontFamily="monospace">CANONICAL MODEL</text>
+                          <text x="195" y="132" fill="#787774" fontSize="8" fontFamily="monospace">entity_id: uuid</text>
+                          <text x="195" y="147" fill="#787774" fontSize="8" fontFamily="monospace">source_ref: tally-22a</text>
+                          <text x="195" y="162" fill="#787774" fontSize="8" fontFamily="monospace">amount: 2200000.0</text>
+                          <text x="195" y="177" fill="#787774" fontSize="8" fontFamily="monospace">currency: INR</text>
+                          <text x="195" y="192" fill="#787774" fontSize="8" fontFamily="monospace">confidence: 0.98</text>
+                          
+                          {/* Connecting lines */}
+                          <path d="M 310 150 L 345 150" stroke="#111111" strokeWidth="1.5" />
+                          <polygon points="345,150 337,146 337,154" fill="#111111" />
+
+                          {/* Box 3: State Engine */}
+                          <rect x="350" y="90" width="105" height="120" rx="8" fill="#FFFFFF" stroke="#EAEAEA" strokeWidth="1.5" />
+                          <text x="360" y="112" fill="#111111" fontSize="9" fontWeight="bold" fontFamily="monospace">STATE ENGINE</text>
+                          <rect x="358" y="127" width="89" height="18" rx="3" fill="#EDF3EC" />
+                          <text x="364" y="139" fill="#346538" fontSize="8" fontWeight="bold">Liquidity: 65/100</text>
+                          <rect x="358" y="150" width="89" height="18" rx="3" fill="#FDEBEC" />
+                          <text x="364" y="162" fill="#9F2F2D" fontSize="8" fontWeight="bold">DSO: 81 Days (82)</text>
+                          <rect x="358" y="173" width="89" height="18" rx="3" fill="#E1F3FE" />
+                          <text x="364" y="185" fill="#1F6C9F" fontSize="8" fontWeight="bold">Debt Util: 78%</text>
+
+                          {/* Connecting lines */}
+                          <path d="M 455 150 L 495 150" stroke="#111111" strokeWidth="1.5" />
+                          <polygon points="495,150 487,146 487,154" fill="#111111" />
+
+                          {/* Box 4: CGT-DBE */}
+                          <rect x="500" y="70" width="85" height="160" rx="8" fill="#111111" stroke="#111111" strokeWidth="1.5" />
+                          <text x="512" y="95" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="monospace">CGT-DBE Engine</text>
+                          <text x="512" y="115" fill="#787774" fontSize="8" fontFamily="monospace">Weights Trace</text>
+                          <text x="512" y="130" fill="#EAEAEA" fontSize="8">Owner: Growth</text>
+                          <text x="512" y="142" fill="#EAEAEA" fontSize="8">Safety constraints</text>
+                          <rect x="506" y="165" width="73" height="22" rx="4" fill="#FDEBEC" />
+                          <text x="512" y="179" fill="#9F2F2D" fontSize="9" fontWeight="bold">STABILIZE</text>
+                          <text x="510" y="205" fill="#FFFFFF" fontSize="8" fontFamily="monospace">Confidence: 86%</text>
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Objective Selection */}
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-4">
+                      <h4 className="font-bold text-neutral-900 dark:text-white">Trial Objective Selection</h4>
+                      <p className="text-xs text-neutral-500">
+                        Choose exactly three operational areas to configure and calibrate the CGT-DBE algorithms.
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        {[
+                          { id: 'working_capital', label: 'Working Capital Gap', desc: 'Analyze raw stock & supplier terms' },
+                          { id: 'receivables', label: 'Receivables DSO', desc: 'Identify payment default & age risk' },
+                          { id: 'order_acceptance', label: 'Order Acceptance', desc: 'Assess margins vs cash lock-up on POs' },
+                          { id: 'debt_reduction', label: 'Debt & OD reduction', desc: 'Rebalance high interest facilities' },
+                          { id: 'capital_expenditure', label: 'CapEx Investment', desc: 'Simulate capacity expansion limits' }
+                        ].map(prob => {
+                          const isSelected = selectedObjectives.includes(prob.id);
+                          return (
+                            <button
+                              key={prob.id}
+                              onClick={() => {
+                                if (isSelected) {
+                                  setSelectedObjectives(prev => prev.filter(o => o !== prob.id));
+                                } else {
+                                  setSelectedObjectives(prev => [...prev, prob.id]);
+                                }
+                              }}
+                              className={`p-4 rounded-lg border text-left transition-all ${
+                                isSelected 
+                                  ? 'bg-[#EDF3EC] border-[#346538]/30 text-[#346538] dark:bg-[#1a2d1e] dark:text-green-300'
+                                  : 'bg-white dark:bg-gray-900 border-neutral-200 dark:border-gray-800 text-neutral-700 dark:text-neutral-300'
+                              }`}
+                            >
+                              <div className="font-bold text-xs">{prob.label}</div>
+                              <div className="text-[10px] text-neutral-500 mt-1.5 leading-tight">{prob.desc}</div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Connectors, Baseline confirmation & Gate 1 */}
+                  <div className="space-y-6">
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-4">
+                      <h4 className="font-bold text-neutral-900 dark:text-white">Gate 1: Data Trust Verification</h4>
+                      <p className="text-xs text-neutral-500">
+                        Connect accounting linkages. Finpercent verifies coverage of required fields before launching shadow mode.
+                      </p>
+                      
+                      <div className="space-y-2">
+                        {[
+                          { name: 'Tally Accounts Link', status: 'Connected', progress: '98% fields mapped', completed: true },
+                          { name: 'Zoho Books Invoice Link', status: 'Connected', progress: '95% fields mapped', completed: true },
+                          { name: 'Corporate Bank Account API', status: 'Syncing', progress: '88% fields mapped', completed: false },
+                          { name: 'GST Filing Portal Access', status: 'Required', progress: 'Not Connected', completed: false }
+                        ].map((conn, idx) => (
+                          <div key={idx} className="p-3 bg-[#F7F6F3] dark:bg-gray-950 rounded-lg border border-neutral-200 dark:border-gray-800 flex justify-between items-center text-xs">
+                            <div>
+                              <div className="font-bold text-neutral-800 dark:text-neutral-200">{conn.name}</div>
+                              <div className="text-[10px] text-neutral-550 mt-0.5">{conn.progress}</div>
+                            </div>
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded font-mono" style={
+                              conn.completed 
+                                ? { backgroundColor: '#EDF3EC', color: '#346538' } 
+                                : { backgroundColor: '#FBF3DB', color: '#956400' }
+                            }>
+                              {conn.status}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="p-3 rounded-lg text-xs space-y-1.5" style={{ backgroundColor: '#E1F3FE', color: '#1F6C9F' }}>
+                        <div className="font-bold flex justify-between">
+                          <span>Data Trust Level:</span>
+                          <span>97% Completeness</span>
+                        </div>
+                        <div className="w-full bg-white/40 h-1 rounded-full overflow-hidden">
+                          <div className="bg-[#1F6C9F] h-full" style={{ width: '97%' }} />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-4">
+                      <h4 className="font-bold text-neutral-900 dark:text-white">Verify Business Baseline</h4>
+                      <p className="text-xs text-neutral-500">
+                        Confirm that the baseline financial representation matches your accounting records.
+                      </p>
+                      
+                      <div className="p-3 bg-[#F7F6F3] dark:bg-gray-950 rounded-lg border border-neutral-200 dark:border-gray-800 text-xs space-y-2 font-mono">
+                        <div className="flex justify-between border-b border-[#EAEAEA] dark:border-gray-800 pb-1.5">
+                          <span>Baseline DSO:</span>
+                          <span className="font-bold">72 Days</span>
+                        </div>
+                        <div className="flex justify-between border-b border-[#EAEAEA] dark:border-gray-800 pb-1.5">
+                          <span>EBITDA Margin:</span>
+                          <span className="font-bold">21%</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Active Debt/OD:</span>
+                          <span className="font-bold">₹41.5 Lakh</span>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          setIsBaselineVerified(true);
+                          setIsDataTrustApproved(true);
+                          setTrialPhase('shadow');
+                        }}
+                        className="w-full py-2 bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-200 rounded text-xs font-bold transition-all text-center"
+                      >
+                        Verify Baseline & Start Shadow Mode
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* SHADOW REVEAL PHASE SCREEN */}
+              {trialPhase === 'reveal' && (
+                <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-6">
+                  <div>
+                    <h4 className="text-lg font-bold text-neutral-900 dark:text-white font-serif">Shadow Mode Reveal Dashboard</h4>
+                    <p className="text-xs text-neutral-500 mt-1">
+                      Review how Finpercent's sealed background recommendations compare to your actual decisions and observed business outcomes.
+                    </p>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {[
+                      {
+                        date: '04 Aug 2026',
+                        event: '₹22 Lakh Sales Order (NeoPack)',
+                        action: 'Accepted order normally without cash safeguards.',
+                        rec: 'Require ≥15% advance payment (₹3.3L) to offset raw materials gap.',
+                        outcome: 'Cash shortage occurred on Day 38; had to utilize high-interest OD facility.',
+                        saving: '₹12,400 unnecessary interest paid (OD utilization)',
+                        alert: 'loss'
+                      },
+                      {
+                        date: '11 Aug 2026',
+                        event: '₹8.4 Lakh procurement contract (PO-192)',
+                        action: 'Issued PO for full quantity immediately.',
+                        rec: 'Delay procurement by 14 days or negotiate 60 days supplier credit.',
+                        outcome: 'Stock accumulated in Peenya warehouse; inventory turnover slowed by 1.8x.',
+                        saving: '₹3 Lakh cash locked in slow-moving inventory for 42 days',
+                        alert: 'warning'
+                      },
+                      {
+                        date: '18 Aug 2026',
+                        event: '₹6.2 Lakh Invoice Overdue (AlphaTech)',
+                        action: 'Ignored payment delay to protect client relationship.',
+                        rec: 'Prioritize collection immediately; send automated legal warning.',
+                        outcome: 'Payment delayed to 92 days. Working capital DSO deteriorated.',
+                        saving: '₹6.2 Lakh cash deficit remained unresolved during period',
+                        alert: 'warning'
+                      }
+                    ].map((row, idx) => (
+                      <div key={idx} className="p-5 bg-[#FBFBFA] dark:bg-gray-950 rounded-xl border border-[#EAEAEA] dark:border-gray-800 grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+                        <div>
+                          <div className="font-mono text-neutral-500">{row.date}</div>
+                          <div className="font-bold text-neutral-900 dark:text-white mt-1">{row.event}</div>
+                        </div>
+                        <div>
+                          <div className="text-neutral-500 uppercase tracking-wider text-[9px] font-bold font-mono">What Owner Did</div>
+                          <p className="mt-1 text-neutral-800 dark:text-neutral-200">{row.action}</p>
+                        </div>
+                        <div>
+                          <div className="text-neutral-550 uppercase tracking-wider text-[9px] font-bold font-mono">What Finpercent Sealed</div>
+                          <p className="mt-1 text-[#346538] font-semibold">{row.rec}</p>
+                        </div>
+                        <div>
+                          <div className="text-neutral-500 uppercase tracking-wider text-[9px] font-bold font-mono">Actual Outcome & Exposure</div>
+                          <p className="mt-1 text-neutral-800 dark:text-neutral-200">{row.outcome}</p>
+                          <div className="mt-2 p-2 rounded text-[10px] font-bold font-mono inline-block" style={
+                            row.alert === 'loss' 
+                              ? { backgroundColor: '#FDEBEC', color: '#9F2F2D' } 
+                              : { backgroundColor: '#FBF3DB', color: '#956400' }
+                          }>
+                            {row.saving}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-col md:flex-row justify-between items-center bg-[#EDF3EC] text-[#346538] dark:bg-[#1a2d1e] dark:text-green-300 p-5 rounded-xl border border-[#346538]/20 gap-4">
+                    <div className="text-xs">
+                      <span className="font-bold">Gate 2: Decision Relevance Confirmed.</span> Do you verify that background recommendations identify meaningful decision variables?
+                    </div>
+                    <button
+                      onClick={() => setTrialPhase('assisted')}
+                      className="px-5 py-2.5 bg-[#346538] text-white rounded text-xs font-bold hover:bg-[#284f2b] transition-all"
+                    >
+                      Verify Relevance & Enter Assisted Mode
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* COCKPIT SCREEN: SHADOW, ASSISTED, AND NORMAL MODES */}
+              {(trialPhase === 'shadow' || trialPhase === 'assisted' || trialPhase === 'normal') && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  
+                  {/* Left Column: Owner Decision Profile (ODP) */}
+                  <div className="space-y-6">
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-4">
+                      <h4 className="text-lg font-bold text-neutral-900 dark:text-white font-serif">Owner Decision Profile (ODP)</h4>
+                      <p className="text-xs text-neutral-500">
+                        Learned economic parameters optimized dynamically through decisions.
+                      </p>
+
+                      {/* ODP Sliders */}
+                      <div className="space-y-3.5 pt-2">
+                        {[
+                          { label: 'Growth Appetite', value: odpGrowth, setValue: setOdpGrowth },
+                          { label: 'Risk Tolerance', value: odpRisk, setValue: setOdpRisk },
+                          { label: 'Liquidity Preference', value: odpLiquidity, setValue: setOdpLiquidity },
+                          { label: 'Debt Tolerance', value: odpDebt, setValue: setOdpDebt },
+                          { label: 'Control Preference', value: odpControl, setValue: setOdpControl },
+                          { label: 'Time Horizon', value: odpHorizon, setValue: setOdpHorizon },
+                          { label: 'Loss Sensitivity', value: odpLoss, setValue: setOdpLoss }
+                        ].map((slider, idx) => (
+                          <div key={idx} className="space-y-1">
+                            <div className="flex justify-between text-xs font-bold text-neutral-700 dark:text-neutral-300">
+                              <span>{slider.label}</span>
+                              <span className="font-mono text-neutral-500">{slider.value}/100</span>
+                            </div>
+                            <input 
+                              type="range" min="0" max="100" 
+                              value={slider.value}
+                              onChange={e => slider.setValue(parseInt(e.target.value))}
+                              className="w-full accent-neutral-900 cursor-pointer" 
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Weights shift indicator */}
+                      <div className="p-3 bg-[#F7F6F3] dark:bg-gray-950 rounded-lg border border-[#EAEAEA] dark:border-gray-800 text-xs space-y-1 font-mono">
+                        <div className="flex justify-between font-bold text-neutral-800 dark:text-neutral-200">
+                          <span>Profile Calculation Mode:</span>
+                          <span>Learned Profile</span>
+                        </div>
+                        <div className="flex justify-between text-[10px] text-neutral-500">
+                          <span>Observed Decisions: {observedDecisionsCount}</span>
+                          <span>
+                            {observedDecisionsCount < 5 ? '70% Declared / 30% Obs' : 
+                             observedDecisionsCount <= 15 ? '50% Declared / 50% Obs' : '30% Declared / 70% Obs'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Scenario Onboarding Questions */}
+                      <div className="space-y-4 pt-4 border-t border-[#EAEAEA] dark:border-gray-800">
+                        <h5 className="text-xs font-bold uppercase tracking-wider font-mono text-neutral-800 dark:text-neutral-300">
+                          Economic Scenario Calibration
+                        </h5>
+                        
+                        <div className="space-y-3 bg-[#FBFBFA] dark:bg-gray-950 p-4 rounded-lg text-xs border border-[#EAEAEA] dark:border-gray-850">
+                          <p className="font-bold text-neutral-800 dark:text-neutral-200 leading-tight">
+                            Scenario 1: You have ₹30L available cash. How do you deploy it?
+                          </p>
+                          <div className="space-y-2 mt-2">
+                            <label className="flex items-start space-x-2 cursor-pointer">
+                              <input 
+                                type="radio" 
+                                name="sc1" 
+                                checked={scenario1 === 'A'} 
+                                onChange={() => {
+                                  setScenario1('A');
+                                  setOdpGrowth(55);
+                                  setOdpLiquidity(92);
+                                  setOdpRisk(40);
+                                }}
+                                className="accent-neutral-900 mt-0.5" 
+                              />
+                              <span>Option A: Retain ₹20L in cash reserve, invest ₹10L.</span>
+                            </label>
+                            <label className="flex items-start space-x-2 cursor-pointer">
+                              <input 
+                                type="radio" 
+                                name="sc1" 
+                                checked={scenario1 === 'B'} 
+                                onChange={() => {
+                                  setScenario1('B');
+                                  setOdpGrowth(88);
+                                  setOdpLiquidity(35);
+                                  setOdpRisk(75);
+                                }}
+                                className="accent-neutral-900 mt-0.5" 
+                              />
+                              <span>Option B: Retain ₹5L in cash reserve, invest ₹25L.</span>
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3 bg-[#FBFBFA] dark:bg-gray-950 p-4 rounded-lg text-xs border border-[#EAEAEA] dark:border-gray-850">
+                          <p className="font-bold text-neutral-800 dark:text-neutral-200 leading-tight">
+                            Scenario 2: A ₹1Cr B2B contract requires ₹35L short term borrowing.
+                          </p>
+                          <div className="space-y-2 mt-2">
+                            <label className="flex items-start space-x-2 cursor-pointer">
+                              <input 
+                                type="radio" 
+                                name="sc2" 
+                                checked={scenario2 === 'A'} 
+                                onChange={() => {
+                                  setScenario2('A');
+                                  setOdpGrowth(82);
+                                  setOdpDebt(78);
+                                  setOdpRisk(65);
+                                }}
+                                className="accent-neutral-900 mt-0.5" 
+                              />
+                              <span>Option A: Accept immediately, utilize overdraft facilities.</span>
+                            </label>
+                            <label className="flex items-start space-x-2 cursor-pointer">
+                              <input 
+                                type="radio" 
+                                name="sc2" 
+                                checked={scenario2 === 'B'} 
+                                onChange={() => {
+                                  setScenario2('B');
+                                  setOdpGrowth(72);
+                                  setOdpDebt(28);
+                                  setOdpLiquidity(85);
+                                }}
+                                className="accent-neutral-900 mt-0.5" 
+                              />
+                              <span>Option B: Reject or negotiate 20% advance payment from buyer.</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Middle Column: Business State & CGT-DBEEngine */}
+                  <div className="space-y-6">
+                    {/* Business State Engine */}
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-4">
+                      <h4 className="text-lg font-bold text-neutral-900 dark:text-white font-serif">Business State variables</h4>
+                      <p className="text-xs text-neutral-500">
+                        Real-time normalised metrics computed from connected ERP schemas.
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-3 text-xs">
+                        {[
+                          { name: 'Cash Runway', val: `${bizCashRunway} days`, press: '68/100', color: '#1F6C9F' },
+                          { name: 'Receivables DSO', val: `${bizDso} days`, press: '82/100', color: '#9F2F2D' },
+                          { name: 'Debt Utilization', val: `${bizDebtUtil}%`, press: '78/100', color: '#9F2F2D' },
+                          { name: 'Gross Margin', val: `${bizMargin}%`, press: 'Healthy', color: '#346538' },
+                          { name: 'Supplier Credit', val: `${bizSupplierCredit} days`, press: 'Moderate', color: '#956400' }
+                        ].map((stat, idx) => (
+                          <div key={idx} className="p-3 bg-[#FBFBFA] dark:bg-gray-950 rounded-lg border border-[#EAEAEA] dark:border-gray-850">
+                            <span className="text-[10px] text-neutral-500 block uppercase font-mono">{stat.name}</span>
+                            <div className="font-bold text-sm text-neutral-850 dark:text-neutral-200 mt-1">{stat.val}</div>
+                            <div className="mt-1.5 flex justify-between items-center">
+                              <span className="text-[9px] text-neutral-550">Normalized Pressure:</span>
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded font-mono" style={{ backgroundColor: `${stat.color}15`, color: stat.color }}>
+                                {stat.press}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Environmental State variables */}
+                      <div className="pt-4 border-t border-[#EAEAEA] dark:border-gray-800 space-y-3">
+                        <h5 className="text-xs font-bold uppercase tracking-wider font-mono text-neutral-800 dark:text-neutral-300">
+                          Environmental context
+                        </h5>
+                        <div className="grid grid-cols-3 gap-2">
+                          <div>
+                            <span className="text-[9px] text-neutral-500 block uppercase font-mono">Buyer Risk</span>
+                            <select 
+                              value={envCreditRisk} 
+                              onChange={e => setEnvCreditRisk(e.target.value)}
+                              className="w-full bg-[#F7F6F3] dark:bg-gray-950 rounded p-1 text-[10px] font-bold mt-1"
+                            >
+                              <option value="stable">Stable</option>
+                              <option value="deteriorating">Deteriorating</option>
+                            </select>
+                          </div>
+                          <div>
+                            <span className="text-[9px] text-neutral-500 block uppercase font-mono">Interest Rates</span>
+                            <select 
+                              value={envInterestRate} 
+                              onChange={e => setEnvInterestRate(e.target.value)}
+                              className="w-full bg-[#F7F6F3] dark:bg-gray-950 rounded p-1 text-[10px] font-bold mt-1"
+                            >
+                              <option value="stable">Stable</option>
+                              <option value="rising">Rising</option>
+                            </select>
+                          </div>
+                          <div>
+                            <span className="text-[9px] text-neutral-500 block uppercase font-mono">Market Demand</span>
+                            <select 
+                              value={envMarketDemand} 
+                              onChange={e => setEnvMarketDemand(e.target.value)}
+                              className="w-full bg-[#F7F6F3] dark:bg-gray-950 rounded p-1 text-[10px] font-bold mt-1"
+                            >
+                              <option value="stable">Stable</option>
+                              <option value="slowing">Slowing</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* CGT-DBE Strategic Policy Engine */}
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-4">
+                      <h4 className="text-lg font-bold text-neutral-900 dark:text-white font-serif">CGT-DBE Policy Engine</h4>
+                      <p className="text-xs text-neutral-500">
+                        Weights alignment: $W_i^* = W_i \times S_i \times O_i \times E_i$.
+                      </p>
+
+                      {/* Mathematical Weight Calculation visualization */}
+                      <div className="p-3 bg-[#FBFBFA] dark:bg-gray-950 rounded-lg border border-[#EAEAEA] dark:border-gray-850 space-y-2 text-[10px] font-mono">
+                        <div className="flex justify-between font-bold text-neutral-850 dark:text-neutral-200">
+                          <span>Dimension Weighting:</span>
+                          <span>Formula Trace</span>
+                        </div>
+                        <div className="flex justify-between text-neutral-500">
+                          <span>Liquidity weight:</span>
+                          <span>1.00 &times; 1.20 (Stage) &times; {((odpLiquidity)/100).toFixed(2)} (Owner) &times; {(envInterestRate==='rising'? 1.15:1.0).toFixed(2)} (Env) = {(1.2 * (odpLiquidity/100) * (envInterestRate==='rising'?1.15:1.0)).toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between text-neutral-500">
+                          <span>Growth weight:</span>
+                          <span>1.00 &times; 1.10 (Stage) &times; {((odpGrowth)/100).toFixed(2)} (Owner) &times; 1.00 = {(1.1 * (odpGrowth/100)).toFixed(2)}</span>
+                        </div>
+                      </div>
+
+                      {/* Raw Posture output */}
+                      <div className="p-3 bg-[#F7F6F3] dark:bg-gray-950 rounded-lg border border-neutral-200 dark:border-gray-800 text-xs space-y-2">
+                        <div className="flex justify-between">
+                          <span className="text-neutral-550">Positive Force Score:</span>
+                          <span className="font-bold font-mono text-[#346538] flex items-center">+{positiveForceScore}</span>
+                        </div>
+                        <div className="flex justify-between border-b border-[#EAEAEA] dark:border-gray-800 pb-1.5">
+                          <span className="text-neutral-550">Negative Pressure Score:</span>
+                          <span className="font-bold font-mono text-[#9F2F2D] flex items-center">-{negativePressureScore}</span>
+                        </div>
+                        <div className="flex justify-between font-bold text-neutral-800 dark:text-neutral-200">
+                          <span>Calculated Raw Score:</span>
+                          <span className="font-mono">{(rawScore >= 0 ? '+' : '') + rawScore}</span>
+                        </div>
+                        <div className="flex justify-between text-[10px] text-neutral-550 italic">
+                          <span>Calculated Raw Posture:</span>
+                          <span className="font-bold">{rawPosture}</span>
+                        </div>
+                      </div>
+
+                      {/* Hard Safety Constraints Downgrade Check */}
+                      <div className="p-3.5 rounded-lg border text-xs space-y-2 text-left" style={
+                        triggerDowngraded 
+                          ? { backgroundColor: '#FDEBEC', borderColor: '#9F2F2D30', color: '#9F2F2D' }
+                          : { backgroundColor: '#EDF3EC', borderColor: '#34653830', color: '#346538' }
+                      }>
+                        <div className="font-bold uppercase tracking-wider font-mono text-[10px]">
+                          {triggerDowngraded ? '⚠️ Safety Constraints Activated' : '✓ Safety Constraints Clear'}
+                        </div>
+                        <p className="text-[10px] opacity-90 leading-relaxed">
+                          {triggerDowngraded 
+                            ? `Owner growth preference (${odpGrowth}) capped. Triggers active: ${activeTriggers.join(', ')}. Posture downgraded to STABILIZE.`
+                            : 'Historical debt limits & receivable DSO ratios remain within safe bounds. Capping triggers idle.'}
+                        </p>
+                      </div>
+
+                      {/* Posture Result */}
+                      <div className="p-4 bg-neutral-900 text-white dark:bg-[#F7F6F3] dark:text-[#111111] rounded-xl flex justify-between items-center">
+                        <div>
+                          <div className="text-[10px] uppercase font-mono tracking-wider opacity-75">CGT-DBE Policy Posture</div>
+                          <div className="text-2xl font-bold tracking-tight font-serif mt-1">{calculatedPosture}</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-[10px] uppercase font-mono tracking-wider opacity-75">Reconciliation Score</div>
+                          <div className="text-2xl font-bold font-mono mt-1">{(rawScore >= 0 ? '+' : '') + rawScore}</div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Right Column: Decision Inbox & Action recommendation */}
+                  <div className="space-y-6">
+                    {/* Active Cases Inbox */}
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-4">
+                      <h4 className="text-lg font-bold text-neutral-900 dark:text-white font-serif">Decisions Inbox</h4>
+                      <p className="text-xs text-neutral-500">
+                        Operational events requiring strategic alignment.
+                      </p>
+
+                      {trialPhase === 'shadow' && (
+                        <div className="p-3 rounded-lg text-xs text-[#956400] border border-[#FBF3DB]" style={{ backgroundColor: '#FBF3DB' }}>
+                          <span className="font-bold">Pure Shadow Mode:</span> Recommendations are sealed in background and hidden from normal inbox.
+                        </div>
+                      )}
+
+                      <div className="space-y-2">
+                        {casesData.map(c => {
+                          const isSelected = selectedCaseId === c.id;
+                          return (
+                            <button
+                              key={c.id}
+                              onClick={() => setSelectedCaseId(c.id)}
+                              className={`w-full p-4 rounded-lg border text-left transition-all ${
+                                isSelected 
+                                  ? 'bg-[#111111] text-white border-[#111111] dark:bg-white dark:text-[#111111] dark:border-white shadow-md' 
+                                  : 'bg-[#FBFBFA] dark:bg-gray-950 border-[#EAEAEA] dark:border-gray-800 text-neutral-700 dark:text-neutral-350 hover:bg-[#F7F6F3]'
+                              }`}
+                            >
+                              <div className="flex justify-between items-center">
+                                <span className="font-bold text-xs">{c.title}</span>
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={
+                                  c.status === 'accepted' ? { backgroundColor: '#EDF3EC', color: '#346538' } :
+                                  c.status === 'modified' ? { backgroundColor: '#E1F3FE', color: '#1F6C9F' } :
+                                  c.status === 'rejected' ? { backgroundColor: '#FDEBEC', color: '#9F2F2D' } :
+                                  { backgroundColor: '#F7F6F3', color: '#787774' }
+                                }>
+                                  {c.status}
+                                </span>
+                              </div>
+                              <div className={`text-[10px] mt-1.5 truncate ${isSelected ? 'opacity-80' : 'text-neutral-500'}`}>
+                                Recommends: {c.recAction}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Decision Receipt Detail Panel */}
+                    {selectedCaseId && (
+                      <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-neutral-200 dark:border-gray-800 text-left space-y-4">
+                        <div className="border-b border-[#EAEAEA] dark:border-gray-800 pb-3 flex justify-between items-center">
+                          <div>
+                            <span className="text-[9px] uppercase font-mono tracking-wider text-neutral-500 block">Finpercent Decision Receipt</span>
+                            <h4 className="font-bold text-xs text-neutral-850 dark:text-neutral-200 mt-0.5">{selectedCase.title}</h4>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-[8px] font-mono text-neutral-400 block">SHA-256 Seal Lock</span>
+                            <span className="text-[9px] font-mono font-bold text-neutral-500">8a4c1f...</span>
+                          </div>
+                        </div>
+
+                        {/* 5-layer proofs */}
+                        <div className="space-y-3">
+                          {/* 1. Data Proof */}
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase font-mono text-neutral-500 block">36.1 Data Proof</span>
+                            <div className="p-2.5 bg-[#FBFBFA] dark:bg-gray-950 border border-[#EAEAEA] dark:border-gray-850 rounded text-[11px] space-y-1 font-mono text-neutral-700 dark:text-neutral-300">
+                              <div className="font-bold text-[10px] text-neutral-550 border-b border-[#EAEAEA] dark:border-gray-800 pb-1">Historical ledger entries:</div>
+                              {selectedCase.invoices.map((inv, idx) => (
+                                <div key={idx} className="flex justify-between">
+                                  <span>{inv.split(':')[0]}</span>
+                                  <span className="font-bold">{inv.split(':')[1]}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 2. Logic Proof */}
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase font-mono text-neutral-500 block">36.2 Logic Proof</span>
+                            <p className="text-[11px] text-neutral-700 dark:text-neutral-300 leading-relaxed bg-[#FBFBFA] dark:bg-gray-950 p-2.5 rounded border border-[#EAEAEA] dark:border-gray-850">
+                              {selectedCase.whyTrace}
+                            </p>
+                          </div>
+
+                          {/* 3. Scenario Proof */}
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase font-mono text-neutral-500 block">36.3 Scenario Proof</span>
+                            <div className="p-2.5 bg-[#FBFBFA] dark:bg-gray-950 border border-[#EAEAEA] dark:border-gray-850 rounded text-[11px] space-y-2">
+                              <div className="grid grid-cols-2 gap-2 text-center text-[10px] font-bold border-b border-[#EAEAEA] dark:border-gray-800 pb-1 text-neutral-550">
+                                <div>Option A (Normal)</div>
+                                <div>Option B (With Adv)</div>
+                              </div>
+                              <div className="grid grid-cols-2 gap-2 text-center font-mono font-bold text-neutral-700 dark:text-neutral-300">
+                                <div className="text-[#9F2F2D]">{selectedCase.cashDeficitWithout}</div>
+                                <div className="text-[#346538]">{selectedCase.cashDeficitWith}</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 4. Outcome Proof */}
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase font-mono text-neutral-500 block">36.4 Outcome Proof</span>
+                            <div className="p-2 bg-[#FBFBFA] dark:bg-gray-950 rounded border border-[#EAEAEA] dark:border-gray-850 flex justify-between text-[11px] font-mono">
+                              <span className="text-neutral-500">Seal verification:</span>
+                              <span className="font-bold text-[#1F6C9F]">{selectedCase.outcome}</span>
+                            </div>
+                          </div>
+
+                          {/* 5. Benchmark Proof */}
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase font-mono text-neutral-500 block">36.5 Benchmark Proof</span>
+                            <div className="p-2.5 bg-[#FBFBFA] dark:bg-gray-950 border border-[#EAEAEA] dark:border-gray-850 rounded text-[11px] leading-relaxed text-neutral-700 dark:text-neutral-300">
+                              Calculated DSO ({bizDso} days) exceeds average cohort baseline of similar Peenya B2B manufacturing firms (55 days) by <strong>+26 days</strong>.
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Execution Permissions Control */}
+                        <div className="pt-4 border-t border-[#EAEAEA] dark:border-gray-800 space-y-2">
+                          <span className="text-[10px] uppercase font-mono text-neutral-500 block">38. Execution Permissions Level</span>
+                          <div className="grid grid-cols-4 gap-1 text-[10px] font-bold text-center">
+                            {[
+                              { id: 0, label: 'L0 Shadow' },
+                              { id: 1, label: 'L1 Recom' },
+                              { id: 2, label: 'L2 Prep' },
+                              { id: 3, label: 'L3 Auto' }
+                            ].map(lvl => (
+                              <button
+                                key={lvl.id}
+                                onClick={() => setPermissionLevel(lvl.id as any)}
+                                className={`py-1.5 rounded transition ${
+                                  permissionLevel === lvl.id 
+                                    ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900' 
+                                    : 'bg-[#F7F6F3] text-neutral-600 dark:bg-gray-950 dark:text-gray-400 border border-[#EAEAEA] dark:border-gray-800'
+                                }`}
+                              >
+                                {lvl.label}
+                              </button>
+                            ))}
+                          </div>
+                          <p className="text-[9px] text-neutral-500 leading-tight">
+                            {permissionLevel === 0 ? 'Watching and sealing decisions in background. Recommendations locked.' :
+                             permissionLevel === 1 ? 'Finpercent recommends, owner executes manually.' :
+                             permissionLevel === 2 ? 'Finpercent prepares drafts/collection letters, owner signs off.' :
+                             'Policy parameters bound. Auto execution enabled on low risk transactions.'}
+                          </p>
+                        </div>
+
+                        {/* Action buttons (Disabled in Shadow Mode) */}
+                        {trialPhase !== 'shadow' && selectedCase.status === 'pending' && (
+                          <div className="flex gap-2 pt-2">
+                            <button
+                              onClick={() => handleCaseAction(selectedCase.id, 'accept')}
+                              className="flex-1 py-2 bg-[#346538] text-white hover:bg-[#284f2b] rounded text-xs font-bold transition-all text-center"
+                            >
+                              Accept Rec
+                            </button>
+                            <button
+                              onClick={() => handleCaseAction(selectedCase.id, 'modify')}
+                              className="py-2 px-3 bg-[#E1F3FE] text-[#1F6C9F] hover:bg-[#cbeaff] rounded text-xs font-bold transition-all text-center"
+                            >
+                              Modify
+                            </button>
+                            <button
+                              onClick={() => handleCaseAction(selectedCase.id, 'reject')}
+                              className="py-2 px-3 bg-[#FDEBEC] text-[#9F2F2D] hover:bg-[#fcdede] rounded text-xs font-bold transition-all text-center"
+                            >
+                              Reject
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                </div>
+              )}
+
+              {/* Day-30 Evidence Report */}
+              {trialPhase === 'paid' && (
+                <div className="bg-white dark:bg-gray-900 p-8 rounded-xl border border-neutral-200 dark:border-gray-800 text-left max-w-4xl mx-auto space-y-6 shadow-md">
+                  <div className="border-b border-[#EAEAEA] dark:border-gray-800 pb-4 text-center">
+                    <span className="text-[10px] uppercase font-mono tracking-wider text-[#1F6C9F]">54. Trial Evidence Report</span>
+                    <h3 className="text-2xl font-bold font-serif text-neutral-900 dark:text-white mt-1">Finpercent 30-Day Decision Report</h3>
+                    <p className="text-xs text-neutral-500 mt-1">Compiled audit trace for Peenya Smart Logistics LLC</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono text-center">
+                    <div className="p-3 bg-[#F7F6F3] dark:bg-gray-950 rounded border border-[#EAEAEA] dark:border-gray-850">
+                      <div className="text-neutral-500 uppercase tracking-wider text-[8px] font-bold">Events Analyzed</div>
+                      <div className="text-xl font-bold text-neutral-900 dark:text-white mt-1">73</div>
+                    </div>
+                    <div className="p-3 bg-[#F7F6F3] dark:bg-gray-950 rounded border border-[#EAEAEA] dark:border-gray-850">
+                      <div className="text-neutral-500 uppercase tracking-wider text-[8px] font-bold">Decisions Detected</div>
+                      <div className="text-xl font-bold text-neutral-900 dark:text-white mt-1">21</div>
+                    </div>
+                    <div className="p-3 bg-[#F7F6F3] dark:bg-gray-950 rounded border border-[#EAEAEA] dark:border-gray-850">
+                      <div className="text-neutral-500 uppercase tracking-wider text-[8px] font-bold">Shadow Recs</div>
+                      <div className="text-xl font-bold text-neutral-900 dark:text-white mt-1">11</div>
+                    </div>
+                    <div className="p-3 bg-[#F7F6F3] dark:bg-gray-950 rounded border border-[#EAEAEA] dark:border-gray-850">
+                      <div className="text-neutral-500 uppercase tracking-wider text-[8px] font-bold">Live Recs (Assisted)</div>
+                      <div className="text-xl font-bold text-[#346538] mt-1">10</div>
+                    </div>
+                  </div>
+
+                  {/* Summary of conversion parameters */}
+                  <div className="space-y-4 pt-2">
+                    <h4 className="font-bold text-sm text-neutral-850 dark:text-neutral-200 uppercase tracking-wider font-mono">
+                      Decisions Outcome Attribution
+                    </h4>
+                    <div className="border border-[#EAEAEA] dark:border-gray-800 rounded-lg overflow-hidden text-xs">
+                      <div className="grid grid-cols-4 gap-2 p-3 bg-[#FBFBFA] dark:bg-gray-950 border-b border-[#EAEAEA] dark:border-gray-800 font-bold text-neutral-550 uppercase tracking-wider text-[10px]">
+                        <div>Decisions Type</div>
+                        <div>Finpercent Rec</div>
+                        <div>Owner Action</div>
+                        <div>Observed Cash Result</div>
+                      </div>
+                      {[
+                        { type: 'Working Capital', rec: 'Delay PO by 14 days', action: 'Accepted', result: '₹3L inventory cash saved' },
+                        { type: 'Receivables Collection', rec: 'Send overdue warning', action: 'Modified', result: '₹6.2L collected in 7 days' },
+                        { type: 'Order Acceptance', rec: 'Require 15% advance', action: 'Accepted', result: 'Raw materials gap covered' }
+                      ].map((row, idx) => (
+                        <div key={idx} className="grid grid-cols-4 gap-2 p-3 border-b border-[#EAEAEA] dark:border-gray-850 text-neutral-700 dark:text-neutral-300">
+                          <div className="font-bold">{row.type}</div>
+                          <div>{row.rec}</div>
+                          <div>{row.action}</div>
+                          <div className="font-bold text-[#346538]">{row.result}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Financial exposure identified */}
+                  <div className="p-4 bg-[#EDF3EC] text-[#346538] dark:bg-[#1a2d1e] dark:text-green-300 rounded-xl border border-[#346538]/20 text-xs">
+                    <div className="font-bold uppercase tracking-wider font-mono text-[10px]">Economic Value Summary</div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-3">
+                      <div>
+                        <span className="text-[10px] opacity-75">Cash Exposure Identified</span>
+                        <div className="text-lg font-bold mt-0.5">₹8.2 Lakh</div>
+                      </div>
+                      <div>
+                        <span className="text-[10px] opacity-75">Collections Realized</span>
+                        <div className="text-lg font-bold mt-0.5">₹12.4 Lakh</div>
+                      </div>
+                      <div>
+                        <span className="text-[10px] opacity-75">Inventory Savings</span>
+                        <div className="text-lg font-bold mt-0.5">₹3.1 Lakh</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 pt-2 text-xs">
+                    <h5 className="font-bold text-neutral-850 dark:text-neutral-200">Owner-Profile Learned Outcomes</h5>
+                    <p className="text-neutral-600 dark:text-gray-400 leading-relaxed">
+                      During the 30-day proof programme, Finpercent observed {observedDecisionsCount} overrides. Risk preference model adjusted debt tolerance downward by 8% and control preference upward by 5%, aligning future CGT-DBE policies more closely with your custom B2B relationship preferences.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-[#EAEAEA] dark:border-gray-800">
+                    <button
+                      onClick={() => setConsoleLogs(prev => [...prev, 'ℹ️ Downloading signed evidence report PDF...'])}
+                      className="px-4 py-2 border border-neutral-200 dark:border-gray-700 hover:bg-[#F7F6F3] rounded text-xs font-bold transition-all text-center"
+                    >
+                      Export PDF Evidence Report
+                    </button>
+                    <button
+                      onClick={() => {
+                        setTrialPhase('assisted');
+                        setConsoleLogs(prev => [...prev, '⚡ Conversion request received. Unlocking Level 3 auto-execute options under corporate policy directives.']);
+                        alert('Program Upgrade Complete. Level 3 (Auto-Execute Within Policy) permissions are unlocked.');
+                      }}
+                      className="px-6 py-2 bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 hover:bg-neutral-800 rounded text-xs font-bold transition-all text-center"
+                    >
+                      Complete Trial & Upgrade to Paid (Unlock Level 3 Auto)
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* DISAGREEMENT CAPTURE MODAL */}
+              {disagreementModalOpen && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                  <div className="bg-white dark:bg-gray-900 max-w-md w-full rounded-xl overflow-hidden border border-neutral-200 dark:border-gray-850 shadow-2xl p-6 text-left space-y-4">
+                    <h3 className="text-lg font-bold text-neutral-900 dark:text-white font-serif">Capture Override Context</h3>
+                    <p className="text-xs text-neutral-500 leading-relaxed">
+                      Finpercent treats disagreements as profile alignment data, not failures. Capturing this context recalibrates the Owner Profile.
+                    </p>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-[10px] font-bold text-neutral-500 uppercase mb-1">Override Reason</label>
+                        <select 
+                          value={selectedDisagreementReason}
+                          onChange={e => setSelectedDisagreementReason(e.target.value)}
+                          className="w-full bg-[#F7F6F3] dark:bg-gray-950 border border-[#EAEAEA] dark:border-gray-800 rounded p-2 text-xs font-bold"
+                        >
+                          <option>Customer Relationship</option>
+                          <option>Information Missing</option>
+                          <option>Supplier Flexibility</option>
+                          <option>Risk Acceptable</option>
+                          <option>Strategic Reason</option>
+                          <option>Owner Intuition</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-neutral-500 uppercase mb-1">Additional Notes</label>
+                        <textarea
+                          rows={3}
+                          value={disagreementText}
+                          onChange={e => setDisagreementText(e.target.value)}
+                          placeholder="Why was this recommendation modified/rejected? e.g., Suresh confirmed credit extension..."
+                          className="w-full bg-white dark:bg-gray-950 border border-[#EAEAEA] dark:border-gray-800 rounded p-2 text-xs"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 justify-end pt-2">
+                      <button
+                        onClick={() => setDisagreementModalOpen(false)}
+                        className="py-1.5 px-4 rounded border border-neutral-200 dark:border-gray-700 text-xs font-bold hover:bg-[#F7F6F3] transition"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleDisagreementSubmit}
+                        className="py-1.5 px-4 bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 hover:bg-neutral-800 rounded text-xs font-bold transition"
+                      >
+                        Submit Override
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
           {/* TAB 2: INTERACTIVE CONSOLE */}
           {activeTab === 'console' && (
             <motion.div

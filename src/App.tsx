@@ -27,6 +27,7 @@ import ImprovementPlanPage from './pages/credit/ImprovementPlanPage';
 import InstitutionDashboardPage from './pages/institution/InstitutionDashboardPage';
 import BankOfficerPage from './pages/bank/BankOfficerPage';
 import AICXOSuitePage from './pages/AICXOSuitePage';
+import AIPromptSandboxPage from './pages/AIPromptSandboxPage';
 
 // Network & Support
 import WorkshopsPage from './pages/network/WorkshopsPage';
@@ -121,10 +122,12 @@ function AppContent() {
           <Route path="/bank/borrower-summary" element={<BankOfficerPage />} />
           <Route path="/advisor/dashboard" element={<AdvisorDashboardPage />} />
           <Route path="/provider/dashboard" element={<ProviderDashboardPage />} />
-          
+
           {/* AI-CXO Suite / Agent Copilot Routes */}
+          <Route path="/ai-scenario-landing" element={<AIPromptSandboxPage />} />
           <Route path="/ai-cxo" element={<Navigate to="/ai-cxo/dashboard" replace />} />
           <Route path="/ai-cxo/dashboard" element={<AICXOSuitePage initialTab="dashboard" />} />
+          <Route path="/ai-cxo/decision-engine" element={<AICXOSuitePage initialTab="decision-engine" />} />
           <Route path="/ai-cxo/console" element={<AICXOSuitePage initialTab="console" />} />
           <Route path="/ai-cxo/cfo" element={<AICXOSuitePage initialTab="cfo" />} />
           <Route path="/ai-cxo/credit" element={<AICXOSuitePage initialTab="credit" />} />
