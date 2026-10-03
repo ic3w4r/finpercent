@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { 
-  Award, TrendingUp, AlertCircle, ChevronLeft, Upload, Building2, Target, 
-  BarChart3, ShieldAlert, FileText, CheckCircle2, Download, AlertTriangle
+  ChevronLeft, Upload, ShieldAlert, FileText, Download
 } from 'lucide-react';
 import BadgeAnimation from '../components/status/BadgeAnimation';
 import BalanceSheetAnalysis from '../components/status/BalanceSheetAnalysis';
@@ -18,7 +16,7 @@ export default function MSMEReadinessPage() {
   const [showUploader, setShowUploader] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const navigate = useNavigate();
-  const { score, band, subscores, uploadDocument, documents, penalties } = useReadiness();
+  const { score, subscores, uploadDocument } = useReadiness();
 
   useEffect(() => {
     setShowBadge(true);
@@ -204,7 +202,7 @@ export default function MSMEReadinessPage() {
                   <button onClick={() => setShowUploader(false)} className="text-xs text-gray-400 hover:text-gray-600">Cancel</button>
                 </div>
                 <FileUploader
-                  onFileUpload={(file) => {
+                  onFileUpload={(file: File) => {
                     uploadDocument('financials', file.name);
                     setShowUploader(false);
                   }}

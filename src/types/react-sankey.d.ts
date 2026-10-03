@@ -29,7 +29,7 @@ declare module 'react-sankey' {
       left?: number;
     };
     align?: 'justify' | 'left' | 'right' | 'center';
-    nodeColor?: (node: SankeyNode) => string;
+    nodeColor?: (_node: SankeyNode) => string;
   }
 
   const Sankey: React.FC<SankeyProps>;

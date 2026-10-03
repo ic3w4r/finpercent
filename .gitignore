@@ -34,3 +34,9 @@ env/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Agent skills & local Claude skills
+.agents/skills/claude-skills/
+claude-skills/
+**/claude-skills/
+

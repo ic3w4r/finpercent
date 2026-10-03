@@ -6,6 +6,7 @@ import {
   Info, FileSpreadsheet, Fingerprint, ShieldCheck, Activity, HelpCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { safeGetJSON, safeSetJSON } from '../utils/storage';
 
 // --- TYPES ---
 interface Property {
@@ -384,35 +385,28 @@ const INITIAL_AUDITS: AuditLog[] = [
 
 export default function AssetDossierStack() {
   // --- STATES ---
-  const [properties, setProperties] = useState<Property[]>(() => {
-    const saved = localStorage.getItem('fp_properties');
-    return saved ? JSON.parse(saved) : INITIAL_PROPERTIES;
-  });
+  const [properties, setProperties] = useState<Property[]>(() => 
+    safeGetJSON('fp_properties', INITIAL_PROPERTIES)
+  );
   const [selectedPropertyId, setSelectedPropertyId] = useState<string>('prop-1');
-  const [documents, setDocuments] = useState<Document[]>(() => {
-    const saved = localStorage.getItem('fp_documents');
-    return saved ? JSON.parse(saved) : INITIAL_DOCUMENTS;
-  });
-  const [mutations, setMutations] = useState<MutationItem[]>(() => {
-    const saved = localStorage.getItem('fp_mutations');
-    return saved ? JSON.parse(saved) : INITIAL_MUTATIONS;
-  });
-  const [reviews, setReviews] = useState<ProfessionalReview[]>(() => {
-    const saved = localStorage.getItem('fp_reviews');
-    return saved ? JSON.parse(saved) : INITIAL_REVIEWS;
-  });
-  const [risks, setRisks] = useState<RiskItem[]>(() => {
-    const saved = localStorage.getItem('fp_risks');
-    return saved ? JSON.parse(saved) : INITIAL_RISKS;
-  });
-  const [usbKeys, setUsbKeys] = useState<USBKey[]>(() => {
-    const saved = localStorage.getItem('fp_usbkeys');
-    return saved ? JSON.parse(saved) : INITIAL_KEYS;
-  });
-  const [audits, setAudits] = useState<AuditLog[]>(() => {
-    const saved = localStorage.getItem('fp_audits');
-    return saved ? JSON.parse(saved) : INITIAL_AUDITS;
-  });
+  const [documents, setDocuments] = useState<Document[]>(() => 
+    safeGetJSON('fp_documents', INITIAL_DOCUMENTS)
+  );
+  const [mutations, setMutations] = useState<MutationItem[]>(() => 
+    safeGetJSON('fp_mutations', INITIAL_MUTATIONS)
+  );
+  const [reviews, setReviews] = useState<ProfessionalReview[]>(() => 
+    safeGetJSON('fp_reviews', INITIAL_REVIEWS)
+  );
+  const [risks, setRisks] = useState<RiskItem[]>(() => 
+    safeGetJSON('fp_risks', INITIAL_RISKS)
+  );
+  const [usbKeys, setUsbKeys] = useState<USBKey[]>(() => 
+    safeGetJSON('fp_usbkeys', INITIAL_KEYS)
+  );
+  const [audits, setAudits] = useState<AuditLog[]>(() => 
+    safeGetJSON('fp_audits', INITIAL_AUDITS)
+  );
 
   // Active Menu / Sub-tabs inside FP Asset Stack
   const [activeSubTab, setActiveSubTab] = useState<'dashboard' | 'properties' | 'bankpack' | 'usbcenter' | 'professional' | 'audit'>('dashboard');
@@ -467,25 +461,25 @@ export default function AssetDossierStack() {
 
   // Persist to local storage
   useEffect(() => {
-    localStorage.setItem('fp_properties', JSON.stringify(properties));
+    safeSetJSON('fp_properties', properties);
   }, [properties]);
   useEffect(() => {
-    localStorage.setItem('fp_documents', JSON.stringify(documents));
+    safeSetJSON('fp_documents', documents);
   }, [documents]);
   useEffect(() => {
-    localStorage.setItem('fp_mutations', JSON.stringify(mutations));
+    safeSetJSON('fp_mutations', mutations);
   }, [mutations]);
   useEffect(() => {
-    localStorage.setItem('fp_reviews', JSON.stringify(reviews));
+    safeSetJSON('fp_reviews', reviews);
   }, [reviews]);
   useEffect(() => {
-    localStorage.setItem('fp_risks', JSON.stringify(risks));
+    safeSetJSON('fp_risks', risks);
   }, [risks]);
   useEffect(() => {
-    localStorage.setItem('fp_usbkeys', JSON.stringify(usbKeys));
+    safeSetJSON('fp_usbkeys', usbKeys);
   }, [usbKeys]);
   useEffect(() => {
-    localStorage.setItem('fp_audits', JSON.stringify(audits));
+    safeSetJSON('fp_audits', audits);
   }, [audits]);
 
   const activeProperty = properties.find(p => p.id === selectedPropertyId) || properties[0];

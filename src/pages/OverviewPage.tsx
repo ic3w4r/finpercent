@@ -1,509 +1,822 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowRight, Sparkles, Sliders, Activity, 
-  ShieldAlert, Terminal, RefreshCw, BarChart2
+  Building2, ArrowRight, ArrowUpRight,
+  Sliders, ChevronDown, 
+  Send, Clock, BarChart2,
+  Activity, Search, UserCheck, CheckSquare, Maximize2, LayoutGrid, Scale,
+  Lock, Check, Menu, Layers
 } from 'lucide-react';
 import SankeyDiagram from '../components/charts/SankeyDiagram';
+import CLevelExecutiveAdvisory from '../components/dashboard/CLevelExecutiveAdvisory';
 
-// Preset Scenarios
-const PRESETS = [
-  {
-    title: "Growth Expansion Scenario",
-    desc: "A stable packaging business ready to scale but facing minor working capital gaps.",
-    prompt: "We run a sustainable packaging plant. Monthly sales are ₹60L, but raw materials require ₹20L upfront. We have a bank balance of ₹15L and need ₹25L in short-term credit to accept a massive B2B contract from NeoPack. Our DSO is currently at 45 days."
-  },
-  {
-    title: "Liquidity Crunch Scenario",
-    desc: "A business with solid sales but massive credit locked up in unpaid buyer invoices.",
-    prompt: "Our logistics firm does ₹40L in monthly revenue, but ₹22L is stuck in unpaid buyer invoices, driving our DSO to 85 days. We have statutory liabilities of ₹8L due next week, and our current cash reserve is down to ₹3L. We are looking to raise ₹15L immediately."
-  },
-  {
-    title: "Debt Over-Utilization",
-    desc: "Stable operations but highly leveraged with high interest costs and low runway.",
-    prompt: "We are an engineering enterprise doing ₹80L sales. We have already utilized ₹45L out of our ₹50L bank overdraft line (90% debt utilization). Interest rates are rising, and our cash runway is only 22 days. We want to borrow an additional ₹10L for inventory."
-  }
-];
+import { 
+  useRolePerspective, 
+  ROLE_DEFINITIONS 
+} from '../contexts/RolePerspectiveContext';
+import { useNavigation } from '../contexts/NavigationContext';
 
 export default function OverviewPage() {
   const navigate = useNavigate();
-  const [promptInput, setPromptInput] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [processed, setProcessed] = useState(true);
-  const [processingLog, setProcessingLog] = useState<string[]>([
-    "✓ System online. Decision model initialized with baseline enterprise schema.",
-    "✓ Canonical parameters ready: Sales ₹50L, DSO 45d, Funding ₹15L, Reserves ₹10L."
+  const { 
+    activeRole, 
+    setActiveRole, 
+    currentRoleConfig, 
+    activeScenario, 
+    updateScenario 
+  } = useRolePerspective();
+  const { toggleSidebar, isSidebarOpen } = useNavigation();
+
+  // Core Global View States
+  const [timeframe, setTimeframe] = useState<'today' | '30d' | 'fy'>('fy');
+  const [selectedFiscalYear, setSelectedFiscalYear] = useState('FY 2025-26');
+  const [showRoleMenu, setShowRoleMenu] = useState(false);
+  const [showFiscalMenu, setShowFiscalMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Primary Workspace View Focus
+  const [workspaceFocus, setWorkspaceFocus] = useState<'overview' | 'advisory' | 'capital' | 'work' | 'all'>('overview');
+
+  // Right Side Panel Tab Focus
+  const [rightPanelTab, setRightPanelTab] = useState<'chat' | 'insights' | 'sync'>('chat');
+
+  // Right Chat Assistant states
+  const [chatMessages, setChatMessages] = useState([
+    {
+      sender: 'user',
+      text: "What's my cash position next month?"
+    },
+    {
+      sender: 'ai',
+      text: "₹1.42 Cr projected (Inflows: ₹62.2L • Payables: ₹1.12L • Safe Runway: 52d)."
+    }
   ]);
-  
-  // Simulated Slider State Variables
-  const [revenue, setRevenue] = useState(50); // in Lakhs
-  const [dso, setDso] = useState(45); // in Days
-  const [funding, setFunding] = useState(15); // in Lakhs
-  const [cashReserve, setCashReserve] = useState(10); // in Lakhs
-  const [debtUtil, setDebtUtil] = useState(40); // in %
+  const [chatInput, setChatInput] = useState('');
 
-  // Heuristic parser to extract numbers from natural language input
-  const parsePromptHeuristics = (text: string) => {
-    const textLower = text.toLowerCase();
-    
-    // Default values if parsing fails
-    let parsedRevenue = 50;
-    let parsedDso = 45;
-    let parsedFunding = 15;
-    let parsedCash = 10;
-    let parsedDebt = 40;
+  // Working Capital Parameters
+  const creditDays = activeScenario.creditDays;
+  const orderValue = activeScenario.orderValue;
+  const supplierDays = activeScenario.supplierDays;
 
-    // Helper regexes for Lakhs (e.g. 20L, 20 lakhs, 20L Lakhs)
-    const lakhRegex = /(\d+)\s*(?:lakh|l|lakhs)/i;
-    const dsoRegex = /(\d+)\s*(?:days|day|dso)/i;
+  const setCreditDays = (val: number) => updateScenario({ creditDays: val });
+  const setSupplierDays = (val: number) => updateScenario({ supplierDays: val });
+  const setOrderValue = (val: number) => updateScenario({ orderValue: val });
 
-    // 1. Try to extract revenue/sales
-    const salesMatch = textLower.match(/(?:sales|revenue|turnover|doing|of)\s*(?:are|is|of)?\s*₹?(\d+)\s*(?:lakh|l|lakhs)/i);
-    if (salesMatch) {
-      parsedRevenue = parseInt(salesMatch[1]);
-    } else {
-      const genericLakhs = textLower.match(lakhRegex);
-      if (genericLakhs) parsedRevenue = parseInt(genericLakhs[1]);
+  // Financial Flow Filters
+  const [flowCategory, setFlowCategory] = useState('All categories');
+
+  // Actionable Work List
+  const [workItems, setWorkItems] = useState([
+    {
+      id: 'w-1',
+      item: 'Approve invoice INV-10240, Zenith Industries',
+      detail: '₹8,75,000 • Due in 4 days',
+      type: 'Approval',
+      owner: 'Aiswaran G.',
+      priority: 'High',
+      status: 'pending'
+    },
+    {
+      id: 'w-2',
+      item: 'Payment run for 14 suppliers',
+      detail: '₹14,50,000 • Due tomorrow',
+      type: 'Payment',
+      owner: 'Finance team',
+      priority: 'Medium',
+      status: 'pending'
+    },
+    {
+      id: 'w-3',
+      item: 'Pull forward 2 collections (hold covenant floor)',
+      detail: '₹32,00,000 release',
+      type: 'Alert',
+      owner: 'Treasury AI',
+      priority: 'High',
+      status: 'pending'
     }
+  ]);
 
-    // 2. Try to extract DSO / Stuck cash
-    const dsoMatch = textLower.match(/(?:dso|stuck|outstanding|unpaid|invoice|days)\s*(?:of|is|at|to)?\s*(\d+)\s*(?:days|day|dso)?/i);
-    if (dsoMatch) {
-      parsedDso = parseInt(dsoMatch[1]);
+  // Executive Attention Items (Action-oriented)
+  const attentionItems = [
+    {
+      id: 'a-1',
+      title: '23 invoices overdue past 30 days',
+      desc: '₹1,70,40,000 • 34% of ledger',
+      actionLabel: 'Inspect Aging',
+      severity: 'high',
+      action: () => setWorkspaceFocus('capital')
+    },
+    {
+      id: 'a-2',
+      title: 'Working Capital 45-day Gap',
+      desc: 'NeoPack 15d PO vs Zenith 75d Invoice',
+      actionLabel: 'Bridge Gap (OD)',
+      severity: 'critical',
+      action: () => {
+        alert('CFO Liquidity Bridge Executed: ₹15L HDFC OD line activated (JV-2026-0105).');
+      }
+    },
+    {
+      id: 'a-3',
+      title: '3 authorizations pending sign-off',
+      desc: 'POs, Invoices & Payment Run (₹51.75L)',
+      actionLabel: 'Sign Queue',
+      severity: 'medium',
+      action: () => setWorkspaceFocus('work')
     }
+  ];
 
-    // 3. Try to extract Funding required
-    const fundingMatch = textLower.match(/(?:borrow|funding|credit|loan|need|raise)\s*(?:of|is|at|to)?\s*₹?(\d+)\s*(?:lakh|l|lakhs)/i);
-    if (fundingMatch) {
-      parsedFunding = parseInt(fundingMatch[1]);
-    }
+  // Dynamic calculations based on working capital levers
+  const estimatedCashDay60 = useMemo(() => {
+    const base = 12.4; // Lakhs
+    const delayPenalty = (creditDays - 45) * 0.12;
+    const supplierGain = (30 - supplierDays) * 0.08;
+    return Math.max(2.5, +(base - delayPenalty - supplierGain).toFixed(1));
+  }, [creditDays, supplierDays]);
 
-    // 4. Try to extract Cash reserves
-    const cashMatch = textLower.match(/(?:cash|reserve|balance|bank|hand)\s*(?:of|is|at|to)?\s*₹?(\d+)\s*(?:lakh|l|lakhs)/i);
-    if (cashMatch) {
-      parsedCash = parseInt(cashMatch[1]);
-    }
+  const projectedRunway = useMemo(() => {
+    const baseRunway = 52;
+    const delta = Math.round((creditDays - 55) * 0.4 + (supplierDays - 15) * 0.3);
+    return Math.max(18, baseRunway - delta);
+  }, [creditDays, supplierDays]);
 
-    // 5. Debt utilization
-    const debtMatch = textLower.match(/(?:debt|utilization|utilized|leverage)\s*(?:of|is|at|to)?\s*(\d+)\s*%/i);
-    if (debtMatch) {
-      parsedDebt = parseInt(debtMatch[1]);
-    }
+  // Dynamic Sankey Flow Data
+  const sankeyData = useMemo(() => {
+    const totalSales = 24500000;
+    const receivablesLocked = Math.round(totalSales * (creditDays / 120));
+    const activeInflow = totalSales - receivablesLocked;
+    const debtInflow = 15000000;
+    const totalPool = activeInflow + debtInflow;
 
-    // Clamp values to reasonable ranges
-    setRevenue(Math.max(5, Math.min(200, parsedRevenue)));
-    setDso(Math.max(10, Math.min(120, parsedDso)));
-    setFunding(Math.max(0, Math.min(100, parsedFunding)));
-    setCashReserve(Math.max(1, Math.min(50, parsedCash)));
-    setDebtUtil(Math.max(0, Math.min(100, parsedDebt)));
-  };
+    const opex = Math.round(totalPool * 0.48);
+    const taxes = Math.round(totalPool * 0.12);
+    const debtService = Math.round(totalPool * 0.18);
+    const retainedReserves = totalPool - opex - taxes - debtService;
 
-  const handleProcessPrompt = async (text: string) => {
-    setIsProcessing(true);
-    setProcessingLog([]);
-    
-    const logs = [
-      "AI Steward Online. Analysing prospect story...",
-      "Running Natural Language heuristic extractor...",
-      "Extracting key financial vectors: Revenue, DSO, Target Funding, and Liquid Assets...",
-      "Normalizing parameters into Canonical Business Schema...",
-      "Decision model alignment generated. Generating interactive sliders and Sankey flow..."
-    ];
-
-    for (let i = 0; i < logs.length; i++) {
-      setProcessingLog(prev => [...prev, logs[i]]);
-      await new Promise(resolve => setTimeout(resolve, 400));
-    }
-
-    parsePromptHeuristics(text);
-    setIsProcessing(false);
-    setProcessed(true);
-  };
-
-  // Re-run heuristics if the user edits prompt and submits again
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!promptInput.trim()) return;
-    handleProcessPrompt(promptInput);
-  };
-
-  // Dynamic calculations based on slider parameters
-  const positiveForceScore = Math.round(
-    (revenue * 0.4) + 
-    ((100 - dso) * 0.3) + 
-    (funding * 0.2)
-  );
-
-  const negativePressureScore = Math.round(
-    (dso * 0.4) + 
-    (debtUtil * 0.3) + 
-    ((30 - Math.min(30, cashReserve)) * 1.5)
-  );
-
-  const rawScore = positiveForceScore - negativePressureScore;
-
-  const rawPosture: 'BUILD' | 'STABILIZE' | 'DEFEND' = 
-    rawScore >= 15 ? 'BUILD' : 
-    rawScore >= -10 ? 'STABILIZE' : 'DEFEND';
-
-  const activeTriggers: string[] = [];
-  if (cashReserve < 10) activeTriggers.push('Low Cash Runway');
-  if (debtUtil > 75) activeTriggers.push('High Debt Overdraft');
-  if (dso > 60) activeTriggers.push('Elevated Receivables DSO');
-
-  const triggerDowngraded = activeTriggers.length > 0;
-  
-  const calculatedPosture = triggerDowngraded 
-    ? (rawPosture === 'BUILD' ? 'STABILIZE' : (rawPosture === 'STABILIZE' && cashReserve < 5 ? 'DEFEND' : rawPosture))
-    : rawPosture;
-
-  // Sankey Data formatting
-  const totalRevenueVal = revenue * 100000;
-  const fundingVal = funding * 100000;
-  
-  const leakageVal = Math.round(totalRevenueVal * (dso / 120));
-  const activeRevenueInflowVal = totalRevenueVal - leakageVal;
-  
-  const totalInflowPoolVal = activeRevenueInflowVal + fundingVal;
-  
-  // Splits from pool
-  const reservesVal = Math.round(cashReserve * 100000);
-  const opexVal = Math.round((totalInflowPoolVal - reservesVal) * 0.6);
-  const repaymentsVal = totalInflowPoolVal - reservesVal - opexVal;
-
-  const sankeyData = {
-    nodes: [
-      { name: "Gross Revenue", value: totalRevenueVal },
-      { name: "External Funding", value: fundingVal },
-      { name: "Operational Capital Pool", value: totalInflowPoolVal },
-      { name: "Liquid Cash Reserves", value: reservesVal },
-      { name: "Operational WC (Opex)", value: opexVal },
-      { name: "Stuck Receivables (DSO)", value: leakageVal },
-      { name: "Debt Service / Interest", value: repaymentsVal }
-    ],
-    links: [
-      { source: 0, target: 2, value: activeRevenueInflowVal },
-      { source: 0, target: 5, value: leakageVal },
-      { source: 1, target: 2, value: fundingVal },
-      { source: 2, target: 3, value: reservesVal },
-      { source: 2, target: 4, value: opexVal },
-      { source: 2, target: 6, value: repaymentsVal }
-    ]
-  };
-
-  // Nudge to main Decision Engine with loaded values
-  const handleLockAndContinue = () => {
-    const payload = {
-      odpGrowth: Math.round(Math.min(100, (positiveForceScore / 100) * 100)),
-      odpLiquidity: Math.round(Math.min(100, (cashReserve / 50) * 100)),
-      bizCashRunway: Math.round(cashReserve * 4),
-      bizDso: dso,
-      bizDebtUtil: debtUtil,
-      envInterestRate: 'rising'
+    return {
+      nodes: [
+        { name: "Gross Sales Revenue", value: totalSales },
+        { name: "External Credit / OD", value: debtInflow },
+        { name: "Operational Capital Pool", value: totalPool },
+        { name: "Operations (Opex)", value: opex },
+        { name: "Statutory & Taxes", value: taxes },
+        { name: "Debt Service & Interest", value: debtService },
+        { name: "Liquid Reserves Buffer", value: retainedReserves },
+        { name: "Receivables Locked (DSO)", value: receivablesLocked }
+      ],
+      links: [
+        { source: 0, target: 2, value: activeInflow },
+        { source: 0, target: 7, value: receivablesLocked },
+        { source: 1, target: 2, value: debtInflow },
+        { source: 2, target: 3, value: opex },
+        { source: 2, target: 4, value: taxes },
+        { source: 2, target: 5, value: debtService },
+        { source: 2, target: 6, value: retainedReserves }
+      ]
     };
-    
-    // Save to localStorage so AICXOSuitePage can retrieve it on mount
-    localStorage.setItem('onboarding_scenario', JSON.stringify(payload));
-    
-    // Navigate with react-router-dom state
-    navigate('/ai-cxo/decision-engine', { state: payload });
+  }, [creditDays]);
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+    const userMsg = chatInput.trim();
+    setChatMessages(prev => [...prev, { sender: 'user', text: userMsg }]);
+    setChatInput('');
+
+    setTimeout(() => {
+      let aiReply = "Telemetry shows working capital cushion adequate. Estimated break-even on day 42.";
+      if (userMsg.toLowerCase().includes('delay') || userMsg.toLowerCase().includes('customer')) {
+        aiReply = "Zenith and NeoPack account for 62% of overdue balances > 45d. Dunning step-2 queued.";
+      } else if (userMsg.toLowerCase().includes('order') || userMsg.toLowerCase().includes('40l')) {
+        aiReply = "₹40L OEM order verified with ₹12L invoice discounting or 21-day supplier term renegotiation.";
+      }
+      setChatMessages(prev => [...prev, { sender: 'ai', text: aiReply }]);
+    }, 400);
+  };
+
+  const handleWorkAction = (id: string) => {
+    setWorkItems(prev => prev.map(w => w.id === id ? { ...w, status: 'completed' } : w));
   };
 
   return (
-    <div className="min-h-screen bg-[#FBFBFA] text-[#111111] dark:bg-gray-950 dark:text-gray-100 p-6 pb-20">
-      <div className="max-w-7xl mx-auto space-y-10">
-        
-        {/* HEADER */}
-        <div className="flex items-center space-x-3 border-b border-[#EAEAEA] dark:border-gray-850 pb-6 text-left">
-          <div className="w-12 h-12 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-2xl flex items-center justify-center">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-[9px] font-bold tracking-wider uppercase font-mono text-neutral-500 block">Interactive Strategic Simulator</span>
-            <h1 className="text-3xl font-bold font-serif leading-tight">AI Onboarding Storyteller</h1>
-            <p className="text-xs text-neutral-500 mt-0.5">Describe your B2B enterprise in natural language to project capital flows instantly.</p>
-          </div>
-        </div>
-
-        {/* INPUT STAGE */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left">
+    <div className="min-h-screen bg-[#F7F7F5] dark:bg-[#121212] text-[#1E1E1E] dark:text-[#E6E6E6] font-sans antialiased pb-24 selection:bg-emerald-500/20">
+      
+      {/* TOP COMMAND BAR: COMPACT, CRISP & BUTTON-DRIVEN */}
+      <header className="sticky top-0 z-40 bg-[#FFFFFF]/95 dark:bg-[#161616]/95 backdrop-blur-md border-b border-[#EAEAE7] dark:border-[#262626] px-6 py-3">
+        <div className="max-w-[1600px] mx-auto flex items-center justify-between gap-4">
           
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-neutral-200 dark:border-gray-800 shadow-sm space-y-4">
-              <h3 className="font-bold text-lg font-serif">1. Describe Your Business Prospects</h3>
-              <p className="text-xs text-neutral-500">
-                Input monthly sales, credit cycles, cash on hand, and current debt. Our parser will instantly translate this into a customized cockpit.
-              </p>
-              
-              <form onSubmit={handleFormSubmit} className="space-y-4">
-                <textarea
-                  rows={4}
-                  value={promptInput}
-                  onChange={e => setPromptInput(e.target.value)}
-                  placeholder="e.g., We are a manufacturing firm doing ₹50L monthly sales, but ₹15L is stuck in overdue invoices. We have a bank balance of ₹8L and need to raise ₹12L for raw materials."
-                  className="w-full bg-[#FBFBFA] dark:bg-gray-950 border border-neutral-200 dark:border-gray-800 rounded-xl p-3.5 text-sm focus:border-neutral-900 dark:focus:border-white focus:ring-0 transition-all font-mono"
-                />
-                
-                <div className="flex flex-wrap gap-2 pt-1 justify-between items-center">
-                  <span className="text-[10px] font-bold text-neutral-400 font-mono">
-                    Heuristic entity extraction enabled
-                  </span>
-                  <button
-                    type="submit"
-                    disabled={isProcessing || !promptInput.trim()}
-                    className="neo-button glass-action bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-xs py-2 px-5 rounded-lg flex items-center space-x-2 transition-all disabled:opacity-50"
-                  >
-                    {isProcessing ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Activity className="w-3.5 h-3.5" />}
-                    <span>{isProcessing ? "Processing Story..." : "Map Capital Flow"}</span>
-                  </button>
+          {/* Left: Hamburger & Entity Badge & Sync Indicator */}
+          <div className="flex items-center space-x-2.5">
+            <button
+              onClick={toggleSidebar}
+              title={isSidebarOpen ? "Collapse Sidebar (⌘B)" : "Expand Sidebar (⌘B)"}
+              className="p-1.5 rounded-xl hover:bg-[#F4F4F2] dark:hover:bg-[#202020] text-[#777777] hover:text-[#111111] dark:hover:text-white border border-transparent hover:border-[#E2E2DE] dark:hover:border-[#333333] transition active:scale-95"
+            >
+              <Menu className="w-4 h-4" />
+            </button>
+
+            <div className="relative">
+              <button 
+                onClick={() => setShowFiscalMenu(!showFiscalMenu)}
+                className="flex items-center space-x-2 px-3 py-1.5 bg-[#F4F4F2] dark:bg-[#202020] hover:bg-[#EBEBE8] dark:hover:bg-[#2A2A2A] rounded-xl border border-[#E2E2DE] dark:border-[#333333] transition text-xs font-semibold"
+              >
+                <Building2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span className="font-bold">Apex Engineering</span>
+                <span className="text-[#888888] font-mono text-[10px]">{selectedFiscalYear}</span>
+                <ChevronDown className="w-3 h-3 text-[#888888]" />
+              </button>
+
+              {showFiscalMenu && (
+                <div className="absolute top-full left-0 mt-1 w-44 bg-white dark:bg-[#1E1E1E] border border-[#E2E2DE] dark:border-[#333333] rounded-xl shadow-xl p-1 z-50 text-xs">
+                  {['FY 2025-26', 'FY 2024-25', 'FY 2023-24'].map(fy => (
+                    <button
+                      key={fy}
+                      onClick={() => { setSelectedFiscalYear(fy); setShowFiscalMenu(false); }}
+                      className="w-full text-left px-3 py-1.5 rounded-lg hover:bg-[#F4F4F2] dark:hover:bg-[#282828] font-medium"
+                    >
+                      {fy}
+                    </button>
+                  ))}
                 </div>
-              </form>
-            </div>
-
-            {/* PRESETS */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider font-mono text-neutral-500">Or Select a Preset Template</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                {PRESETS.map((preset, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setPromptInput(preset.prompt);
-                      handleProcessPrompt(preset.prompt);
-                    }}
-                    className="p-4 rounded-xl border border-neutral-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-neutral-50 dark:hover:bg-neutral-950/60 transition text-left space-y-1.5"
-                  >
-                    <div className="font-bold text-xs flex items-center space-x-1.5">
-                      <Terminal className="w-3.5 h-3.5 text-neutral-500" />
-                      <span>{preset.title}</span>
-                    </div>
-                    <p className="text-[10px] text-neutral-500 leading-relaxed line-clamp-3">{preset.desc}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* LOGS PANEL */}
-          <div className="bg-[#111111] dark:bg-gray-900 rounded-2xl p-6 border border-[#222222] dark:border-gray-850 text-left font-mono space-y-4 shadow-xl">
-            <div className="flex justify-between items-center border-b border-[#222222] pb-2">
-              <span className="text-[10px] font-bold text-[#346538] flex items-center">
-                <span className="relative flex h-1.5 w-1.5 mr-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#346538] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#346538]"></span>
-                </span>
-                AI Steward Parser Log
-              </span>
-              <span className="text-[9px] text-neutral-500">v1.0.0</span>
-            </div>
-            
-            <div className="space-y-2 text-xs h-[180px] overflow-y-auto custom-scrollbar leading-relaxed">
-              {processingLog.length === 0 ? (
-                <div className="text-neutral-600 italic">Waiting for prompt submission to output logs...</div>
-              ) : (
-                processingLog.map((log, idx) => (
-                  <div key={idx} className="text-neutral-300">
-                    <span className="text-neutral-500 select-none mr-1.5">&gt;</span>
-                    {log}
-                  </div>
-                ))
               )}
             </div>
+
+            <div className="hidden sm:flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-mono text-[10px] font-bold border border-emerald-500/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Tally + HDFC Sync</span>
+            </div>
+          </div>
+
+          {/* Center: Search & Navigation */}
+          <div className="w-full max-w-sm relative hidden md:block">
+            <Search className="w-3.5 h-3.5 text-[#999999] absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input 
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Search ledger, vouchers, or ask AI..."
+              className="w-full pl-9 pr-10 py-1.5 bg-[#F4F4F2] dark:bg-[#202020] border border-[#E2E2DE] dark:border-[#333333] rounded-xl text-xs focus:bg-white dark:focus:bg-[#181818] focus:border-neutral-900 dark:focus:border-neutral-300 focus:outline-none transition placeholder:text-[#999999]"
+            />
+            <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[9px] font-mono bg-white dark:bg-[#181818] border border-[#E2E2DE] dark:border-[#333333] px-1.5 py-0.5 rounded text-[#888888]">
+              ⌘K
+            </kbd>
+          </div>
+
+          {/* Right: Role Switcher & Direct Module Jump Buttons */}
+          <div className="flex items-center space-x-2">
+            
+            {/* Perspective Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setShowRoleMenu(!showRoleMenu)}
+                className="flex items-center space-x-1.5 px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 rounded-xl text-xs font-semibold transition"
+              >
+                <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="font-bold">{currentRoleConfig.name.split(' ')[0]}</span>
+                <ChevronDown className="w-3 h-3 opacity-60" />
+              </button>
+
+              {showRoleMenu && (
+                <div className="absolute top-full right-0 mt-1 w-64 bg-white dark:bg-[#1E1E1E] border border-[#E2E2DE] dark:border-[#333333] rounded-2xl shadow-xl p-1.5 z-50 text-xs divide-y divide-[#F0F0EE] dark:divide-[#282828]">
+                  {Object.values(ROLE_DEFINITIONS).map(role => (
+                    <button
+                      key={role.id}
+                      onClick={() => { setActiveRole(role.id); setShowRoleMenu(false); }}
+                      className={`w-full text-left p-2.5 rounded-xl transition flex items-start space-x-2 ${
+                        activeRole === role.id 
+                          ? 'bg-emerald-500/10 text-emerald-900 dark:text-emerald-200 font-bold' 
+                          : 'hover:bg-[#F4F4F2] dark:hover:bg-[#282828]'
+                      }`}
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold text-xs">{role.name}</span>
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-neutral-200 dark:bg-neutral-800">
+                            {role.roleBadge.split(' ')[0]}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-[#777777] truncate">{role.title}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* C-Level Advisory Toggle */}
+            <button
+              onClick={() => setWorkspaceFocus(workspaceFocus === 'advisory' ? 'overview' : 'advisory')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm ${
+                workspaceFocus === 'advisory'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30'
+              }`}
+            >
+              <Scale className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Advisory War Room</span>
+            </button>
+
+            {/* ERPNext Direct Bridge */}
+            <button
+              onClick={() => navigate('/business-erp')}
+              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm"
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>ERPNext</span>
+            </button>
           </div>
 
         </div>
+      </header>
 
-        {/* PROCESSED STATE - SLIDERS & SANKEY */}
-        <AnimatePresence>
-          {processed && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left border-t border-[#EAEAEA] dark:border-gray-850 pt-8"
+      {/* FOCUS MODE BAR: CLEAN PILL BUTTONS */}
+      <div className="bg-white dark:bg-[#181818] border-b border-[#EAEAE7] dark:border-[#262626] px-6 py-2.5">
+        <div className="max-w-[1600px] mx-auto flex items-center justify-between overflow-x-auto scrollbar-none">
+          <div className="flex items-center space-x-1.5 min-w-max">
+            {[
+              { id: 'overview', label: 'Executive Overview', icon: LayoutGrid },
+              { id: 'advisory', label: 'C-Level Advisory Board', icon: Scale, badge: 'Live Review' },
+              { id: 'capital', label: 'Capital & Working Capital Studio', icon: BarChart2 },
+              { id: 'work', label: 'Operations & Work Queue', icon: CheckSquare, count: workItems.filter(w => w.status === 'pending').length },
+              { id: 'all', label: 'Full Panorama', icon: Maximize2 }
+            ].map(tab => {
+              const Icon = tab.icon;
+              const isActive = workspaceFocus === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setWorkspaceFocus(tab.id as any)}
+                  className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+                    isActive 
+                      ? 'bg-[#111111] text-white dark:bg-white dark:text-[#111111] shadow-sm' 
+                      : 'text-[#666666] hover:text-[#111111] dark:hover:text-white hover:bg-[#F4F4F2] dark:hover:bg-[#252525]'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{tab.label}</span>
+                  {tab.count !== undefined && (
+                    <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white/20 text-white dark:bg-black/20 dark:text-black' : 'bg-red-500/15 text-red-700 dark:text-red-400 font-bold'}`}>
+                      {tab.count}
+                    </span>
+                  )}
+                  {tab.badge && (
+                    <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${isActive ? 'bg-emerald-500 text-white' : 'bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-bold'}`}>
+                      {tab.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="hidden lg:flex items-center space-x-1.5 bg-[#F4F4F2] dark:bg-[#222222] p-1 rounded-xl border border-[#E2E2DE] dark:border-[#333333]">
+            {(['today', '30d', 'fy'] as const).map(t => (
+              <button
+                key={t}
+                onClick={() => setTimeframe(t)}
+                className={`px-2.5 py-0.5 rounded-lg text-[10px] font-semibold uppercase font-mono transition ${
+                  timeframe === t 
+                    ? 'bg-white dark:bg-[#111111] text-[#111111] dark:text-white shadow-sm' 
+                    : 'text-[#777777] hover:text-[#111111]'
+                }`}
+              >
+                {t === 'today' ? 'Today' : t === '30d' ? '30d' : 'FY 25-26'}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* MAIN VIEWPORT */}
+      <main className="max-w-[1600px] mx-auto px-6 pt-5 space-y-6">
+
+        {/* C-LEVEL ADVISORY WAR ROOM VIEW */}
+        {workspaceFocus === 'advisory' && (
+          <CLevelExecutiveAdvisory />
+        )}
+
+        {/* EXECUTIVE KPI PULSE BAR (Visible in overview and full panorama) */}
+        {(workspaceFocus === 'overview' || workspaceFocus === 'all') && (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            
+            {/* KPI 1: Cash in Bank */}
+            <div 
+              onClick={() => setWorkspaceFocus('capital')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] hover:border-emerald-500/50 cursor-pointer transition shadow-sm group"
             >
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase text-[#777777]">Cash in Bank</span>
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-700 font-bold">+6.0%</span>
+              </div>
+              <div className="text-lg font-bold font-mono text-[#111111] dark:text-white mt-1">₹1,24,50,000</div>
+              <div className="text-[10px] font-mono text-[#888888] mt-0.5 flex justify-between">
+                <span>Runway: {projectedRunway}d</span>
+                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition text-emerald-600" />
+              </div>
+            </div>
+
+            {/* KPI 2: Receivables (DSO) */}
+            <div 
+              onClick={() => setWorkspaceFocus('capital')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] hover:border-amber-500/50 cursor-pointer transition shadow-sm group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase text-[#777777]">Receivables</span>
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-red-500/10 text-red-700 font-bold">23 Overdue</span>
+              </div>
+              <div className="text-lg font-bold font-mono text-[#111111] dark:text-white mt-1">₹2,38,70,000</div>
+              <div className="text-[10px] font-mono text-[#888888] mt-0.5 flex justify-between">
+                <span>DSO: {creditDays}d</span>
+                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition text-amber-600" />
+              </div>
+            </div>
+
+            {/* KPI 3: Payables */}
+            <div 
+              onClick={() => setWorkspaceFocus('work')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] hover:border-blue-500/50 cursor-pointer transition shadow-sm group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase text-[#777777]">Payables</span>
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-700 font-bold">14 Due</span>
+              </div>
+              <div className="text-lg font-bold font-mono text-[#111111] dark:text-white mt-1">₹1,12,30,000</div>
+              <div className="text-[10px] font-mono text-[#888888] mt-0.5 flex justify-between">
+                <span>Cycle: {supplierDays}d</span>
+                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition text-blue-600" />
+              </div>
+            </div>
+
+            {/* KPI 4: Net Cash Flow */}
+            <div 
+              onClick={() => setWorkspaceFocus('capital')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] hover:border-emerald-500/50 cursor-pointer transition shadow-sm group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase text-[#777777]">Net Cash Flow</span>
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-700 font-bold">+12.4%</span>
+              </div>
+              <div className="text-lg font-bold font-mono text-emerald-700 dark:text-emerald-400 mt-1">₹68,40,000</div>
+              <div className="text-[10px] font-mono text-[#888888] mt-0.5 flex justify-between">
+                <span>Free Cash: ₹42.8L</span>
+                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition text-emerald-600" />
+              </div>
+            </div>
+
+            {/* KPI 5: Health & Covenant */}
+            <div 
+              onClick={() => setWorkspaceFocus('advisory')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] hover:border-purple-500/50 cursor-pointer transition shadow-sm group col-span-2 md:col-span-1"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase text-[#777777]">Health Score</span>
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-700 font-bold">Compliant</span>
+              </div>
+              <div className="text-lg font-bold font-mono text-[#111111] dark:text-white mt-1">76 / 100</div>
+              <div className="text-[10px] font-mono text-[#888888] mt-0.5 flex justify-between">
+                <span>B+ Prime Band</span>
+                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition text-purple-600" />
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {/* ROW 2: RECONCILED FINANCIAL FLOW SANKEY + COPILOT */}
+        {(workspaceFocus === 'overview' || workspaceFocus === 'all') && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            {/* Left Column: Financial Flow Sankey (8 Cols) */}
+            <div className="lg:col-span-8 space-y-4">
               
-              {/* SLIDERS COLUMN */}
-              <div className="space-y-6">
-                <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-neutral-200 dark:border-gray-800 shadow-sm space-y-5">
-                  <div className="flex justify-between items-center border-b border-[#EAEAEA] dark:border-gray-850 pb-2">
-                    <h3 className="font-bold text-md font-serif flex items-center space-x-2">
-                      <Sliders className="w-4 h-4 text-neutral-500" />
-                      <span>Simulative Slider Cockpit</span>
-                    </h3>
-                    <span className="text-[9px] font-mono bg-neutral-100 dark:bg-gray-800 py-0.5 px-2 rounded font-bold uppercase tracking-wider text-neutral-500">Live Simulation</span>
+              <div className="p-5 rounded-3xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] shadow-sm space-y-4">
+                
+                {/* Header Controls */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-[#F0F0EE] dark:border-[#282828] pb-3">
+                  <div className="flex items-center space-x-2">
+                    <Activity className="w-4 h-4 text-emerald-600" />
+                    <h2 className="text-sm font-bold text-[#111111] dark:text-white">Reconciled Financial Flow</h2>
                   </div>
 
-                  {/* Slider 1: Revenue */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs font-medium">
-                      <span className="text-neutral-500">Monthly Sales (Revenue):</span>
-                      <span className="font-bold font-mono">₹{revenue}L</span>
-                    </div>
-                    <input 
-                      type="range" 
-                      min="5" 
-                      max="200" 
-                      value={revenue} 
-                      onChange={e => setRevenue(parseInt(e.target.value))}
-                      className="w-full accent-neutral-900 dark:accent-white" 
-                    />
-                  </div>
+                  <div className="flex items-center space-x-2">
+                    <select
+                      value={flowCategory}
+                      onChange={e => setFlowCategory(e.target.value)}
+                      className="px-2.5 py-1 bg-[#F4F4F2] dark:bg-[#252525] border border-[#E2E2DE] dark:border-[#333333] rounded-xl text-xs font-semibold focus:outline-none"
+                    >
+                      <option value="All categories">All Categories</option>
+                      <option value="Operating Only">Operating Only</option>
+                      <option value="Treasury & OD">Treasury & OD</option>
+                    </select>
 
-                  {/* Slider 2: DSO */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs font-medium">
-                      <span className="text-neutral-500">Receivables DSO (Stuck Invoices):</span>
-                      <span className="font-bold font-mono text-[#9F2F2D]">{dso} Days</span>
-                    </div>
-                    <input 
-                      type="range" 
-                      min="10" 
-                      max="120" 
-                      value={dso} 
-                      onChange={e => setDso(parseInt(e.target.value))}
-                      className="w-full accent-neutral-900 dark:accent-white" 
-                    />
-                  </div>
-
-                  {/* Slider 3: Target Funding */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs font-medium">
-                      <span className="text-neutral-500">Credit/Funding Required:</span>
-                      <span className="font-bold font-mono text-[#1F6C9F]">₹{funding}L</span>
-                    </div>
-                    <input 
-                      type="range" 
-                      min="0" 
-                      max="100" 
-                      value={funding} 
-                      onChange={e => setFunding(parseInt(e.target.value))}
-                      className="w-full accent-neutral-900 dark:accent-white" 
-                    />
-                  </div>
-
-                  {/* Slider 4: Cash Reserves */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs font-medium">
-                      <span className="text-neutral-500">Current Cash Reserve:</span>
-                      <span className="font-bold font-mono text-[#346538]">₹{cashReserve}L</span>
-                    </div>
-                    <input 
-                      type="range" 
-                      min="1" 
-                      max="50" 
-                      value={cashReserve} 
-                      onChange={e => setCashReserve(parseInt(e.target.value))}
-                      className="w-full accent-neutral-900 dark:accent-white" 
-                    />
-                  </div>
-
-                  {/* Slider 5: Debt Overdraft */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-xs font-medium">
-                      <span className="text-neutral-500">Debt Utilization:</span>
-                      <span className="font-bold font-mono text-[#9F2F2D]">{debtUtil}%</span>
-                    </div>
-                    <input 
-                      type="range" 
-                      min="0" 
-                      max="100" 
-                      value={debtUtil} 
-                      onChange={e => setDebtUtil(parseInt(e.target.value))}
-                      className="w-full accent-neutral-900 dark:accent-white" 
-                    />
+                    <button
+                      onClick={() => setWorkspaceFocus('capital')}
+                      className="px-3 py-1 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 rounded-xl text-xs font-bold transition flex items-center space-x-1"
+                    >
+                      <Sliders className="w-3 h-3" />
+                      <span>Capital Levers</span>
+                    </button>
                   </div>
                 </div>
+
+                {/* Sankey Component */}
+                <div className="w-full h-80 relative overflow-hidden rounded-2xl bg-[#FAFAFA] dark:bg-[#141414] p-3 border border-[#F0F0EE] dark:border-[#252525]">
+                  <SankeyDiagram data={sankeyData} />
+                </div>
+
+                {/* Interactive Direct Action Levers */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                  {attentionItems.map(item => (
+                    <div 
+                      key={item.id}
+                      className="p-3 rounded-2xl bg-[#F8F9FA] dark:bg-[#141414] border border-[#EAEAE7] dark:border-[#282828] flex flex-col justify-between space-y-2"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between text-[10px] font-mono">
+                          <span className="font-bold text-[#111111] dark:text-white truncate">{item.title}</span>
+                          <span className={`w-2 h-2 rounded-full ${item.severity === 'critical' ? 'bg-red-500' : item.severity === 'high' ? 'bg-amber-500' : 'bg-blue-500'}`} />
+                        </div>
+                        <p className="text-[11px] text-[#777777] mt-0.5">{item.desc}</p>
+                      </div>
+
+                      <button
+                        onClick={item.action}
+                        className="w-full py-1.5 bg-white dark:bg-[#202020] hover:bg-neutral-100 dark:hover:bg-[#282828] border border-[#E2E2DE] dark:border-[#333333] rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1 text-[#111111] dark:text-white"
+                      >
+                        <span>{item.actionLabel}</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
               </div>
 
-              {/* SANKEY COLUMN */}
-              <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-neutral-200 dark:border-gray-800 shadow-sm space-y-4">
-                  <div className="flex justify-between items-center border-b border-[#EAEAEA] dark:border-gray-850 pb-2">
-                    <h3 className="font-bold text-md font-serif flex items-center space-x-2">
-                      <BarChart2 className="w-4 h-4 text-neutral-500" />
-                      <span>Interactive Sankey Capital Flow</span>
-                    </h3>
-                    <span className="text-xs text-neutral-500 font-mono">₹ in Lakhs</span>
-                  </div>
+            </div>
 
-                  {/* Render dynamic Sankey diagram */}
-                  <div className="overflow-x-auto overflow-y-hidden border border-[#F1F1EF] dark:border-gray-800 rounded-xl p-4 bg-[#FBFBFA] dark:bg-gray-950 flex items-center justify-center">
-                    <SankeyDiagram
-                      data={sankeyData}
-                      width={680}
-                      height={320}
-                    />
-                  </div>
-
-                  {/* Strategic evaluation feedback panel */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                    {/* CGT-DBE posture output */}
-                    <div className="p-4 rounded-xl border border-neutral-200 dark:border-gray-800 bg-[#FBFBFA] dark:bg-gray-950 space-y-2">
-                      <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block">Policy Decision Assessment</span>
-                      <div className="flex justify-between items-center">
-                        <span className="font-serif font-bold text-lg">{calculatedPosture} POSTURE</span>
-                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
-                          calculatedPosture === 'BUILD' ? 'bg-[#EDF3EC] text-[#346538]' :
-                          calculatedPosture === 'STABILIZE' ? 'bg-[#E1F3FE] text-[#1F6C9F]' :
-                          'bg-[#FDEBEC] text-[#9F2F2D]'
-                        }`}>
-                          Score: {rawScore >= 0 ? '+' : ''}{rawScore}
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-neutral-500 leading-relaxed">
-                        Evaluated against historical debt levels, buyer risk profiles, and observed cash-on-hand runway constraints.
-                      </p>
-                    </div>
-
-                    {/* Safety alert metrics */}
-                    <div className="p-4 rounded-xl border border-neutral-200 dark:border-gray-800 bg-[#FBFBFA] dark:bg-gray-950 space-y-2">
-                      <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block">Activated Safety Triggers</span>
-                      <div className="space-y-1">
-                        {activeTriggers.length === 0 ? (
-                          <div className="text-[11px] font-bold text-[#346538] flex items-center space-x-1">
-                            <span>✓ All safety checks cleared</span>
-                          </div>
-                        ) : (
-                          activeTriggers.map((trig, idx) => (
-                            <div key={idx} className="text-[10px] font-bold text-[#9F2F2D] flex items-center space-x-1.5">
-                              <ShieldAlert className="w-3.5 h-3.5" />
-                              <span>{trig}</span>
-                            </div>
-                          ))
-                        )}
-                      </div>
-                      <p className="text-[10px] text-neutral-500 leading-relaxed">
-                        Hard constraints defined under the CGT-DBE Strategic policy engine automatically cap capital deployment postures.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* NUDGE TO CONTINUE TO MAIN ENGINE */}
-                  <div className="bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 p-5 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4 text-left shadow-lg mt-4">
-                    <div>
-                      <h4 className="font-bold text-sm font-serif">Simulations Visualized. Transition to Finpercent Decision Engine?</h4>
-                      <p className="text-[10px] text-neutral-400 dark:text-neutral-500 leading-relaxed mt-0.5">
-                        Locks this custom scenario and pre-populates all inputs inside the main operations dashboard and risk analysis views.
-                      </p>
-                    </div>
+            {/* Right Column: Intelligence Copilot & Action Panel (4 Cols) */}
+            <div className="lg:col-span-4 space-y-4">
+              
+              <div className="p-5 rounded-3xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] shadow-sm space-y-4">
+                
+                {/* Right Panel Tabs */}
+                <div className="flex items-center justify-between border-b border-[#F0F0EE] dark:border-[#282828] pb-2.5">
+                  <div className="flex items-center space-x-1 bg-[#F4F4F2] dark:bg-[#222222] p-1 rounded-xl">
                     <button
-                      onClick={handleLockAndContinue}
-                      className="px-5 py-2.5 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-xl text-xs font-bold hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all flex items-center space-x-2 active:scale-98"
+                      onClick={() => setRightPanelTab('chat')}
+                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                        rightPanelTab === 'chat' 
+                          ? 'bg-white dark:bg-[#111111] text-[#111111] dark:text-white shadow-sm' 
+                          : 'text-[#777777]'
+                      }`}
                     >
-                      <span>Lock Scenario & Run Engine</span>
-                      <ArrowRight className="w-4 h-4" />
+                      Copilot
+                    </button>
+                    <button
+                      onClick={() => setRightPanelTab('insights')}
+                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                        rightPanelTab === 'insights' 
+                          ? 'bg-white dark:bg-[#111111] text-[#111111] dark:text-white shadow-sm' 
+                          : 'text-[#777777]'
+                      }`}
+                    >
+                      Insights
                     </button>
                   </div>
 
+                  <span className="text-[10px] font-mono text-emerald-600 font-bold">SHA-256 Validated</span>
+                </div>
+
+                {/* Copilot Chat */}
+                {rightPanelTab === 'chat' && (
+                  <div className="space-y-3">
+                    <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                      {chatMessages.map((msg, idx) => (
+                        <div 
+                          key={idx} 
+                          className={`p-3 rounded-2xl text-xs ${
+                            msg.sender === 'user' 
+                              ? 'bg-[#111111] text-white ml-6' 
+                              : 'bg-[#F8F9FA] dark:bg-[#151515] text-[#111111] dark:text-[#E0E0E0] border border-[#EAEAE7] dark:border-[#282828] mr-4'
+                          }`}
+                        >
+                          {msg.text}
+                        </div>
+                      ))}
+                    </div>
+
+                    <form onSubmit={handleSendMessage} className="relative">
+                      <input
+                        type="text"
+                        value={chatInput}
+                        onChange={e => setChatInput(e.target.value)}
+                        placeholder="Ask Copilot..."
+                        className="w-full pl-3 pr-9 py-2 bg-[#F4F4F2] dark:bg-[#202020] border border-[#E2E2DE] dark:border-[#333333] rounded-xl text-xs focus:outline-none focus:border-emerald-600"
+                      />
+                      <button
+                        type="submit"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-emerald-600 text-white rounded-lg"
+                      >
+                        <Send className="w-3 h-3" />
+                      </button>
+                    </form>
+                  </div>
+                )}
+
+                {/* Quick Insights List */}
+                {rightPanelTab === 'insights' && (
+                  <div className="space-y-2 text-xs">
+                    <div className="p-3 rounded-2xl bg-[#F8F9FA] dark:bg-[#141414] border border-[#EAEAE7] dark:border-[#282828] space-y-1">
+                      <span className="text-[10px] font-mono text-emerald-600 font-bold uppercase">Working Capital</span>
+                      <p className="font-medium text-[#111111] dark:text-white">DSO at {creditDays}d creates a 45d gap with supplier terms.</p>
+                      <button 
+                        onClick={() => navigate('/business-erp')}
+                        className="text-[10px] font-bold text-blue-600 flex items-center space-x-1 pt-1"
+                      >
+                        <span>Open in ERPNext</span>
+                        <ArrowUpRight className="w-3 h-3" />
+                      </button>
+                    </div>
+
+                    <div className="p-3 rounded-2xl bg-[#F8F9FA] dark:bg-[#141414] border border-[#EAEAE7] dark:border-[#282828] space-y-1">
+                      <span className="text-[10px] font-mono text-purple-600 font-bold uppercase">GST 3B Filing</span>
+                      <p className="font-medium text-[#111111] dark:text-white">GSTR-2B input tax credit matched (₹2,28,814).</p>
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+        )}
+
+        {/* CAPITAL & WORKING CAPITAL STUDIO */}
+        {(workspaceFocus === 'capital' || workspaceFocus === 'all') && (
+          <div className="p-6 rounded-3xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] shadow-sm space-y-5">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-[#F0F0EE] dark:border-[#282828] pb-3">
+              <div>
+                <h3 className="text-sm font-bold text-[#111111] dark:text-white flex items-center space-x-2">
+                  <Sliders className="w-4 h-4 text-emerald-600" />
+                  <span>Working Capital & Liquidity Levers</span>
+                </h3>
+                <p className="text-xs text-[#777777]">Calibrate customer credit terms, procurement cycles, and order capacity.</p>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => { setCreditDays(75); setSupplierDays(15); setOrderValue(4000000); }}
+                  className="px-3 py-1 bg-[#F4F4F2] dark:bg-[#252525] rounded-xl text-xs font-semibold"
+                >
+                  Reset Defaults
+                </button>
+                <button
+                  onClick={() => setWorkspaceFocus('advisory')}
+                  className="px-3 py-1 bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center space-x-1"
+                >
+                  <span>C-Level Board Review</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              
+              {/* Slider 1: Customer Credit Days */}
+              <div className="p-4 rounded-2xl bg-[#F8F9FA] dark:bg-[#141414] border border-[#EAEAE7] dark:border-[#282828] space-y-3">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-[#111111] dark:text-white">Customer Credit Term (DSO)</span>
+                  <span className="font-mono font-bold text-amber-600">{creditDays} Days</span>
+                </div>
+                <input
+                  type="range"
+                  min={30}
+                  max={120}
+                  step={5}
+                  value={creditDays}
+                  onChange={e => setCreditDays(Number(e.target.value))}
+                  className="w-full accent-amber-600"
+                />
+                <div className="flex justify-between text-[10px] font-mono text-[#888888]">
+                  <span>30 Days (Fast)</span>
+                  <span>120 Days (Slow)</span>
                 </div>
               </div>
 
-            </motion.div>
-          )}
-        </AnimatePresence>
+              {/* Slider 2: Supplier Payment Days */}
+              <div className="p-4 rounded-2xl bg-[#F8F9FA] dark:bg-[#141414] border border-[#EAEAE7] dark:border-[#282828] space-y-3">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-[#111111] dark:text-white">Supplier Payment Term (DPO)</span>
+                  <span className="font-mono font-bold text-emerald-600">{supplierDays} Days</span>
+                </div>
+                <input
+                  type="range"
+                  min={7}
+                  max={60}
+                  step={1}
+                  value={supplierDays}
+                  onChange={e => setSupplierDays(Number(e.target.value))}
+                  className="w-full accent-emerald-600"
+                />
+                <div className="flex justify-between text-[10px] font-mono text-[#888888]">
+                  <span>7 Days (Cash)</span>
+                  <span>60 Days (Extended)</span>
+                </div>
+              </div>
 
-      </div>
+              {/* Slider 3: OEM Order Pipeline */}
+              <div className="p-4 rounded-2xl bg-[#F8F9FA] dark:bg-[#141414] border border-[#EAEAE7] dark:border-[#282828] space-y-3">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-[#111111] dark:text-white">New OEM Order Value</span>
+                  <span className="font-mono font-bold text-blue-600">₹{(orderValue / 100000).toFixed(0)} Lakhs</span>
+                </div>
+                <input
+                  type="range"
+                  min={1000000}
+                  max={10000000}
+                  step={500000}
+                  value={orderValue}
+                  onChange={e => setOrderValue(Number(e.target.value))}
+                  className="w-full accent-blue-600"
+                />
+                <div className="flex justify-between text-[10px] font-mono text-[#888888]">
+                  <span>₹10L</span>
+                  <span>₹1.0 Cr</span>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Projected Liquidity Outlook */}
+            <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+              <div>
+                <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-300 uppercase font-bold">Projected Liquidity Outlook</span>
+                <div className="text-sm font-bold text-emerald-900 dark:text-emerald-100">
+                  Estimated Day-60 Cash Cushion: ₹{estimatedCashDay60} Lakhs • Safe Runway: {projectedRunway} Days
+                </div>
+              </div>
+
+              <button
+                onClick={() => navigate('/business-erp')}
+                className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1"
+              >
+                <span>Open in ERPNext Module</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+          </div>
+        )}
+
+        {/* OPERATIONS & WORK QUEUE VIEW */}
+        {(workspaceFocus === 'work' || workspaceFocus === 'all') && (
+          <div className="p-6 rounded-3xl bg-white dark:bg-[#1A1A1A] border border-[#EAEAE7] dark:border-[#282828] shadow-sm space-y-4">
+            <div className="flex items-center justify-between border-b border-[#F0F0EE] dark:border-[#282828] pb-3">
+              <div className="flex items-center space-x-2">
+                <CheckSquare className="w-4 h-4 text-emerald-600" />
+                <h3 className="text-sm font-bold text-[#111111] dark:text-white">Active Operational Work Queue</h3>
+              </div>
+              <span className="text-[10px] font-mono text-neutral-400">Zero-Trust Cryptographic Action Queue</span>
+            </div>
+
+            <div className="space-y-2">
+              {workItems.map(item => (
+                <div 
+                  key={item.id} 
+                  className="p-3.5 rounded-2xl bg-[#F8F9FA] dark:bg-[#141414] border border-[#EAEAE7] dark:border-[#282828] flex items-center justify-between gap-4 text-xs"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className={`p-2 rounded-xl ${item.status === 'completed' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-neutral-200 dark:bg-neutral-800'}`}>
+                      {item.status === 'completed' ? <Check className="w-4 h-4" /> : <Clock className="w-4 h-4 text-neutral-500" />}
+                    </div>
+                    <div>
+                      <div className="font-bold text-[#111111] dark:text-white">{item.item}</div>
+                      <div className="text-[10px] text-[#777777] font-mono">{item.detail} • Owner: {item.owner}</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    {item.status === 'completed' ? (
+                      <span className="text-[10px] font-mono text-emerald-600 font-bold">Executed</span>
+                    ) : (
+                      <button
+                        onClick={() => handleWorkAction(item.id)}
+                        className="px-3.5 py-1.5 bg-[#111111] hover:bg-[#222222] dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-[#111111] rounded-xl text-xs font-bold transition flex items-center space-x-1"
+                      >
+                        <Lock className="w-3 h-3" />
+                        <span>Sign & Authorize</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </main>
+
     </div>
   );
 }

@@ -95,7 +95,7 @@ export default function AuditorAgentWorkflowPage() {
 <span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-400 uppercase">Available</span>
 </div>
 <h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">Cash Flow Stress Test Agent</h3>
-<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Simulates market volatility impacts on runway and cash reserves.</p>
+<p className="text-slate-500 dark:text-slate-400 text-xs mb-4">Calculates market volatility impacts on runway and cash reserves.</p>
 </div>
 <button className="w-full py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Activate</button>
 </div>

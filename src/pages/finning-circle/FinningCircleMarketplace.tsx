@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FinningCircleNav from '../../components/finning-circle/FinningCircleNav';
 import { 
   Building2, Search, MapPin, Tag, CheckCircle2, Star, 
@@ -85,6 +86,7 @@ const PRODUCTS_DATA: Product[] = [
 ];
 
 export default function FinningCircleMarketplace() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedCity, setSelectedCity] = useState('all');

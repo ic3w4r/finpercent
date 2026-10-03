@@ -8,9 +8,19 @@ interface UploadProgress {
   progress: number;
 }
 
-type Stage = 'upload' | 'details' | 'analysis' | 'report';
+export type Stage = 'upload' | 'details' | 'analysis' | 'report';
 
-export default function FileUploader() {
+export interface FileUploaderProps {
+  onFileUpload?: (file: File) => void;
+  acceptedFileTypes?: string[];
+  maxFileSize?: number;
+}
+
+export default function FileUploader({
+  onFileUpload,
+  acceptedFileTypes = ['.pdf'],
+  maxFileSize = 10 * 1024 * 1024
+}: FileUploaderProps = {}) {
   const [stage, setStage] = useState<Stage>('upload');
   const [uploadProgress, setUploadProgress] = useState<UploadProgress | null>(null);
   const [userDetails, setUserDetails] = useState<UserFormData | null>(null);
@@ -37,13 +47,21 @@ export default function FileUploader() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type and size
-    if (file.type !== 'application/pdf') {
-      alert('Please upload a valid PDF file');
+    if (onFileUpload) {
+      onFileUpload(file);
       return;
     }
-    if (file.size > 10 * 1024 * 1024) { // 10MB limit
-      alert('File size must be less than 10MB');
+
+    // Validate file size
+    if (file.size > maxFileSize) {
+      alert(`File size must be less than ${(maxFileSize / (1024 * 1024)).toFixed(0)}MB`);
+      return;
+    }
+
+    // Validate file type
+    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+    if (!acceptedFileTypes.some(ext => ext.toLowerCase() === fileExtension || file.type.includes(ext.replace('.', '')))) {
+      alert(`Please upload a valid file (${acceptedFileTypes.join(', ')})`);
       return;
     }
 

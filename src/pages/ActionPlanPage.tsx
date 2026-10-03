@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  ChevronLeft, Award, Calendar, CheckSquare, Clock, ShieldCheck, 
-  HelpCircle, ChevronRight, CheckCircle2, ArrowRight, Sparkles,
-  Upload, Check, Play, AlertCircle, FileText, Database, ShieldAlert,
-  Send, RefreshCw, Layers, Sliders, Briefcase, FileSpreadsheet, Lock,
-  FileUp, Link as LinkIcon, Compass, Volume2
+  ChevronLeft, CheckSquare, 
+  CheckCircle2, ArrowRight, Sparkles,
+  Check, FileText,
+  RefreshCw,
+  FileUp, Link as LinkIcon
 } from 'lucide-react';
 
 import { useReadiness } from '../contexts/ReadinessContext';
@@ -57,7 +56,13 @@ export default function ActionPlanPage() {
     return 'day90';
   };
 
-  const activeTask = actions.map(a => ({ ...a, id: a.action_id, category: getCategory(a.action_id) })).find(t => t.id === selectedTaskId) || {
+  const activeTask = actions.map(a => ({ 
+    ...a, 
+    id: a.action_id, 
+    category: getCategory(a.action_id),
+    actionType: a.action_type,
+    actionUrl: (a as any).actionUrl || '/debt-repayment'
+  })).find(t => t.id === selectedTaskId) || {
     id: 'i-1',
     action_id: 'i-1',
     text: 'Renew expired Udyam MSME Registration Certificate',
@@ -66,6 +71,7 @@ export default function ActionPlanPage() {
     completion_status: 'Pending',
     category: 'immediate',
     actionType: 'udyam',
+    actionUrl: '',
     overview: '',
     steps: [],
     preparation: [],
@@ -99,8 +105,8 @@ export default function ActionPlanPage() {
     }, 1500);
   };
 
-  // 2. GST Return Parsing
-  const handleSimulateGstUpload = () => {
+  // 2. GST Return Parsing & Extraction
+  const handleUploadGst = () => {
     setIsParsingGst(true);
     setGstFileName('GSTR3B_MAY_2026_FILED.pdf');
     setTimeout(() => {
@@ -110,7 +116,7 @@ export default function ActionPlanPage() {
         taxPaid: '₹8,73,000'
       });
       markTaskCompleted('i-2');
-    }, 2000);
+    }, 1500);
   };
 
   // 3. Confirm Ledger Balance
@@ -399,12 +405,13 @@ export default function ActionPlanPage() {
                           {gstData ? (
                             <div className="text-xs space-y-1.5 font-mono bg-accent-50 p-2 border border-accent-200 rounded">
                               <div className="text-[#346538] font-bold">✓ Parsed Successfully</div>
+                              {gstFileName && <div className="text-[10px] text-neutral-500">File: {gstFileName}</div>}
                               <div>Turnover: {gstData.turnover}</div>
                               <div>Tax Paid: {gstData.taxPaid}</div>
                             </div>
                           ) : (
                             <div 
-                              onClick={handleSimulateGstUpload}
+                              onClick={handleUploadGst}
                               className="border-2 border-dashed border-accent-200 hover:border-neutral-400 cursor-pointer rounded p-6 text-center transition-all bg-accent-100/50"
                             >
                               <FileUp className="w-6 h-6 mx-auto mb-1.5 text-primary-400" />
@@ -523,6 +530,9 @@ export default function ActionPlanPage() {
                               Add
                             </button>
                           </div>
+                          {peenyaSuccess && (
+                            <div className="text-[10px] text-emerald-600 font-bold font-mono">✓ Concentration risk mitigated successfully.</div>
+                          )}
                         </div>
                       )}
 

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  BarChart3, PieChart, TrendingUp, DollarSign, 
-  Calendar, Filter, Download, RefreshCw,
+  PieChart, TrendingUp, DollarSign, 
+  Download, RefreshCw,
   ArrowUp, ArrowDown, Minus,
   Wallet, CreditCard, PiggyBank, Target
 } from 'lucide-react';
@@ -80,6 +81,7 @@ const categoryBreakdown = [
 ];
 
 export default function BusinessHealthPage() {
+  const navigate = useNavigate();
   const [selectedRange, setSelectedRange] = useState('30d');
 
   const getTrendIcon = (trend: string) => {

@@ -72,8 +72,8 @@ export default function AutomatedBankingPage() {
     { id: 'p-6', vendor: 'CyberSys Machine Ops', category: 'Operations', amount: 220000, dueDate: '2026-07-05', erpId: 'INV-SAP-10499', status: 'Pending', description: 'CNC Lathe Machinery Lease' }
   ]);
 
-  // Simulation parameters
-  const [simulateAmount, setSimulateAmount] = useState(1000000);
+  // Invoice Payment Allocation parameters
+  const [allocationAmount, setAllocationAmount] = useState(1000000);
   const [secondaryMethod, setSecondaryMethod] = useState<'nws' | 'kakeibo'>('nws');
   
   const [selectedBills, setSelectedBills] = useState<string[]>([]);
@@ -103,24 +103,24 @@ export default function AutomatedBankingPage() {
     }
   };
 
-  // 1. Simulates Incoming Invoice Revenue Split
-  const handleSimulateRevenueSplit = async () => {
-    if (simulateAmount <= 0) return;
+  // 1. Straight-Through Incoming Invoice Revenue Split
+  const handleExecuteRevenueSplit = async () => {
+    if (allocationAmount <= 0) return;
     setIsSplittingRevenue(true);
     setPaymentStep('sync');
     setBaasLogs(prev => [
       ...prev,
-      `📥 [INCOMING INVOICE]: Simulating customer invoice payment received: ₹${simulateAmount.toLocaleString()}`,
-      `⚙️ [S.T.O.P RULES]: Directing straight-through split of ₹${simulateAmount.toLocaleString()}...`
+      `📥 [INCOMING INVOICE]: Customer invoice payment received: ₹${allocationAmount.toLocaleString()}`,
+      `⚙️ [S.T.O.P RULES]: Directing straight-through split of ₹${allocationAmount.toLocaleString()}...`
     ]);
 
     await new Promise(r => setTimeout(r, 1200));
     setPaymentStep('clearing');
 
-    const sShare = simulateAmount * 0.20;
-    const tShare = simulateAmount * 0.15;
-    const oShare = simulateAmount * 0.45;
-    const pShare = simulateAmount * 0.20;
+    const sShare = allocationAmount * 0.20;
+    const tShare = allocationAmount * 0.15;
+    const oShare = allocationAmount * 0.45;
+    const pShare = allocationAmount * 0.20;
 
     setStopBalances(prev => ({
       savings: prev.savings + sShare,
@@ -327,17 +327,17 @@ export default function AutomatedBankingPage() {
         {/* MAIN PANEL GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left">
 
-          {/* LEFT COLUMN: REVENUE SIMULATOR & PAYABLES LIST */}
+          {/* LEFT COLUMN: REVENUE ALLOCATION & PAYABLES LIST */}
           <div className="lg:col-span-2 space-y-8">
             
-            {/* 1. REVENUE AUTO-SPLIT SIMULATOR */}
+            {/* 1. REVENUE AUTO-SPLIT ENGINE */}
             <div className="border border-accent-200 bg-accent-50 p-6 rounded-lg">
               <div className="border-b border-accent-200 pb-3 mb-4">
                 <h3 className="text-lg font-serif font-normal text-primary-950 dark:text-white flex items-center">
                   <Sparkles className="w-4 h-4 mr-2 text-[#956400]" />
                   Incoming Revenue S.T.O.P & Reinvestment Splitter
                 </h3>
-                <p className="text-xs text-primary-500">Simulate incoming invoice payments and auto-route profit allocations in real-time.</p>
+                <p className="text-xs text-primary-500">Straight-through customer invoice payment receipt and real-time S.T.O.P allocation.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -347,8 +347,8 @@ export default function AutomatedBankingPage() {
                       <label className="block text-[9px] font-bold text-primary-400 uppercase mb-1 font-mono">Incoming Payment Amount (₹)</label>
                       <input 
                         type="number" 
-                        value={simulateAmount}
-                        onChange={e => setSimulateAmount(parseInt(e.target.value) || 0)}
+                        value={allocationAmount}
+                        onChange={e => setAllocationAmount(parseInt(e.target.value) || 0)}
                         className="w-full bg-accent-50 border border-accent-200 rounded p-2 text-xs font-bold focus:ring-1 focus:ring-neutral-400 focus:outline-none"
                       />
                     </div>
@@ -387,8 +387,8 @@ export default function AutomatedBankingPage() {
                     </div>
 
                     <button
-                      onClick={handleSimulateRevenueSplit}
-                      disabled={isSplittingRevenue || simulateAmount <= 0}
+                      onClick={handleExecuteRevenueSplit}
+                      disabled={isSplittingRevenue || allocationAmount <= 0}
                       className="w-full py-3 bg-primary-950 text-white hover:bg-neutral-850 dark:bg-primary-50 dark:text-black font-bold rounded text-xs transition disabled:opacity-50"
                     >
                       {isSplittingRevenue ? 'Processing Splits...' : 'Execute Straight-Through Revenue Split'}
@@ -404,7 +404,7 @@ export default function AutomatedBankingPage() {
                   
                   <div className="space-y-3 relative text-[11px]">
                     <div className="p-2 bg-[#FBF3DB] border border-[#956400]/20 text-[#956400] rounded text-center font-bold">
-                      Incoming: ₹{simulateAmount.toLocaleString()}
+                      Incoming: ₹{allocationAmount.toLocaleString()}
                     </div>
                     
                     <div className="flex justify-center text-neutral-400">
